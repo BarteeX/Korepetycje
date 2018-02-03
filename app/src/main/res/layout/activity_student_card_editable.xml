@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/student_card"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:columnCount="3"
+    android:orientation="horizontal"
+    android:rowCount="10"
+    tools:context="com.example.monika.korepetycje.GUI.StudentCardEditable">
+
+    <ImageView
+        android:id="@+id/avatar"
+        android:layout_column="0"
+        android:layout_columnWeight="1"
+        android:layout_gravity="fill"
+        android:layout_row="0"
+        android:layout_rowSpan="2"
+        android:contentDescription="@string/app_name"
+        android:padding="5dp"
+        android:src="@mipmap/ic_launcher_round"
+        tools:targetApi="lollipop"
+        />
+
+    <Button
+        android:id="@+id/changeButton"
+        android:layout_column="0"
+        android:layout_margin="1dp"
+        android:layout_row="2"
+        android:padding="5dp"
+        android:text="@string/change"
+        />
+
+    <EditText
+        android:id="@+id/name"
+        android:layout_column="1"
+        android:layout_columnSpan="2"
+        android:layout_gravity="fill"
+        android:layout_margin="8dp"
+        android:layout_row="0"
+        android:ems="10"
+        android:hint="@string/name"
+        android:inputType="textPersonName"
+        android:padding="5dp"
+        android:singleLine="false"
+        />
+
+    <EditText
+        android:id="@+id/surname"
+        android:layout_column="1"
+        android:layout_columnSpan="2"
+        android:layout_gravity="fill"
+        android:layout_margin="8dp"
+        android:layout_row="1"
+        android:ems="10"
+        android:hint="@string/surname"
+        android:inputType="textPersonName"
+        android:padding="5dp"
+        />
+
+    <EditText
+        android:id="@+id/telephoneNumber"
+        android:layout_column="1"
+        android:layout_columnSpan="2"
+        android:layout_gravity="fill"
+        android:layout_margin="8dp"
+        android:layout_row="2"
+        android:hint="@string/telephone_number"
+        android:inputType="phone"
+        android:padding="5dp"
+        />
+
+    <EditText
+        android:id="@+id/city"
+        android:layout_column="0"
+        android:layout_columnSpan="3"
+        android:layout_gravity="fill"
+        android:layout_margin="8dp"
+        android:layout_row="3"
+        android:hint="@string/City"
+        android:inputType="text"
+        android:padding="5dp"/>
+
+    <EditText
+        android:id="@+id/street"
+        android:layout_column="0"
+        android:layout_columnSpan="3"
+        android:layout_gravity="fill"
+        android:layout_margin="8dp"
+        android:layout_row="4"
+        android:hint="@string/street"
+        android:inputType="text"
+        android:padding="5dp"
+        />
+
+
+    <EditText
+        android:id="@+id/houseNumber"
+        android:layout_column="0"
+        android:layout_columnSpan="2"
+        android:layout_gravity="fill"
+        android:layout_margin="8dp"
+        android:layout_row="5"
+        android:hint="@string/house_number"
+        android:inputType="text"
+        android:padding="5dp"
+        tools:ignore="TextFields"
+        />
+
+    <EditText
+        android:id="@+id/flatNumber"
+        android:layout_column="2"
+        android:layout_columnSpan="1"
+        android:layout_gravity="fill"
+        android:layout_margin="8dp"
+        android:layout_row="5"
+        android:hint="@string/flat_number"
+        android:inputType="text"
+        android:padding="5dp"
+        tools:ignore="TextFields"
+        />
+
+    <TextView
+        android:text="@string/lessons_terms"
+        android:padding="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_column="0"
+        android:layout_columnSpan="3"
+        android:layout_row="6" />
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_height="150dp"
+        android:layout_column="0"
+        android:layout_columnSpan="3"
+        android:layout_gravity="fill"
+        android:layout_margin="4dp"
+        android:layout_row="7"
+        android:layout_rowSpan="2"
+        android:background="@drawable/date_layout"
+        android:padding="5dp"
+        />
+
+    <Button
+        android:id="@+id/saveButton"
+        android:layout_column="2"
+        android:layout_gravity="fill"
+        android:layout_margin="2dp"
+        android:layout_row="9"
+        android:padding="5dp"
+        android:text="@string/save4"
+        />
+
+    <Button
+        android:id="@+id/discardButton"
+        android:layout_column="0"
+        android:layout_gravity="fill"
+        android:layout_margin="2dp"
+        android:layout_row="9"
+        android:padding="5dp"
+        android:text="@string/discard"
+        />
+
+    <Button
+        android:id="@+id/addButton"
+        android:layout_column="1"
+        android:layout_gravity="fill"
+        android:layout_margin="2dp"
+        android:layout_row="9"
+        android:padding="5dp"
+        android:text="@string/add"
+        />
+
+</GridLayout>

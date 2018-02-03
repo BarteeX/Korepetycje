@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Korepetycje</string>
+    <string name="change">Zmień</string>
+    <string name="name">Imię</string>
+    <string name="surname">Nazwisko</string>
+    <string name="telephone_number">Numer telefonu</string>
+    <string name="City">Miejscowość</string>
+    <string name="street">Ulica</string>
+    <string name="house_number">Numer domu</string>
+    <string name="flat_number">Numer mieszkania</string>
+    <string name="date">Data korepetycji</string>
+    <string name="save4">Zapisz</string>
+    <string name="discard">Anuluj</string>
+    <string name="add">+</string>
+    <string name="day">Dzień</string>
+    <string name="lessons_terms">Termin/y korepetycji:</string>
+    <string name="lesson_time">Godzina korepetycji</string>
+    <string name="save">Zapisz</string>
+    <string name="cancel">Anuluj</string>
+    <string name="term_splitter">o godz.</string>
+    <string name="add_new_stduent">Dodaj nowego studenta</string>
+</resources>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="create_table">CREATE TABLE IF NOT EXIST %1$s   </string>
+
+</resources>
