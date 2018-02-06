@@ -60,4 +60,12 @@ public class Address extends DatabaseModel implements Serializable{
     private void setStudentId(long studentId) {
         this.studentId = studentId;
     }
+
+    public boolean isFlat() {
+        return flatNumber != null && !flatNumber.isEmpty();
+    }
+
+    public String toString() {
+        return getCity() + " " + getStreet() + " " + getHouseNumber() + (isFlat() ? "/" + getFlatNumber() : "");
+    }
 }

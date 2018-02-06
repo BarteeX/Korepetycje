@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <GridLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    xmlns:tools="http://schemas.android.com/tools"
+
     tools:context=".GUI.StudentsList"
-    >
+    tools:targetApi="ice_cream_sandwich">
+
 
     <ListView
         android:id="@+id/studentsList"
@@ -14,10 +17,6 @@
         android:layout_width="match_parent"
         />
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="@string/add_new_stduent" />
+
 
 </GridLayout>

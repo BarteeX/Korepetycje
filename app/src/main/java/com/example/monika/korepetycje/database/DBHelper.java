@@ -1,8 +1,5 @@
 package com.example.monika.korepetycje.database;
 
-/**
- * Created by Monika on 2018-01-27.
- */
 
 public class DBHelper {
     public static final String COMMA = " , ";
@@ -30,7 +27,7 @@ public class DBHelper {
     public static final String DATABASE_NAME = "LESSONS";
 
     public static String DROP_TABLE(String table) {
-        return "DROP TABLE IF EXIST " + table;
+        return "DROP TABLE IF EXISTS " + table;
     }
 
     private static String VARCHAR(Integer value){

@@ -19,4 +19,9 @@
     <string name="cancel">Anuluj</string>
     <string name="term_splitter">o godz.</string>
     <string name="add_new_stduent">Dodaj nowego studenta</string>
+    <string name="add_student">Dodaj ucznia</string>
+    <string name="delete_student">Usuń ucznia</string>
+    <string name="addresses">Adresy:</string>
+    <string name="new_address">Nowy adress</string>
+    <string name="new_term">Nowy termin</string>
 </resources>

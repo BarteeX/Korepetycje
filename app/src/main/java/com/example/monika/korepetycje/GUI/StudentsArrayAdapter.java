@@ -7,16 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.monika.korepetycje.R;
 import com.example.monika.korepetycje.database.models.Student;
 
-import org.json.JSONObject;
-
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -34,7 +30,7 @@ public class StudentsArrayAdapter extends ArrayAdapter<Student> {
         this.students = students;
     }
 
-    static class ViewHolder {
+    static class StudentViewHolder {
         public ImageView avatar;
         public TextView name;
         public TextView surname;
@@ -42,8 +38,8 @@ public class StudentsArrayAdapter extends ArrayAdapter<Student> {
 
     @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder;
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+        StudentViewHolder studentViewHolder;
         View rowView = convertView;
 
         Student student = students.get(position);
@@ -52,25 +48,26 @@ public class StudentsArrayAdapter extends ArrayAdapter<Student> {
             LayoutInflater layoutInflater = context.getLayoutInflater();
             rowView = layoutInflater.inflate(R.layout.student_list_item, null, true);
 
-            viewHolder = new ViewHolder();
-            viewHolder.name = rowView.findViewById(R.id.name);
-            viewHolder.surname = rowView.findViewById(R.id.surname);
-            viewHolder.avatar = rowView.findViewById(R.id.avatar);
+            studentViewHolder = new StudentViewHolder();
+            studentViewHolder.name = rowView.findViewById(R.id.name);
+            studentViewHolder.surname = rowView.findViewById(R.id.surname);
+            studentViewHolder.avatar = rowView.findViewById(R.id.avatar);
 
-            rowView.setTag(viewHolder);
+            rowView.setTag(studentViewHolder);
 
             rowView.setOnClickListener((View view) -> {
                 Intent intent = new Intent(context, StudentCardEditable.class);
-                Intent student1 = intent.putExtra("studentId", student.getId());
+                Intent student1 = intent.putExtra("studentId", Integer.valueOf((int) student.getId()));
                 context.startActivity(student1);
             });
+
         } else {
-            viewHolder = (ViewHolder) rowView.getTag();
+            studentViewHolder = (StudentViewHolder) rowView.getTag();
         }
 
 
-        viewHolder.name.setText(student.getName());
-        viewHolder.surname.setText(student.getSurname());
+        studentViewHolder.name.setText(student.getName());
+        studentViewHolder.surname.setText(student.getSurname());
 
         return rowView;
     }
@@ -78,5 +75,9 @@ public class StudentsArrayAdapter extends ArrayAdapter<Student> {
     @Override
     public int getCount() {
         return students.size();
+    }
+
+    public List<Student> getStudents() {
+        return this.students;
     }
 }

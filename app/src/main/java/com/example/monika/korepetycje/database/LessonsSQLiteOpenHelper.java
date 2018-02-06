@@ -11,19 +11,25 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class LessonsSQLiteOpenHelper extends SQLiteOpenHelper{
     private static final int FIRST_VERSION = 1;
-    private Context thisContext;
+    private Context context;
 
+    private static int counter = 0;
 
     public LessonsSQLiteOpenHelper(Context context) {
         super(context, DBHelper.DATABASE_NAME, null,  FIRST_VERSION);
         SQLiteDatabase database = context.openOrCreateDatabase(DBHelper.DATABASE_NAME, Context.MODE_PRIVATE, null);
         onCreate(database);
-        thisContext = context;
+        this.context = context;
     }
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         System.out.println("DB - onCreate ....");
+        if(counter == 0) {
+            onUpgrade(sqLiteDatabase, 0, 0);
+            counter++;
+        }
+
         try {
             String studentQuery = DBHelper.CREATE_STUDENT_TABLE();
             String addressQuery = DBHelper.CREATE_ADDRESS_TABLE();
@@ -48,8 +54,9 @@ public class LessonsSQLiteOpenHelper extends SQLiteOpenHelper{
             sqLiteDatabase.execSQL(DBHelper.DROP_TABLE(DBHelper.TERM_TABLE_NAME));
             sqLiteDatabase.execSQL(DBHelper.DROP_TABLE(DBHelper.ADDRESS_TABLE_NAME));
             sqLiteDatabase.execSQL(DBHelper.DROP_TABLE(DBHelper.STUDENT_TABLE_NAME));
-
-            onCreate(sqLiteDatabase);
+            if (counter != 0) {
+                onCreate(sqLiteDatabase);
+            }
         } catch (SQLiteException e) {
             System.out.println("DB - upgrade failure...");
             //DbMessager.message(thisContext, e.getMessage());

@@ -5,16 +5,15 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListAdapter;
+import android.widget.GridLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 
-import com.example.monika.korepetycje.DataLoader;
 import com.example.monika.korepetycje.R;
 import com.example.monika.korepetycje.database.models.Address;
 import com.example.monika.korepetycje.database.models.Student;
@@ -26,10 +25,15 @@ import java.util.List;
 
 @SuppressLint("Registered")
 public class StudentCardEditable extends AppCompatActivity {
-    private Context context;
-    //TODO : DO PRZEROBIENIA PO Wlasnym adapterze
-    private final List<String> termList = new ArrayList<>();
 
+    private Student student = null;
+    private List<Term> terms = null;
+    private List<Address> addresses = null;
+
+    private AddressArrayAdapter addressArrayAdapter;
+    private TermsArrayAdapter termsArrayAdapter;
+
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,42 +42,117 @@ public class StudentCardEditable extends AppCompatActivity {
 
         context = getApplicationContext();
 
-        setAddButtonListener();
-        setSaveButtonListener();
+        setStudentData();
 
+        setListeners();
+    }
+
+    private void setListeners() {
+        setAddTermButtonListener();
+        setAddAddressButtonListener();
+
+        setSaveButtonListener();
+    }
+
+    private void setStudentData() {
         Intent intent = getIntent();
         Integer studentId =  intent.getIntExtra("studentId", 0);
-        this.loadData(studentId);
+        this.student = loadData(studentId);
+        this.addresses = student.getAddresses();
+        this.terms = student.getTerms();
     }
 
-    private void setCancelButtonListener() {
+    private void setAddAddressButtonListener() {
+        GridLayout gridLayout = findViewById(R.id.student_card);
+        final Button addButton = gridLayout.findViewById(R.id.new_address_button);
+        addButton.setOnClickListener(view -> {
+            final Dialog dialog = new Dialog(StudentCardEditable.this);
+            dialog.setContentView(R.layout.student_address_card);
+            dialog.setTitle("Adres");
+            dialog.show();
+
+            final Button saveButton = dialog.findViewById(R.id.save_button);
+            saveButton.setOnClickListener(buttonView -> {
+                EditText city = dialog.findViewById(R.id.city);
+                EditText street = dialog.findViewById(R.id.street);
+                EditText houseNumber = dialog.findViewById(R.id.house_number);
+                EditText flatNumber = dialog.findViewById(R.id.flat_number);
+
+                String cityString = city.getText().toString();
+                String streetString = street.getText().toString();
+                String houseNumberString = houseNumber.getText().toString();
+                String flatNumberString = flatNumber.getText().toString();
+
+                Address address = new Address(this.student.getId());
+                address.setCity(cityString);
+                address.setStreet(streetString);
+                address.setHouseNumber(houseNumberString);
+                address.setFlatNumber(flatNumberString);
+
+                this.addresses.add(address);
+                addressArrayAdapter.notifyDataSetChanged();
+                dialog.dismiss();
+            });
+
+            final Button declineButton = dialog.findViewById(R.id.discard_button);
+            declineButton.setOnClickListener(discardView -> {
+                dialog.dismiss();
+            });
+
+        });
 
     }
 
-    private void setAddButtonListener() {
-        final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, termList);
-        ListView termsList = findViewById(R.id.listView);
-        termsList.setAdapter(adapter);
-        Button addButton = findViewById(R.id.addButton);
+    private void setAddTermButtonListener() {
+        GridLayout gridLayout = findViewById(R.id.student_card);
+        final Button addButton = gridLayout.findViewById(R.id.new_term_button);
         addButton.setOnClickListener(view1 -> {
             final Dialog dialog = new Dialog(StudentCardEditable.this);
-            dialog.setContentView(R.layout.date_stutent_item);
+            dialog.setContentView(R.layout.student_term_card);
             dialog.setTitle(R.string.date);
             dialog.show();
 
-            final Button saveButton = dialog.findViewById(R.id.saveButton);
+            Spinner addressesSpinner = dialog.findViewById(R.id.address_for_term);
+            List<String> spinnerItems = new ArrayList<>();
+            for (int i = 0; i < addresses.size(); i++) {
+                Address address = addresses.get(i);
+                spinnerItems.add(address.toString());
+                address.setIdn(address.toString());
+            }
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.student_term_spinner_item, R.id.whole_address, spinnerItems);
+            addressesSpinner.setAdapter(adapter);
+            addressArrayAdapter.notifyDataSetChanged();
+
+            final Button saveButton = dialog.findViewById(R.id.save_term_button);
             saveButton.setOnClickListener( view2 -> {
-                // TODO : NAPISAC WŁASNY ADAPTER
-                Spinner spinner = dialog.findViewById(R.id.days_array);
-                EditText text = dialog.findViewById(R.id.hour);
+                Spinner spinnerDays = dialog.findViewById(R.id.days_array);
+                EditText textHour = dialog.findViewById(R.id.hour);
 
-                String value =
-                        spinner.getSelectedItem().toString()
-                                + getString(R.string.term_splitter)
-                                + text.getText().toString();
+                String day = spinnerDays.getSelectedItem().toString();
+                String hour = textHour.getText().toString();
 
-                termList.add(value);
-                adapter.notifyDataSetChanged();
+                String addressIdn = (String) addressesSpinner.getSelectedItem();
+                Address address = null;
+
+                for (Address adr : addresses) {
+                    if (adr.getIdn().equals(addressIdn)) {
+                        address = adr;
+                    }
+                }
+
+                if (address != null) {
+                    Term term = new Term(this.student.getId(), address.getId());
+                    term.setTime(hour);
+                    term.setDay(day);
+
+                    terms.add(term);
+                    termsArrayAdapter.notifyDataSetChanged();
+                } else {
+                    //TODO :)
+
+                    System.out.println("---------------TERMS NOT UPLOADED------------------");
+                }
+
                 dialog.dismiss();
             });
 
@@ -85,95 +164,55 @@ public class StudentCardEditable extends AppCompatActivity {
 
 
     private void setSaveButtonListener() {
-        Button saveButton = findViewById(R.id.saveButton);
+        GridLayout gridLayout = findViewById(R.id.student_card);
+        Button saveButton = gridLayout.findViewById(R.id.save_button);
         saveButton.setOnClickListener((view) -> {
             EditText name = findViewById(R.id.name);
             EditText surname = findViewById(R.id.surname);
             EditText telephoneNumber = findViewById(R.id.telephoneNumber);
-            EditText city = findViewById(R.id.city);
-            EditText street = findViewById(R.id.street);
-            EditText houseNumber = findViewById(R.id.houseNumber);
-            EditText flatNumber = findViewById(R.id.flatNumber);
-            ListView terms = findViewById(R.id.listView);
-            ListAdapter adapter = terms.getAdapter();
 
-            Student freshStudent = new Student();
-            freshStudent.setName(name.getText().toString());
-            freshStudent.setSurname(surname.getText().toString());
-            freshStudent.setTelephoneNumber(telephoneNumber.getText().toString());
-            freshStudent.save(context);
+            student.setName(name.getText().toString());
+            student.setSurname(surname.getText().toString());
+            student.setTelephoneNumber(telephoneNumber.getText().toString());
+            student.setAddresses(addresses);
+            student.setTerms(terms);
+            student.save(context);
 
-            Address address = new Address(freshStudent.getId());
-            address.setCity(city.getText().toString());
-            address.setStreet(street.getText().toString());
-            address.setHouseNumber(houseNumber.getText().toString());
-            address.setFlatNumber(flatNumber.getText().toString());
-            address.save(context);
-
-            //TODO: przerobić layou aby pobierał wiele adresów.
-            freshStudent.addAddress(address);
-
-            for (int i = 0; i < adapter.getCount(); i++) {
-                String value = adapter.getItem(i).toString();
-                String[] split = value.split(String.valueOf(R.string.term_splitter));
-                String day = split[0];
-                String hour = split[0];
-
-                Term term = new Term(freshStudent.getId(), address.getId());
-                term.setDay(day);
-                term.setTime(hour);
-                freshStudent.addLesson(term);
-            }
-
-            freshStudent.save(context);
+            student.save(context);
+            this.finish();
         });
     }
 
-    private void loadData(Integer studentId) {
+    private Student loadData(Integer studentId) {
         StudentManager manager = StudentManager.getInstance();
         Student student = manager.findById(studentId);
 
         String nameStudent = student.getName();
         String surnameStudent = student.getSurname();
         String telephoneNumberStudent = student.getTelephoneNumber();
-        List<Term> termsStudent = student.getTerms();
-        List<Address> addressesStudent = student.getAddresses();
 
         EditText name = findViewById(R.id.name);
         EditText surname = findViewById(R.id.surname);
         EditText telephoneNumber = findViewById(R.id.telephoneNumber);
-        EditText city = findViewById(R.id.city);
-        EditText street = findViewById(R.id.street);
-        EditText houseNumber = findViewById(R.id.houseNumber);
-        EditText flatNumber = findViewById(R.id.flatNumber);
-        ListView terms = findViewById(R.id.listView);
-        Adapter termsAdapter = terms.getAdapter();
 
         name.setText(nameStudent);
         surname.setText(surnameStudent);
         telephoneNumber.setText(telephoneNumberStudent);
 
-        //TODO : przerobić na wiele adresów
-        if (addressesStudent.size() > 0) {
-            //for (Address address : addressesStduent) {
-                Address address = addressesStudent.get(0);// << tego nie bedzie
-                city.setText(address.getCity());
-                street.setText(address.getStreet());
-                houseNumber.setText(address.getHouseNumber());
-                flatNumber.setText(address.getFlatNumber());
-            //}
-        }
+        ListView addressesListView = findViewById(R.id.addresses_list);
+        ListView termsListView = findViewById(R.id.terms_list);
 
-        if (termsStudent.size() > 0) {
-            for(Term term : termsStudent) {
-                String value =
-                        term.getDay()
-                                + getString(R.string.term_splitter)
-                                + term.getTime();
+        addressArrayAdapter
+                = new AddressArrayAdapter(this, R.layout.student_address_item_list, student.getAddresses());
+        termsArrayAdapter
+                = new TermsArrayAdapter(this, R.layout.student_term_list_item, student.getTerms());
 
-                termList.add(value);
-            }
-        }
+        addressesListView.setAdapter(addressArrayAdapter);
+        termsListView.setAdapter(termsArrayAdapter);
 
+        addressArrayAdapter.notifyDataSetChanged();
+        termsArrayAdapter.notifyDataSetChanged();
+
+        return student;
     }
 }

@@ -89,4 +89,12 @@ public class Student extends DatabaseModel implements Serializable {
         this.addresses.remove(address);
     }
 
+    public boolean hasTerms() {
+        return this.terms.size() > 0;
+    }
+
+    public boolean hasAddresses() {
+        return this.addresses.size() > 0;
+    }
+
 }

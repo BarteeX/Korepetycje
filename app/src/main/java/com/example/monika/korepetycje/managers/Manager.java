@@ -12,7 +12,6 @@ import java.util.List;
  */
 
 public interface Manager<T> {
-    //TODO: PRZEROBI NA KLASE ABSTRAKCYJNĄ
 
     public List<T> getAll();
 

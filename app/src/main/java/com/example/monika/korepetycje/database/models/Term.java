@@ -61,4 +61,37 @@ public class Term extends DatabaseModel implements Serializable {
     private void setAddressId(long addressId) {
         this.addressId = addressId;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        String bufferString = this.getDay();
+        if (bufferString != null && !bufferString.isEmpty()) {
+            sb.append("Dnia : ");
+            sb.append(bufferString);
+            sb.append(" ");
+        }
+
+        bufferString = this.getTime();
+        if (this.getTime() != null && !bufferString.isEmpty()) {
+            if (!sb.toString().isEmpty())
+                sb.append(", ");
+            sb.append("Godz : ");
+            sb.append(bufferString);
+        }
+
+        bufferString = this.getLength();
+        if (bufferString != null && !bufferString.isEmpty()) {
+           if (!sb.toString().isEmpty())
+               sb.append(", ");
+
+           sb.append("Czas : ");
+           sb.append(bufferString);
+        }
+
+        bufferString = sb.toString();
+        return bufferString;
+
+    }
 }
