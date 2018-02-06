@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
+
+    <EditText
+        android:id="@+id/city"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="2dp"
+        android:hint="@string/City"
+        />
+
+    <EditText
+        android:id="@+id/street"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="2dp"
+        android:hint="@string/street"
+        />
+
+    <EditText
+        android:id="@+id/house_number"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="2dp"
+        android:hint="@string/house_number"
+        tools:ignore="TextFields" />
+
+    <EditText
+        android:id="@+id/flat_number"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="@string/flat_number"
+        tools:ignore="TextFields" />
+
+    <Button
+        android:id="@+id/save_button"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="@string/save4"/>
+
+    <Button
+        android:id="@+id/discard_button"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="@string/discard"/>
+
+</LinearLayout>
