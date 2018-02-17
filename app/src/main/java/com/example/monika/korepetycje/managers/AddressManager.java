@@ -1,10 +1,6 @@
 package com.example.monika.korepetycje.managers;
 
-import android.content.Context;
-
-import com.example.monika.korepetycje.database.LessonDatabaseAdapter;
 import com.example.monika.korepetycje.database.models.Address;
-import com.example.monika.korepetycje.DatabaseModel;
 import com.example.monika.korepetycje.database.models.Student;
 
 import java.util.ArrayList;

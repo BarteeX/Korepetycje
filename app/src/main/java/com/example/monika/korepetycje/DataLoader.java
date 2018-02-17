@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.example.monika.korepetycje.database.models.Address;
 import com.example.monika.korepetycje.database.models.Student;
+import com.example.monika.korepetycje.database.models.Term;
 import com.example.monika.korepetycje.managers.AddressManager;
 import com.example.monika.korepetycje.managers.StudentManager;
 import com.example.monika.korepetycje.managers.TermManager;
@@ -22,6 +23,7 @@ public class DataLoader {
     }
 
     private DataLoader() {
+        //empty impl.
     }
 
     public void loadData(Context context) {
@@ -29,15 +31,19 @@ public class DataLoader {
         AddressManager addressManager = AddressManager.getInstance();
         TermManager termManager = TermManager.getInstance();
 
-        studentManager.load(context, studentManager);
-        addressManager.load(context, addressManager);
-        termManager.load(context, termManager);
+        studentManager.load(context);
+        addressManager.load(context);
+        termManager.load(context);
 
         List<Student> students = studentManager.getAll();
         for (int i = 0; i < students.size(); i++) {
             Student student = students.get(i);
+
             List<Address> addresses = addressManager.getAddressesForStudent(student);
+            List<Term> terms = termManager.getTermsForStudent(student);
+
             student.setAddresses(addresses);
+            student.setTerms(terms);
         }
     }
 }

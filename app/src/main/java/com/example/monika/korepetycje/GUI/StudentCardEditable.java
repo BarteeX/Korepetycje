@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.example.monika.korepetycje.R;
 import com.example.monika.korepetycje.database.models.Address;
@@ -56,7 +57,7 @@ public class StudentCardEditable extends AppCompatActivity {
 
     private void setStudentData() {
         Intent intent = getIntent();
-        Integer studentId =  intent.getIntExtra("studentId", 0);
+        Integer studentId =  intent.getIntExtra("studentId", -1);
         this.student = loadData(studentId);
         this.addresses = student.getAddresses();
         this.terms = student.getTerms();
@@ -107,58 +108,75 @@ public class StudentCardEditable extends AppCompatActivity {
         GridLayout gridLayout = findViewById(R.id.student_card);
         final Button addButton = gridLayout.findViewById(R.id.new_term_button);
         addButton.setOnClickListener(view1 -> {
-            final Dialog dialog = new Dialog(StudentCardEditable.this);
-            dialog.setContentView(R.layout.student_term_card);
-            dialog.setTitle(R.string.date);
-            dialog.show();
+            if (this.addresses.size() > 0) {
+                final Dialog dialog = new Dialog(StudentCardEditable.this);
+                dialog.setContentView(R.layout.student_term_card);
+                dialog.setTitle(R.string.date);
+                dialog.show();
 
-            Spinner addressesSpinner = dialog.findViewById(R.id.address_for_term);
-            List<String> spinnerItems = new ArrayList<>();
-            for (int i = 0; i < addresses.size(); i++) {
-                Address address = addresses.get(i);
-                spinnerItems.add(address.toString());
-                address.setIdn(address.toString());
-            }
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.student_term_spinner_item, R.id.whole_address, spinnerItems);
-            addressesSpinner.setAdapter(adapter);
-            addressArrayAdapter.notifyDataSetChanged();
+                Spinner addressesSpinner = dialog.findViewById(R.id.address_for_term);
+                List<String> spinnerItems = new ArrayList<>();
+                for (int i = 0; i < addresses.size(); i++) {
+                    Address address = addresses.get(i);
+                    spinnerItems.add(address.toString());
+                    address.setIdn(address.toString());
+                }
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.student_term_spinner_item, R.id.whole_address, spinnerItems);
+                addressesSpinner.setAdapter(adapter);
+                addressArrayAdapter.notifyDataSetChanged();
 
-            final Button saveButton = dialog.findViewById(R.id.save_term_button);
-            saveButton.setOnClickListener( view2 -> {
-                Spinner spinnerDays = dialog.findViewById(R.id.days_array);
-                EditText textHour = dialog.findViewById(R.id.hour);
+                final Button saveButton = dialog.findViewById(R.id.save_term_button);
+                saveButton.setOnClickListener(view2 -> {
+                    Spinner spinnerDays = dialog.findViewById(R.id.days_array);
+                    EditText textHour = dialog.findViewById(R.id.hour);
 
-                String day = spinnerDays.getSelectedItem().toString();
-                String hour = textHour.getText().toString();
+                    String day = spinnerDays.getSelectedItem().toString();
+                    String hour = textHour.getText().toString();
 
-                String addressIdn = (String) addressesSpinner.getSelectedItem();
-                Address address = null;
+                    String addressIdn = (String) addressesSpinner.getSelectedItem();
+                    Address address = null;
 
-                for (Address adr : addresses) {
-                    if (adr.getIdn().equals(addressIdn)) {
-                        address = adr;
+                    for (Address adr : addresses) {
+                        if (adr.getIdn().equals(addressIdn)) {
+                            address = adr;
+                        }
                     }
-                }
 
-                if (address != null) {
-                    Term term = new Term(this.student.getId(), address.getId());
-                    term.setTime(hour);
-                    term.setDay(day);
+                    if (address != null) {
+                        Term term = new Term(this.student.getId(), address.getId());
+                        term.setTime(hour);
+                        term.setDay(day);
 
-                    terms.add(term);
-                    termsArrayAdapter.notifyDataSetChanged();
-                } else {
-                    //TODO :)
+                        terms.add(term);
+                        termsArrayAdapter.notifyDataSetChanged();
+                    } else {
+                        //TODO :)
 
-                    System.out.println("---------------TERMS NOT UPLOADED------------------");
-                }
+                        System.out.println("---------------TERMS NOT UPLOADED------------------");
+                    }
 
-                dialog.dismiss();
-            });
+                    dialog.dismiss();
+                });
 
 
-            final Button cancelButton = dialog.findViewById(R.id.cancelButton);
-            cancelButton.setOnClickListener(view -> dialog.dismiss());
+                final Button cancelButton = dialog.findViewById(R.id.cancelButton);
+                cancelButton.setOnClickListener(view -> dialog.dismiss());
+            } else {
+                Dialog dialog = new Dialog(this);
+                dialog.setTitle("BLĄD");
+                dialog.setContentView(R.layout.dialog_window_ok);
+
+                TextView text = dialog.findViewById(R.id.dialog_text);
+
+                text.setText("Nie możesz podpiąc terminu bez podania adresu.");
+
+                Button okButton = dialog.findViewById(R.id.ok_button);
+                okButton.setOnClickListener(view -> {
+                    dialog.dismiss();
+                });
+
+                dialog.show();
+            }
         });
     }
 
@@ -178,8 +196,7 @@ public class StudentCardEditable extends AppCompatActivity {
             student.setTerms(terms);
             student.save(context);
 
-            student.save(context);
-            this.finish();
+            finish();
         });
     }
 

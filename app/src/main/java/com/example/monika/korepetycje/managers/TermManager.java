@@ -1,10 +1,5 @@
 package com.example.monika.korepetycje.managers;
 
-import android.content.Context;
-
-import com.example.monika.korepetycje.DatabaseModel;
-import com.example.monika.korepetycje.database.LessonDatabaseAdapter;
-import com.example.monika.korepetycje.database.models.Address;
 import com.example.monika.korepetycje.database.models.Student;
 import com.example.monika.korepetycje.database.models.Term;
 
@@ -30,7 +25,7 @@ public class TermManager extends ManagerImpl<Term> {
         super();
     }
 
-    public List<Term> getAddressesForStudent(Student student) {
+    public List<Term> getTermsForStudent(Student student) {
         List<Term> list = new ArrayList<>();
 
         for (Term term : list) {

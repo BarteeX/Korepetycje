@@ -2,10 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="wrap_content"
     android:layout_width="wrap_content">
-    <item android:id="@+id/new_game"
+    <item android:id="@+id/new_student"
         android:title="@string/add_student"
         android:showAsAction="ifRoom"/>
-    <item android:id="@+id/help"
+    <item android:id="@+id/delete_student"
         android:title="@string/delete_student" />
 </menu>
 

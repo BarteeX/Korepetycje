@@ -3,7 +3,7 @@ package com.example.monika.korepetycje.managers;
 import android.content.Context;
 
 import com.example.monika.korepetycje.DatabaseModel;
-import com.example.monika.korepetycje.database.LessonDatabaseAdapter;
+import com.example.monika.korepetycje.database.CRUDAdapters.ReadAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,24 +43,30 @@ public abstract class ManagerImpl <T extends DatabaseModel> implements Manager <
             list.add(dbo);
         }
     }
+
     @Override
     public void remove(T dbo){
         list.remove(dbo);
     }
+
     @Override
     public void update(T dbo){
         remove(dbo);
         add(dbo);
-
     }
+
     @Override
-    public void load(Context context, Manager<T> manager){
-        LessonDatabaseAdapter adapter = LessonDatabaseAdapter.getInstance(context);
-        List<? extends DatabaseModel> dbObjects = adapter.get(manager);
+    public void load(Context context){
+        ReadAdapter adapter = ReadAdapter.getInstance(context);
+        List<? extends DatabaseModel> dbObjects = adapter.get(this);
          if (dbObjects != null) {
              for (DatabaseModel dbObject : dbObjects) {
                  if (dbObject != null){
-                     list.add((T) dbObject);
+                     try {
+                         list.add((T) dbObject);
+                     } catch (ClassCastException e) {
+                         e.printStackTrace();
+                     }
                  }
              }
          }

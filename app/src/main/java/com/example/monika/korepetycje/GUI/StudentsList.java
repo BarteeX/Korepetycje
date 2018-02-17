@@ -1,6 +1,7 @@
 package com.example.monika.korepetycje.GUI;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -15,11 +16,11 @@ import com.example.monika.korepetycje.managers.StudentManager;
 
 import java.util.List;
 
-/**
- * Created by Monika on 2018-01-28.
- */
-
 public class StudentsList extends AppCompatActivity {
+
+    private ListView studentsListView;
+    private StudentsArrayAdapter adapter;
+    private List<Student> students;
 
     @Override
     protected void onCreate (Bundle instanceState) {
@@ -30,24 +31,11 @@ public class StudentsList extends AppCompatActivity {
 
         setContentView(R.layout.students_list);
 
-        ListView studentsListView = findViewById(R.id.studentsList);
+        studentsListView = findViewById(R.id.studentsList);
 
-        Student student1 = new Student();
-        student1.setName("Bartek");
-        student1.setSurname("Wałcerz");
+        students = StudentManager.getInstance().getAll();
 
-        student1.save(getApplicationContext());
-
-        List<Student> students = StudentManager.getInstance().getAll();
-
-        if (students.size() == 0) {
-            Student student = new Student();
-            student.setName("Brak");
-            student.setSurname("Uczników");
-            students.add(student);
-        }
-
-        StudentsArrayAdapter adapter = new StudentsArrayAdapter(this, R.layout.student_list_item, students);
+        adapter = new StudentsArrayAdapter(this, R.layout.student_list_item, students);
 
         studentsListView.setAdapter(adapter);
 
@@ -66,14 +54,32 @@ public class StudentsList extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.new_game:
-                System.out.println("NEW GAME !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                return true;
-            case R.id.help:
-                System.out.println("HEEEEEELP !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                return true;
+            case R.id.new_student:
+                return addStudentSelection();
+            case R.id.delete_student:
+                return removeStudentSelection();
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        students = StudentManager.getInstance().getAll();
+        adapter.notifyDataSetChanged();
+
+    }
+
+    private boolean addStudentSelection() {
+
+        Intent intent = new Intent(this, StudentCardEditable.class);
+        Intent student = intent.putExtra("studentId", -1);
+        startActivity(student);
+        return true;
+    }
+
+    private boolean removeStudentSelection() {
+        return true;
     }
 }

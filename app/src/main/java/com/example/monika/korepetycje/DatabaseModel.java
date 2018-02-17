@@ -2,7 +2,7 @@ package com.example.monika.korepetycje;
 
 import android.content.Context;
 
-import com.example.monika.korepetycje.database.LessonDatabaseAdapter;
+import com.example.monika.korepetycje.database.CRUDAdapters.CreateAdapter;
 import com.example.monika.korepetycje.managers.Manager;
 
 /**
@@ -11,13 +11,22 @@ import com.example.monika.korepetycje.managers.Manager;
 
 public abstract class DatabaseModel {
 
-    private Manager manager = null;
+    protected Manager manager = null;
     protected String idn;
     protected long id;
+    boolean isNew = true;
 
 
     public DatabaseModel(Manager manager) {
         this.manager = manager;
+    }
+
+    public boolean isNew() {
+        return isNew;
+    }
+
+    public void isLoaded() {
+        isNew = false;
     }
 
     public long getId() {
@@ -39,8 +48,9 @@ public abstract class DatabaseModel {
     public void save(Context context) {
         manager.add(this);
 
-        LessonDatabaseAdapter adapter = LessonDatabaseAdapter.getInstance(context);
+        CreateAdapter adapter = CreateAdapter.getInstance(context);
         adapter.save(this);
+        isNew = false;
     };
 
     public void delete() {

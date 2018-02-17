@@ -24,4 +24,5 @@
     <string name="addresses">Adresy:</string>
     <string name="new_address">Nowy adress</string>
     <string name="new_term">Nowy termin</string>
+    <string name="ok">OK</string>
 </resources>

@@ -23,5 +23,6 @@ public interface Manager<T> {
 
     public void update(T dbo);
 
-    public void load(Context context, Manager<T> manager);
+    public void load(Context context);
+
 }
