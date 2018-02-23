@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="wrap_content"
-    android:layout_width="wrap_content">
-    <item android:id="@+id/new_student"
+    android:layout_width="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools">
+    <item
+        android:id="@+id/new_student"
         android:title="@string/add_student"
-        android:showAsAction="ifRoom"/>
-    <item android:id="@+id/delete_student"
-        android:title="@string/delete_student" />
+        android:showAsAction="ifRoom"
+        />
+    <item
+        android:id="@+id/delete_student"
+        android:title="@string/delete_student"
+        />
+    <item
+        android:id="@+id/delete_accept_button"
+        android:title="@string/"
+        android:icon="@mipmap/ic_launcher"
+        android:showAsAction="ifRoom"
+        />
+
 </menu>
 

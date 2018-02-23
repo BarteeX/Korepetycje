@@ -2,7 +2,6 @@ package com.example.monika.korepetycje;
 
 import android.content.Context;
 
-import com.example.monika.korepetycje.database.CRUDAdapters.CreateAdapter;
 import com.example.monika.korepetycje.managers.Manager;
 
 /**
@@ -46,15 +45,12 @@ public abstract class DatabaseModel {
     }
 
     public void save(Context context) {
-        manager.add(this);
-
-        CreateAdapter adapter = CreateAdapter.getInstance(context);
-        adapter.save(this);
+        manager.save(this);
         isNew = false;
     };
 
     public void delete() {
-        manager.remove(this);
+        manager.delete(this);
     };
 
     public void update(){

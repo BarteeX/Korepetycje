@@ -1,5 +1,6 @@
 package com.example.monika.korepetycje.managers;
 
+import com.example.monika.korepetycje.database.models.Address;
 import com.example.monika.korepetycje.database.models.Student;
 import com.example.monika.korepetycje.database.models.Term;
 
@@ -38,5 +39,20 @@ public class TermManager extends ManagerImpl<Term> {
         }
 
         return list;
+    }
+
+    public List<Term> getTermsForAddress(Address address) {
+        List<Term> terms = new ArrayList<>();
+
+        for (Term term : list) {
+            long termId = term.getId();
+            long addressId = address.getId();
+
+            if (termId == addressId) {
+                terms.add(term);
+            }
+        }
+
+        return terms;
     }
 }

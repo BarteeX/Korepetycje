@@ -1,4 +1,4 @@
-package com.example.monika.korepetycje.GUI;
+package com.example.monika.korepetycje.GUI.ArrayAdapters;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;

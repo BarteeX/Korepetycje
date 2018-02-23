@@ -33,11 +33,11 @@ public class UpdateAdapter extends Adapter {
 
     public long update(DatabaseModel model) {
         if (model instanceof Address) {
-            return update(model);
+            return update((Address) model);
         } else if (model instanceof Student) {
-            return update(model);
+            return update((Student) model);
         } else if (model instanceof Term) {
-            return update(model);
+            return update((Term) model);
         }
         return 0;
     }
@@ -46,13 +46,9 @@ public class UpdateAdapter extends Adapter {
         System.out.println("UPDATING STUDENT = " + student.getName() + " " + student.getSurname());
 
         SQLiteDatabase database = databaseHelper.getWritableDatabase();
-
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(DBHelper.STUDENT_NAME, student.getName());
-        contentValues.put(DBHelper.STUDENT_SURNAME, student.getSurname());
-        contentValues.put(DBHelper.STUDENT_TELEPHONE_NR, student.getTelephoneNumber());
-
+        ContentValues contentValues = AdapterUtils.getContentValues(student);
         List<Address> addresses = student.getAddresses();
+
         for (int i = 0, addressesSize = addresses.size(); i < addressesSize; i++) {
             Address address = addresses.get(i);
             long addressesCount = update(address);
@@ -81,12 +77,7 @@ public class UpdateAdapter extends Adapter {
 
         SQLiteDatabase database = databaseHelper.getWritableDatabase();
 
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(DBHelper.ADDRESS_CITY, address.getCity());
-        contentValues.put(DBHelper.ADDRESS_FLAT, address.getFlatNumber());
-        contentValues.put(DBHelper.ADDRESS_HOUSE_NR, address.getHouseNumber());
-        contentValues.put(DBHelper.ADDRESS_STREET, address.getStreet());
-        contentValues.put(DBHelper.STUDENT_ID_FK, address.getStudentId());
+        ContentValues contentValues =  AdapterUtils.getContentValues(address);
 
         String[] whereArgs = {
                 String.valueOf(address.getId())
@@ -105,12 +96,7 @@ public class UpdateAdapter extends Adapter {
 
         SQLiteDatabase database = databaseHelper.getWritableDatabase();
 
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(DBHelper.TERM_DAY, term.getDay());
-        contentValues.put(DBHelper.TERM_LENGTH, term.getLength());
-        contentValues.put(DBHelper.TERM_HOUR, term.getTime());
-        contentValues.put(DBHelper.ADDRESS_ID_FK, term.getAddressId());
-        contentValues.put(DBHelper.STUDENT_ID_FK, term.getStudentId());
+        ContentValues contentValues =  AdapterUtils.getContentValues(term);
 
         String[] whereArgs = {
                 String.valueOf(term.getId())

@@ -1,8 +1,6 @@
-package com.example.monika.korepetycje.GUI;
+package com.example.monika.korepetycje.GUI.ArrayAdapters;
 
 import android.app.Activity;
-import android.app.Application;
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +11,6 @@ import android.widget.TextView;
 import com.example.monika.korepetycje.R;
 import com.example.monika.korepetycje.database.models.Address;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -87,4 +84,6 @@ public class AddressArrayAdapter extends ArrayAdapter<Address> {
     public List<Address> getAddresses() {
         return this.addresses;
     }
+
+
 }

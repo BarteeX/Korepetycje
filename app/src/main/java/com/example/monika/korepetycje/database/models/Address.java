@@ -57,7 +57,7 @@ public class Address extends DatabaseModel implements Serializable{
         return studentId;
     }
 
-    private void setStudentId(long studentId) {
+    public void setStudentId(long studentId) {
         this.studentId = studentId;
     }
 

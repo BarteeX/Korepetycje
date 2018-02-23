@@ -50,7 +50,7 @@ public class Term extends DatabaseModel implements Serializable {
         return studentId;
     }
 
-    private void setStudentId(long studentId) {
+    public void setStudentId(long studentId) {
         this.studentId = studentId;
     }
 
@@ -58,7 +58,7 @@ public class Term extends DatabaseModel implements Serializable {
         return addressId;
     }
 
-    private void setAddressId(long addressId) {
+    public void setAddressId(long addressId) {
         this.addressId = addressId;
     }
 

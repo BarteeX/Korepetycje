@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
 
-    tools:context=".GUI.StudentsList"
+    tools:context=".GUI.Controllers.StudentsList"
     tools:targetApi="ice_cream_sandwich">
 
 

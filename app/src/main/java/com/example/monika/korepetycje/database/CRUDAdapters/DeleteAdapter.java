@@ -30,11 +30,11 @@ public class DeleteAdapter extends Adapter {
 
     public long delete(DatabaseModel model) {
         if (model instanceof Address) {
-            return delete(model);
+            return delete((Address)model);
         } else if (model instanceof Student) {
-            return delete(model);
+            return delete((Student)model);
         } else if (model instanceof Term) {
-            return delete(model);
+            return delete((Term)model);
         }
         return 0;
     }

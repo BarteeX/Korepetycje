@@ -9,6 +9,7 @@ import com.example.monika.korepetycje.database.DBHelper;
 import com.example.monika.korepetycje.database.models.Address;
 import com.example.monika.korepetycje.database.models.Student;
 import com.example.monika.korepetycje.database.models.Term;
+import com.example.monika.korepetycje.managers.TermManager;
 
 import java.util.List;
 
@@ -45,54 +46,50 @@ public class CreateAdapter extends Adapter {
     private long save(Student student) {
         System.out.println("SAVING STUDENT = " + student.getName() + " " + student.getSurname());
 
-        SQLiteDatabase database = databaseHelper.getWritableDatabase();
 
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(DBHelper.STUDENT_NAME, student.getName());
-        contentValues.put(DBHelper.STUDENT_SURNAME, student.getSurname());
-        contentValues.put(DBHelper.STUDENT_TELEPHONE_NR, student.getTelephoneNumber());
+        SQLiteDatabase database = databaseHelper.getWritableDatabase();
+        ContentValues contentValues = AdapterUtils.getContentValues(student);
+
+        long studentId = database.insert(DBHelper.STUDENT_TABLE_NAME , null, contentValues);
+        if (student.isNew()) {
+            student.setId(studentId);
+        }
 
         List<Address> addresses = student.getAddresses();
         for (int i = 0, addressesSize = addresses.size(); i < addressesSize; i++) {
             Address address = addresses.get(i);
-            long id = save(address);
+            if (address.getStudentId() <= 0) {
+                address.setStudentId(studentId);
+            }
+
+            long addressId = save(address);
 
             if (address.isNew()) {
-                address.setId(id);
+                address.setId(addressId);
+            }
+
+            TermManager manager = TermManager.getInstance();
+            List<Term> terms = manager.getTermsForAddress(address);
+
+            for (int j = 0, termsSize = terms.size(); j < termsSize; j++) {
+                Term term = terms.get(j);
+                if (term.getAddressId() <= 0)
+                    term.setAddressId(addressId);
+
+                if (term.getStudentId() <= 0)
+                    term.setStudentId(studentId);
+
+                long termId = save(term);
             }
         }
-
-        List<Term> terms = student.getTerms();
-        for (int i = 0, termsSize = terms.size(); i < termsSize; i++) {
-            Term term = terms.get(i);
-            long id = save(term);
-
-            if (term.isNew()) {
-                term.setId(id);
-            }
-        }
-
-
-        long id = database.insert(DBHelper.STUDENT_TABLE_NAME , null, contentValues);
-        if (student.isNew()) {
-            student.setId(id);
-        }
-
-        return id;
+        return studentId;
     }
 
     private long save(Address address) {
         System.out.println("SAVING ADDRESS = " + address.toString());
 
         SQLiteDatabase database = databaseHelper.getWritableDatabase();
-
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(DBHelper.ADDRESS_CITY, address.getCity());
-        contentValues.put(DBHelper.ADDRESS_FLAT, address.getFlatNumber());
-        contentValues.put(DBHelper.ADDRESS_HOUSE_NR, address.getHouseNumber());
-        contentValues.put(DBHelper.ADDRESS_STREET, address.getStreet());
-        contentValues.put(DBHelper.STUDENT_ID_FK, address.getStudentId());
-
+        ContentValues contentValues = AdapterUtils.getContentValues(address);
         return database.insert(DBHelper.ADDRESS_TABLE_NAME , null, contentValues);
     }
 
@@ -100,14 +97,7 @@ public class CreateAdapter extends Adapter {
         System.out.println("SAVING TERM = " + term.toString());
 
         SQLiteDatabase database = databaseHelper.getWritableDatabase();
-
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(DBHelper.TERM_DAY, term.getDay());
-        contentValues.put(DBHelper.TERM_LENGTH, term.getLength());
-        contentValues.put(DBHelper.TERM_HOUR, term.getTime());
-        contentValues.put(DBHelper.ADDRESS_ID_FK, term.getAddressId());
-        contentValues.put(DBHelper.STUDENT_ID_FK, term.getStudentId());
-
+        ContentValues contentValues = AdapterUtils.getContentValues(term);
         return database.insert(DBHelper.TERM_TABLE_NAME , null, contentValues);
     }
 }

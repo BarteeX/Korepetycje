@@ -11,15 +11,15 @@ import java.util.List;
  * Created by Monika on 2018-01-27.
  */
 
-public interface Manager<T> {
+public interface Manager<T extends DatabaseModel> {
 
     public List<T> getAll();
 
     public T get(String idn);
 
-    public void add(T dbo);
+    public void save(T dbo);
 
-    public void remove(T dbo);
+    public void delete(T dbo);
 
     public void update(T dbo);
 

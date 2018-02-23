@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:layout_width="wrap_content"
     tools:targetApi="lollipop"
-    tools:context="com.example.monika.korepetycje.GUI.StudentCardEditable">
+    tools:context="com.example.monika.korepetycje.GUI.Controllers.StudentCardEditable">
 
     <GridLayout
         android:id="@+id/student_card"
@@ -31,8 +31,10 @@
             android:layout_column="0"
             android:layout_margin="1dp"
             android:layout_row="2"
+            android:background="@color/green2"
             android:padding="5dp"
-            android:text="@string/change" />
+            android:text="@string/change"
+            android:textColorLink="@color/green1" />
 
         <EditText
             android:id="@+id/name"
@@ -45,7 +47,8 @@
             android:hint="@string/name"
             android:inputType="textPersonName"
             android:padding="5dp"
-            android:singleLine="false" />
+            android:singleLine="false"
+            android:textColorLink="@color/green2" />
 
         <EditText
             android:id="@+id/surname"
@@ -57,7 +60,8 @@
             android:ems="10"
             android:hint="@string/surname"
             android:inputType="textPersonName"
-            android:padding="5dp" />
+            android:padding="5dp"
+            android:textColorLink="@color/green2" />
 
         <EditText
             android:id="@+id/telephoneNumber"
@@ -68,7 +72,8 @@
             android:layout_row="2"
             android:hint="@string/telephone_number"
             android:inputType="phone"
-            android:padding="5dp" />
+            android:padding="5dp"
+            android:textColorLink="@color/green2" />
 
         <TextView
             android:id="@+id/address_label"
@@ -87,6 +92,7 @@
             android:layout_gravity="right"
             android:layout_marginRight="5dp"
             android:layout_row="3"
+            android:background="@color/green2"
             android:text="@string/new_address"
             android:textSize="8sp"
             tools:ignore="RtlHardcoded,SmallSp" />
@@ -102,6 +108,8 @@
             android:layout_rowSpan="2"
             android:background="@drawable/date_layout"
             android:padding="5dp"
+            android:scrollIndicators="none"
+            android:tooltipText="Lista wszystkich adresów danego studenta."
             tools:ignore="NestedScrolling" />
 
         <TextView
@@ -120,6 +128,7 @@
             android:layout_gravity="right"
             android:layout_marginRight="5dp"
             android:layout_row="6"
+            android:background="@color/green2"
             android:text="@string/new_term"
             android:textSize="8sp"
             tools:ignore="RtlHardcoded,SmallSp" />
@@ -144,8 +153,10 @@
             android:layout_gravity="fill"
             android:layout_margin="2dp"
             android:layout_row="9"
+            android:background="@color/green2"
             android:padding="5dp"
             android:text="@string/save4"
+            android:textColorLink="@color/green2"
             tools:targetApi="lollipop" />
 
 

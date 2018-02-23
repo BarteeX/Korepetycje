@@ -1,11 +1,12 @@
-package com.example.monika.korepetycje.GUI;
+package com.example.monika.korepetycje.GUI.Controllers;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -14,7 +15,10 @@ import android.widget.GridLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
+import com.example.monika.korepetycje.GUI.ArrayAdapters.AddressArrayAdapter;
+import com.example.monika.korepetycje.GUI.ArrayAdapters.TermsArrayAdapter;
 import com.example.monika.korepetycje.R;
 import com.example.monika.korepetycje.database.models.Address;
 import com.example.monika.korepetycje.database.models.Student;
@@ -34,7 +38,7 @@ public class StudentCardEditable extends AppCompatActivity {
     private AddressArrayAdapter addressArrayAdapter;
     private TermsArrayAdapter termsArrayAdapter;
 
-    private Context context;
+    public static Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +108,7 @@ public class StudentCardEditable extends AppCompatActivity {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     private void setAddTermButtonListener() {
         GridLayout gridLayout = findViewById(R.id.student_card);
         final Button addButton = gridLayout.findViewById(R.id.new_term_button);
@@ -128,10 +133,10 @@ public class StudentCardEditable extends AppCompatActivity {
                 final Button saveButton = dialog.findViewById(R.id.save_term_button);
                 saveButton.setOnClickListener(view2 -> {
                     Spinner spinnerDays = dialog.findViewById(R.id.days_array);
-                    EditText textHour = dialog.findViewById(R.id.hour);
+                    TimePicker textHour = dialog.findViewById(R.id.hour);
 
                     String day = spinnerDays.getSelectedItem().toString();
-                    String hour = textHour.getText().toString();
+                    String hour = textHour.getHour() + ":" + textHour.getMinute();
 
                     String addressIdn = (String) addressesSpinner.getSelectedItem();
                     Address address = null;
@@ -161,6 +166,9 @@ public class StudentCardEditable extends AppCompatActivity {
 
                 final Button cancelButton = dialog.findViewById(R.id.cancelButton);
                 cancelButton.setOnClickListener(view -> dialog.dismiss());
+
+                @SuppressLint("CutPasteId") TimePicker timePicker = dialog.findViewById(R.id.hour);
+                timePicker.setIs24HourView(true);
             } else {
                 Dialog dialog = new Dialog(this);
                 dialog.setTitle("BLĄD");
@@ -201,8 +209,11 @@ public class StudentCardEditable extends AppCompatActivity {
     }
 
     private Student loadData(Integer studentId) {
-        StudentManager manager = StudentManager.getInstance();
-        Student student = manager.findById(studentId);
+        Student student;
+        if (studentId > 0)
+            student = StudentsList.adapter.getStudent(studentId);
+        else
+            student = new Student();
 
         String nameStudent = student.getName();
         String surnameStudent = student.getSurname();
@@ -231,5 +242,9 @@ public class StudentCardEditable extends AppCompatActivity {
         termsArrayAdapter.notifyDataSetChanged();
 
         return student;
+    }
+
+    public static Context getContext() {
+        return context;
     }
 }

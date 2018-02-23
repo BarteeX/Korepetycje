@@ -50,32 +50,12 @@ public class ReadAdapter extends Adapter {
 
     private List<Student> getStudents() {
         List<Student> list = new ArrayList<>();
-
         SQLiteDatabase database = databaseHelper.getReadableDatabase();
-
-        String[] columnsName = {
-                DBHelper.STUDENT_ID_PK,
-                DBHelper.STUDENT_NAME,
-                DBHelper.STUDENT_SURNAME,
-                DBHelper.STUDENT_TELEPHONE_NR
-        };
+        String[] columnsName = AdapterUtils.getStudentColumnNames();
 
         try (Cursor cursor = database.query(DBHelper.STUDENT_TABLE_NAME, columnsName, null, null, null, null, null)) {
-
             while (cursor.moveToNext()) {
-                long id = cursor.getInt(cursor.getColumnIndex(DBHelper.STUDENT_ID_PK));
-                String name = cursor.getString(cursor.getColumnIndex(DBHelper.STUDENT_NAME));
-                String surname = cursor.getString(cursor.getColumnIndex(DBHelper.STUDENT_SURNAME));
-                String telephoneNr = cursor.getString(cursor.getColumnIndex(DBHelper.STUDENT_TELEPHONE_NR));
-
-                Student student = new Student();
-                student.setId(id);
-                student.setName(name);
-                student.setSurname(surname);
-                student.setTelephoneNumber(telephoneNr);
-
-                student.isLoaded();
-
+                Student student = AdapterUtils.getStudentFromCursor(cursor);
                 list.add(student);
             }
         }
@@ -85,37 +65,12 @@ public class ReadAdapter extends Adapter {
 
     private List<Address> getAddresses() {
         List<Address> list = new ArrayList<>();
-
         SQLiteDatabase database = databaseHelper.getReadableDatabase();
-
-        String[] columnNames = {
-                DBHelper.ADDRESS_ID_PK,
-                DBHelper.ADDRESS_CITY,
-                DBHelper.ADDRESS_FLAT,
-                DBHelper.ADDRESS_HOUSE_NR,
-                DBHelper.ADDRESS_STREET,
-                DBHelper.STUDENT_ID_FK
-        };
+        String[] columnNames = AdapterUtils.getAddressColumnNames();
 
         try (Cursor cursor = database.query(DBHelper.ADDRESS_TABLE_NAME, columnNames, null, null, null, null, null, null)) {
-
             while (cursor.moveToNext()) {
-                int id = cursor.getInt(cursor.getColumnIndex(DBHelper.ADDRESS_ID_PK));
-                String city = cursor.getString(cursor.getColumnIndex(DBHelper.ADDRESS_CITY));
-                String flat = cursor.getString(cursor.getColumnIndex(DBHelper.ADDRESS_FLAT));
-                String houseNr = cursor.getString(cursor.getColumnIndex(DBHelper.ADDRESS_HOUSE_NR));
-                String street = cursor.getString(cursor.getColumnIndex(DBHelper.ADDRESS_STREET));
-                int studentId = cursor.getInt(cursor.getColumnIndex(DBHelper.STUDENT_ID_FK));
-
-                Address address = new Address(studentId);
-                address.setId(id);
-                address.setCity(city);
-                address.setFlatNumber(flat);
-                address.setHouseNumber(houseNr);
-                address.setStreet(street);
-
-                address.isLoaded();
-
+                Address address = AdapterUtils.getAddressFromCursor(cursor);
                 list.add(address);
             }
         }
@@ -125,36 +80,12 @@ public class ReadAdapter extends Adapter {
 
     private List<Term> getTerms() {
         List<Term> list = new ArrayList<>();
-
         SQLiteDatabase database = databaseHelper.getWritableDatabase();
-
-        String[] columns = {
-                DBHelper.TERM_ID_PK,
-                DBHelper.TERM_DAY,
-                DBHelper.TERM_LENGTH,
-                DBHelper.TERM_HOUR,
-                DBHelper.ADDRESS_ID_FK,
-                DBHelper.STUDENT_ID_FK
-        };
+        String[] columns = AdapterUtils.getTermColumnNames();
 
         try (Cursor cursor = database.query(DBHelper.TERM_TABLE_NAME, columns, null, null, null, null, null)) {
-
             while (cursor.moveToNext()) {
-                int id = cursor.getInt(cursor.getColumnIndex(DBHelper.TERM_ID_PK));
-                String day = cursor.getString(cursor.getColumnIndex(DBHelper.TERM_DAY));
-                String length = cursor.getString(cursor.getColumnIndex(DBHelper.TERM_LENGTH));
-                String hour = cursor.getString(cursor.getColumnIndex(DBHelper.TERM_HOUR));
-                int addressId = cursor.getInt(cursor.getColumnIndex(DBHelper.ADDRESS_ID_FK));
-                int studentId = cursor.getInt(cursor.getColumnIndex(DBHelper.STUDENT_ID_FK));
-
-                Term term = new Term(studentId, addressId);
-                term.setId(id);
-                term.setDay(day);
-                term.setTime(hour);
-                term.setLength(length);
-
-                term.isLoaded();
-
+                Term term = AdapterUtils.getTermFromCursor(cursor);
                 list.add(term);
             }
         }

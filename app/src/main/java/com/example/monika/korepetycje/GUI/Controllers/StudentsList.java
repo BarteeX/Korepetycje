@@ -1,4 +1,4 @@
-package com.example.monika.korepetycje.GUI;
+package com.example.monika.korepetycje.GUI.Controllers;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -7,9 +7,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.CheckBox;
 import android.widget.ListView;
 
 import com.example.monika.korepetycje.DataLoader;
+import com.example.monika.korepetycje.GUI.ArrayAdapters.StudentsArrayAdapter;
 import com.example.monika.korepetycje.R;
 import com.example.monika.korepetycje.database.models.Student;
 import com.example.monika.korepetycje.managers.StudentManager;
@@ -19,7 +22,7 @@ import java.util.List;
 public class StudentsList extends AppCompatActivity {
 
     private ListView studentsListView;
-    private StudentsArrayAdapter adapter;
+    public static StudentsArrayAdapter adapter;
     private List<Student> students;
 
     @Override
@@ -72,7 +75,6 @@ public class StudentsList extends AppCompatActivity {
     }
 
     private boolean addStudentSelection() {
-
         Intent intent = new Intent(this, StudentCardEditable.class);
         Intent student = intent.putExtra("studentId", -1);
         startActivity(student);
@@ -80,6 +82,15 @@ public class StudentsList extends AppCompatActivity {
     }
 
     private boolean removeStudentSelection() {
+        //Todo :)
+        StudentsArrayAdapter arrayAdapter = (StudentsArrayAdapter) studentsListView.getAdapter();
+        List<Student> studentList = arrayAdapter.getStudents();
+        for (int i = 0, length = studentList.size(); i < length; i++) {
+            long itemId = arrayAdapter.getAdapterItemId(i);
+            View view = studentsListView.findViewById((int) itemId);
+            CheckBox checkBox = view.findViewById(R.id.delete_checkbox);
+            checkBox.setVisibility(View.VISIBLE);
+        }
         return true;
     }
 }

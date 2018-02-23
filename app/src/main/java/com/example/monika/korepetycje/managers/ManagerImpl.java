@@ -3,7 +3,11 @@ package com.example.monika.korepetycje.managers;
 import android.content.Context;
 
 import com.example.monika.korepetycje.DatabaseModel;
+import com.example.monika.korepetycje.GUI.Controllers.StudentCardEditable;
+import com.example.monika.korepetycje.database.CRUDAdapters.CreateAdapter;
+import com.example.monika.korepetycje.database.CRUDAdapters.DeleteAdapter;
 import com.example.monika.korepetycje.database.CRUDAdapters.ReadAdapter;
+import com.example.monika.korepetycje.database.CRUDAdapters.UpdateAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,12 +16,25 @@ import java.util.List;
  * Created by Monika on 2018-02-03.
  */
 
-public abstract class ManagerImpl <T extends DatabaseModel> implements Manager <T>{
+public abstract class ManagerImpl <T extends DatabaseModel> implements Manager <T> {
 
     protected List<T> list;
 
-    ManagerImpl() {
-        this.list = new ArrayList<>();
+    public ManagerImpl() {
+        this.list = new ArrayList<T>(){
+            @Override
+            public boolean contains(Object value) {
+                if (value instanceof DatabaseModel) {
+                    long id = ((DatabaseModel)value).getId();
+                    for (T dbo : this) {
+                        if (dbo.getId() == id) {
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            }
+        };
     }
 
     @Override
@@ -36,23 +53,37 @@ public abstract class ManagerImpl <T extends DatabaseModel> implements Manager <
     }
 
     @Override
-    public void add(T dbo){
+    public void save(T dbo){
         if (list.contains(dbo)) {
             update(dbo);
         } else {
             list.add(dbo);
+            CreateAdapter adapter = CreateAdapter.getInstance(StudentCardEditable.getContext());
+            adapter.save(dbo);
         }
     }
 
     @Override
-    public void remove(T dbo){
+    public void delete(T dbo){
         list.remove(dbo);
+
+        DeleteAdapter adapter = DeleteAdapter.getInstance(StudentCardEditable.getContext());
+        adapter.delete(dbo);
     }
 
     @Override
     public void update(T dbo){
-        remove(dbo);
-        add(dbo);
+        long dboId = dbo.getId();
+        for (int i  = 0, length = list.size(); i < length; i++) {
+            T object = list.get(i);
+            if (object.getId() == dboId) {
+                list.remove(i);
+                list.add(dbo);
+                break;
+            }
+        }
+        UpdateAdapter adapter = UpdateAdapter.getInstance(StudentCardEditable.getContext());
+        adapter.update(dbo);
     }
 
     @Override
