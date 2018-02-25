@@ -80,14 +80,6 @@ public class StudentsList extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        students = StudentManager.getInstance().getAll();
-        adapter.notifyDataSetChanged();
-
-    }
-
     private boolean addStudentSelection() {
         Intent intent = new Intent(this, StudentCardActivity.class);
         Intent student = intent.putExtra("studentId", -1);
@@ -96,7 +88,6 @@ public class StudentsList extends AppCompatActivity {
     }
 
     private boolean removeStudentSelection() {
-        //Todo :)
         StudentsArrayAdapter arrayAdapter = (StudentsArrayAdapter) studentsListView.getAdapter();
         List<Student> studentList = arrayAdapter.getStudents();
         List<Student> studentsToDelete = new ArrayList<>();

@@ -25,8 +25,9 @@ public class PageAdapter extends FragmentStatePagerAdapter {
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public Fragment getItem(int position) {
-
-        switch (position) {
+        int fragmentPos = position % 3;
+        position = fragmentPos;
+        switch (fragmentPos) {
             case 0:
                 return new MainCard(student);
             case 1:
@@ -40,6 +41,10 @@ public class PageAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return mNumOfTabs;
+        return Integer.MAX_VALUE;
     }
+//    @Override
+//    public int getCount() {
+//        return mNumOfTabs;
+//    }
 }

@@ -12,12 +12,6 @@
         android:id="@+id/delete_student"
         android:title="@string/delete_student"
         />
-    <item
-        android:id="@+id/delete_accept_button"
-        android:title="@string/"
-        android:icon="@mipmap/ic_launcher"
-        android:showAsAction="ifRoom"
-        />
 
 </menu>
 

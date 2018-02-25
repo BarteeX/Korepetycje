@@ -31,6 +31,16 @@ public abstract class ManagerImpl <T extends DatabaseModel> implements Manager <
                 }
                 return false;
             }
+
+            public int indexOfById(long id) {
+                for (int i = 0, listSize = list.size(); i < listSize; i++) {
+                    T t = list.get(i);
+                    if (t.getId() == id) {
+                        return i;
+                    }
+                }
+                return -1;
+            }
         };
     }
 
