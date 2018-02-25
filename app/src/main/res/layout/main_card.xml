@@ -28,7 +28,8 @@
         android:textColor="@color/white"
         android:padding="5dp"
         android:text="@string/change"
-        android:textColorLink="@color/green1" />
+        android:textColorLink="@color/green1"
+        tools:targetApi="lollipop" />
 
     <EditText
         android:id="@+id/name"
@@ -43,7 +44,8 @@
         android:inputType="textPersonName"
         android:padding="5dp"
         android:singleLine="false"
-        android:textColorLink="@color/green2" />
+        android:textColorLink="@color/green2"
+        tools:targetApi="lollipop" />
 
     <EditText
         android:id="@+id/surname"
@@ -57,7 +59,8 @@
         android:hint="@string/surname"
         android:inputType="textPersonName"
         android:padding="5dp"
-        android:textColorLink="@color/green2" />
+        android:textColorLink="@color/green2"
+        tools:targetApi="lollipop" />
 
     <EditText
         android:id="@+id/telephoneNumber"

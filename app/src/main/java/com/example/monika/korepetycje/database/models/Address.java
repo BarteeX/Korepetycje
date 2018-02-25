@@ -7,9 +7,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Monika on 2018-01-27.
- */
 
 public class Address extends DatabaseModel implements Serializable{
     private String city;

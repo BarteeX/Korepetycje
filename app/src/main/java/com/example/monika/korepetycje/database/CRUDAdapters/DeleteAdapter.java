@@ -1,6 +1,5 @@
 package com.example.monika.korepetycje.database.CRUDAdapters;
 
-import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.monika.korepetycje.DatabaseModel;
@@ -9,9 +8,6 @@ import com.example.monika.korepetycje.database.models.Address;
 import com.example.monika.korepetycje.database.models.Student;
 import com.example.monika.korepetycje.database.models.Term;
 
-/**
- * Created by Monika on 2018-02-17.
- */
 
 public class DeleteAdapter extends Adapter {
 

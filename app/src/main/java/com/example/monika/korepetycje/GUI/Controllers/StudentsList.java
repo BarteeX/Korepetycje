@@ -109,9 +109,7 @@ public class StudentsList extends AppCompatActivity {
             CheckBox checkBox = view.findViewById(R.id.delete_checkbox);
             checkBox.setVisibility(View.VISIBLE);
 
-            checkBox.setOnClickListener(view1 -> {
-                studentsToDelete.add(student);
-            });
+            checkBox.setOnClickListener(view1 -> studentsToDelete.add(student));
         }
 
         Button deleteButton = findViewById(R.id.accept_delete);

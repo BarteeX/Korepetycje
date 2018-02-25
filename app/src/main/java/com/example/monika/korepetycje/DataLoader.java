@@ -11,9 +11,6 @@ import com.example.monika.korepetycje.managers.TermManager;
 
 import java.util.List;
 
-/**
- * Created by Monika on 2018-01-27.
- */
 
 public class DataLoader {
     private static final DataLoader ourInstance = new DataLoader();

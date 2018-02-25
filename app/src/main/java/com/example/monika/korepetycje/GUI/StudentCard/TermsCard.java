@@ -26,9 +26,6 @@ import com.example.monika.korepetycje.database.models.Term;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Monika on 2018-02-24.
- */
 
 @RequiresApi(api = Build.VERSION_CODES.M)
 @SuppressLint("ValidFragment")
@@ -132,9 +129,7 @@ public class TermsCard extends android.support.v4.app.Fragment {
                 text.setText("Nie możesz podpiąc terminu bez podania adresu.");
 
                 Button okButton = dialog.findViewById(R.id.ok_button);
-                okButton.setOnClickListener(view2 -> {
-                    dialog.dismiss();
-                });
+                okButton.setOnClickListener(view2 -> dialog.dismiss());
 
                 dialog.show();
             }

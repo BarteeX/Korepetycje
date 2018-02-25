@@ -6,9 +6,6 @@ import com.example.monika.korepetycje.database.models.Student;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Monika on 2018-01-27.
- */
 
 public class AddressManager extends ManagerImpl<Address> {
 

@@ -7,9 +7,6 @@ import com.example.monika.korepetycje.database.models.Term;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Monika on 2018-01-27.
- */
 
 public class TermManager extends ManagerImpl<Term> {
 

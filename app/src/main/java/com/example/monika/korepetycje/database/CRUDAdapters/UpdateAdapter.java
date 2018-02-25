@@ -12,9 +12,6 @@ import com.example.monika.korepetycje.database.models.Term;
 
 import java.util.List;
 
-/**
- * Created by Monika on 2018-02-17.
- */
 
 public class UpdateAdapter extends Adapter {
 

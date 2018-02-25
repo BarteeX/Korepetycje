@@ -11,9 +11,6 @@ import android.widget.EditText;
 import com.example.monika.korepetycje.R;
 import com.example.monika.korepetycje.database.models.Student;
 
-/**
- * Created by Monika on 2018-02-24.
- */
 
 @SuppressLint("ValidFragment")
 public class MainCard extends android.support.v4.app.Fragment {

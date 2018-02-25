@@ -1,6 +1,5 @@
 package com.example.monika.korepetycje.database.CRUDAdapters;
 
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -17,9 +16,6 @@ import com.example.monika.korepetycje.managers.TermManager;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Monika on 2018-02-17.
- */
 
 public class ReadAdapter extends Adapter {
 

@@ -8,9 +8,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.example.monika.korepetycje.GUI.Controllers.StudentsList;
 import com.example.monika.korepetycje.GUI.StudentCard.StudentCardActivity;
 
-/**
- * Created by Monika on 2018-01-23.
- */
 
 public class LessonsSQLiteOpenHelper extends SQLiteOpenHelper{
     private static final int FIRST_VERSION = 1;

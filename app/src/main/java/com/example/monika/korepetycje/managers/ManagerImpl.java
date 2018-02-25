@@ -64,11 +64,6 @@ public abstract class ManagerImpl <T extends DatabaseModel> implements Manager <
     public void delete(T dbo){
         list.remove(dbo);
 
-        Context context = StudentCardActivity.getContext();
-        if (context == null) {
-            context = StudentsList.getContext();
-        }
-
         DeleteAdapter adapter = DeleteAdapter.getInstance();
         adapter.delete(dbo);
     }

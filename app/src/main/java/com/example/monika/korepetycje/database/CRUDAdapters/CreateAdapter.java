@@ -14,9 +14,6 @@ import com.example.monika.korepetycje.managers.TermManager;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Monika on 2018-02-17.
- */
 
 public class CreateAdapter extends Adapter {
 

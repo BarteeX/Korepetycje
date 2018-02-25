@@ -9,9 +9,6 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.example.monika.korepetycje.database.models.Student;
 
-/**
- * Created by Monika on 2018-02-24.
- */
 
 public class PageAdapter extends FragmentStatePagerAdapter {
 
