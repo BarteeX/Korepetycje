@@ -1,6 +1,5 @@
 package com.example.monika.korepetycje.database.CRUDAdapters;
 
-import android.content.Context;
 
 import com.example.monika.korepetycje.database.LessonsSQLiteOpenHelper;
 
@@ -11,11 +10,11 @@ import com.example.monika.korepetycje.database.LessonsSQLiteOpenHelper;
 public abstract class Adapter {
     protected LessonsSQLiteOpenHelper databaseHelper;
 
-    protected Adapter (Context context) {
-        setAdapter(context);
+    protected Adapter () {
+        setAdapter();
     }
 
-    private void setAdapter (Context context) {
-        databaseHelper = new LessonsSQLiteOpenHelper(context);
+    private void setAdapter () {
+        databaseHelper = LessonsSQLiteOpenHelper.getInstance();
     }
 }

@@ -17,13 +17,13 @@ public class DeleteAdapter extends Adapter {
 
     private static DeleteAdapter instance = null;
 
-    private DeleteAdapter(Context context) {
-        super(context);
+    private DeleteAdapter() {
+        super();
     }
 
-    public static DeleteAdapter getInstance(Context context) {
+    public static DeleteAdapter getInstance() {
         if(instance == null) {
-            instance = new DeleteAdapter(context);
+            instance = new DeleteAdapter();
         }
         return instance;
     }

@@ -5,26 +5,39 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.monika.korepetycje.GUI.Controllers.StudentsList;
+import com.example.monika.korepetycje.GUI.StudentCard.StudentCardActivity;
+
 /**
  * Created by Monika on 2018-01-23.
  */
 
 public class LessonsSQLiteOpenHelper extends SQLiteOpenHelper{
     private static final int FIRST_VERSION = 1;
-    private Context context;
+    private static Context context;
 
+    private static LessonsSQLiteOpenHelper instance = null;
 
-    public LessonsSQLiteOpenHelper(Context context) {
+    public static LessonsSQLiteOpenHelper getInstance() {
+        context = StudentsList.getContext();
+        if (context == null) {
+            context = StudentCardActivity.getContext();
+        }
+        if (instance == null) {
+            instance = new LessonsSQLiteOpenHelper();
+        }
+        return instance;
+    }
+
+    private LessonsSQLiteOpenHelper() {
         super(context, DBHelper.DATABASE_NAME, null,  FIRST_VERSION);
         SQLiteDatabase database = context.openOrCreateDatabase(DBHelper.DATABASE_NAME, Context.MODE_PRIVATE, null);
         onCreate(database);
-        this.context = context;
     }
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         System.out.println("DB - onCreate ....");
-
         try {
             String studentQuery = DBHelper.CREATE_STUDENT_TABLE();
             String addressQuery = DBHelper.CREATE_ADDRESS_TABLE();

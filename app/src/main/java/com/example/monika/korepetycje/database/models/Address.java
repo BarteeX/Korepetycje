@@ -4,6 +4,8 @@ import com.example.monika.korepetycje.DatabaseModel;
 import com.example.monika.korepetycje.managers.AddressManager;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Monika on 2018-01-27.
@@ -16,9 +18,13 @@ public class Address extends DatabaseModel implements Serializable{
     private String flatNumber;
     private long studentId;
 
+    private List<Term> terms;
+
     public Address(long studentId) {
         super(AddressManager.getInstance());
         this.setStudentId(studentId);
+
+        this.terms = new ArrayList<>();
     }
 
     public String getFlatNumber() {
@@ -67,5 +73,13 @@ public class Address extends DatabaseModel implements Serializable{
 
     public String toString() {
         return getCity() + " " + getStreet() + " " + getHouseNumber() + (isFlat() ? "/" + getFlatNumber() : "");
+    }
+
+    public void addTerm(Term term) {
+        this.terms.add(term);
+    }
+
+    public List<Term> getTerms() {
+        return this.terms;
     }
 }

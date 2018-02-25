@@ -11,6 +11,7 @@ import com.example.monika.korepetycje.database.models.Student;
 import com.example.monika.korepetycje.database.models.Term;
 import com.example.monika.korepetycje.managers.TermManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,13 +22,13 @@ public class CreateAdapter extends Adapter {
 
     private static CreateAdapter instance = null;
 
-    private CreateAdapter(Context context) {
-        super(context);
+    private CreateAdapter() {
+        super();
     }
 
-    public static CreateAdapter getInstance(Context context) {
+    public static CreateAdapter getInstance() {
         if(instance == null) {
-            instance = new CreateAdapter(context);
+            instance = new CreateAdapter();
         }
         return instance;
     }
@@ -68,8 +69,7 @@ public class CreateAdapter extends Adapter {
                 address.setId(addressId);
             }
 
-            TermManager manager = TermManager.getInstance();
-            List<Term> terms = manager.getTermsForAddress(address);
+            List<Term> terms = address.getTerms();
 
             for (int j = 0, termsSize = terms.size(); j < termsSize; j++) {
                 Term term = terms.get(j);

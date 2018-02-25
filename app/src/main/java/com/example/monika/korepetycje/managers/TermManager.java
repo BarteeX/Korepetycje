@@ -27,32 +27,32 @@ public class TermManager extends ManagerImpl<Term> {
     }
 
     public List<Term> getTermsForStudent(Student student) {
-        List<Term> list = new ArrayList<>();
+        List<Term> termsList = new ArrayList<>();
 
         for (Term term : list) {
             long studentId = student.getId();
             long termId = term.getStudentId();
 
             if (termId == studentId) {
-                list.add(term);
+                termsList.add(term);
             }
         }
 
-        return list;
+        return termsList;
     }
 
     public List<Term> getTermsForAddress(Address address) {
-        List<Term> terms = new ArrayList<>();
+        List<Term> termsList = new ArrayList<>();
 
         for (Term term : list) {
-            long termId = term.getId();
+            long termId = term.getAddressId();
             long addressId = address.getId();
 
             if (termId == addressId) {
-                terms.add(term);
+                termsList.add(term);
             }
         }
 
-        return terms;
+        return termsList;
     }
 }

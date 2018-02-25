@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:columnCount="3"
+    android:orientation="horizontal"
+    android:rowCount="10">
+
+
+    <Button
+        android:id="@+id/new_address_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:backgroundTint="@color/green2"
+        android:textColor="@color/white"
+        android:text="@string/add"
+        tools:targetApi="lollipop" />
+
+    <ListView
+        android:id="@+id/addresses_list"
+        android:foregroundGravity="fill"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="fill"
+        android:layout_margin="4dp"
+        android:background="@drawable/date_layout"
+        android:padding="5dp"
+        android:tooltipText="Lista wszystkich adresów danego studenta."
+        tools:targetApi="o" />
+
+</RelativeLayout>

@@ -25,13 +25,13 @@ public class ReadAdapter extends Adapter {
 
     private static ReadAdapter instance = null;
 
-    private ReadAdapter(Context context) {
-        super(context);
+    private ReadAdapter() {
+        super();
     }
 
-    public static ReadAdapter getInstance(Context context) {
+    public static ReadAdapter getInstance() {
         if(instance == null) {
-            instance = new ReadAdapter(context);
+            instance = new ReadAdapter();
         }
         return instance;
     }

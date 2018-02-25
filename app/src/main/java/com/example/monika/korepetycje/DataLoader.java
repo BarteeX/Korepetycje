@@ -31,9 +31,9 @@ public class DataLoader {
         AddressManager addressManager = AddressManager.getInstance();
         TermManager termManager = TermManager.getInstance();
 
-        studentManager.load(context);
-        addressManager.load(context);
-        termManager.load(context);
+        studentManager.load();
+        addressManager.load();
+        termManager.load();
 
         List<Student> students = studentManager.getAll();
         for (int i = 0; i < students.size(); i++) {

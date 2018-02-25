@@ -2,7 +2,6 @@ package com.example.monika.korepetycje.GUI.ArrayAdapters;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +10,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.monika.korepetycje.GUI.Controllers.StudentCardEditable;
 import com.example.monika.korepetycje.R;
 import com.example.monika.korepetycje.database.models.Student;
 
@@ -19,9 +17,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by Monika on 2018-01-28.
- */
 
 public class StudentsArrayAdapter extends ArrayAdapter<Student> {
     private Activity context;
@@ -50,6 +45,7 @@ public class StudentsArrayAdapter extends ArrayAdapter<Student> {
         View rowView = convertView;
 
         Student student = students.get(position);
+        final long studentId = student.getId();
 
         if (rowView == null) {
             LayoutInflater layoutInflater = context.getLayoutInflater();
@@ -62,11 +58,11 @@ public class StudentsArrayAdapter extends ArrayAdapter<Student> {
 
             rowView.setTag(studentViewHolder);
 
-            rowView.setOnClickListener((View view) -> {
-                Intent intent = new Intent(context, StudentCardEditable.class);
-                Intent student1 = intent.putExtra("studentId", Integer.valueOf((int) student.getId()));
-                context.startActivity(student1);
-            });
+//            rowView.setOnClickListener((View view) -> {
+//                Intent intent = new Intent(context, StudentCardEditable.class);
+//                Intent student1 = intent.putExtra("studentId", Integer.valueOf((int) studentId));
+//                context.startActivity(student1);
+//            });
 
         } else {
             studentViewHolder = (StudentViewHolder) rowView.getTag();

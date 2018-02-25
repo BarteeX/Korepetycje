@@ -3,7 +3,8 @@ package com.example.monika.korepetycje.managers;
 import android.content.Context;
 
 import com.example.monika.korepetycje.DatabaseModel;
-import com.example.monika.korepetycje.GUI.Controllers.StudentCardEditable;
+import com.example.monika.korepetycje.GUI.Controllers.StudentsList;
+import com.example.monika.korepetycje.GUI.StudentCard.StudentCardActivity;
 import com.example.monika.korepetycje.database.CRUDAdapters.CreateAdapter;
 import com.example.monika.korepetycje.database.CRUDAdapters.DeleteAdapter;
 import com.example.monika.korepetycje.database.CRUDAdapters.ReadAdapter;
@@ -11,10 +12,6 @@ import com.example.monika.korepetycje.database.CRUDAdapters.UpdateAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
-
-/**
- * Created by Monika on 2018-02-03.
- */
 
 public abstract class ManagerImpl <T extends DatabaseModel> implements Manager <T> {
 
@@ -58,7 +55,7 @@ public abstract class ManagerImpl <T extends DatabaseModel> implements Manager <
             update(dbo);
         } else {
             list.add(dbo);
-            CreateAdapter adapter = CreateAdapter.getInstance(StudentCardEditable.getContext());
+            CreateAdapter adapter = CreateAdapter.getInstance();
             adapter.save(dbo);
         }
     }
@@ -67,7 +64,12 @@ public abstract class ManagerImpl <T extends DatabaseModel> implements Manager <
     public void delete(T dbo){
         list.remove(dbo);
 
-        DeleteAdapter adapter = DeleteAdapter.getInstance(StudentCardEditable.getContext());
+        Context context = StudentCardActivity.getContext();
+        if (context == null) {
+            context = StudentsList.getContext();
+        }
+
+        DeleteAdapter adapter = DeleteAdapter.getInstance();
         adapter.delete(dbo);
     }
 
@@ -82,13 +84,13 @@ public abstract class ManagerImpl <T extends DatabaseModel> implements Manager <
                 break;
             }
         }
-        UpdateAdapter adapter = UpdateAdapter.getInstance(StudentCardEditable.getContext());
+        UpdateAdapter adapter = UpdateAdapter.getInstance();
         adapter.update(dbo);
     }
 
     @Override
-    public void load(Context context){
-        ReadAdapter adapter = ReadAdapter.getInstance(context);
+    public void load(){
+        ReadAdapter adapter = ReadAdapter.getInstance();
         List<? extends DatabaseModel> dbObjects = adapter.get(this);
          if (dbObjects != null) {
              for (DatabaseModel dbObject : dbObjects) {
@@ -101,5 +103,13 @@ public abstract class ManagerImpl <T extends DatabaseModel> implements Manager <
                  }
              }
          }
+    }
+
+    @Override
+    public void deleteAll(List<T> collection) {
+        for (int i = 0, collectionSize = collection.size(); i < collectionSize; i++) {
+            T dbo = collection.get(i);
+            delete(dbo);
+        }
     }
 }

@@ -5,6 +5,7 @@ import android.content.Context;
 import com.example.monika.korepetycje.DatabaseModel;
 import com.example.monika.korepetycje.database.models.Student;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -21,8 +22,10 @@ public interface Manager<T extends DatabaseModel> {
 
     public void delete(T dbo);
 
+    public void deleteAll(List<T> collection);
+
     public void update(T dbo);
 
-    public void load(Context context);
+    public void load();
 
 }

@@ -16,11 +16,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".GUI.Controllers.StudentCardEditable">
+        <activity android:name=".GUI.StudentCard.StudentCardActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".GUI.Controllers.StudentCardEditable"
+                android:value=".GUI.StudentCard.StudentCardActivity"
                 />
         </activity>
+
     </application>
 </manifest>

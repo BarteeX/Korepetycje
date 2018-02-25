@@ -26,15 +26,15 @@ public class AddressManager extends ManagerImpl<Address> {
     }
 
     public List<Address> getAddressesForStudent(Student student) {
-        List<Address> list = new ArrayList<>();
+        List<Address> addressesList = new ArrayList<>();
         for (Address address : list) {
             long studentId = student.getId();
             long addressId = address.getStudentId();
 
             if (studentId == addressId) {
-                list.add(address);
+                addressesList.add(address);
             }
         }
-        return list;
+        return addressesList;
     }
 }

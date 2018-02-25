@@ -20,13 +20,13 @@ public class UpdateAdapter extends Adapter {
 
     private static UpdateAdapter instance = null;
 
-    private UpdateAdapter(Context context) {
-        super(context);
+    private UpdateAdapter() {
+        super();
     }
 
-    public static UpdateAdapter getInstance(Context context) {
+    public static UpdateAdapter getInstance() {
         if(instance == null) {
-            instance = new UpdateAdapter(context);
+            instance = new UpdateAdapter();
         }
         return instance;
     }
@@ -51,13 +51,23 @@ public class UpdateAdapter extends Adapter {
 
         for (int i = 0, addressesSize = addresses.size(); i < addressesSize; i++) {
             Address address = addresses.get(i);
-            long addressesCount = update(address);
+            if (address.isNew()) {
+                CreateAdapter createAdapter = CreateAdapter.getInstance();
+                createAdapter.save(address);
+            } else {
+                update(address);
+            }
         }
 
         List<Term> terms = student.getTerms();
         for (int i = 0, termsSize = terms.size(); i < termsSize; i++) {
             Term term = terms.get(i);
-            long termsCount = update(term);
+            if (term.isNew()) {
+                CreateAdapter createAdapter = CreateAdapter.getInstance();
+                createAdapter.save(term);
+            } else {
+                update(term);
+            }
         }
 
         String[] whereArgs = {
