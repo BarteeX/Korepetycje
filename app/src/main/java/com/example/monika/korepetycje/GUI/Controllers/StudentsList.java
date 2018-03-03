@@ -17,6 +17,7 @@ import com.example.monika.korepetycje.DataLoader;
 import com.example.monika.korepetycje.GUI.ArrayAdapters.StudentsArrayAdapter;
 import com.example.monika.korepetycje.GUI.StudentCard.StudentCardActivity;
 import com.example.monika.korepetycje.R;
+import com.example.monika.korepetycje.database.DBHelper;
 import com.example.monika.korepetycje.database.models.Student;
 import com.example.monika.korepetycje.managers.StudentManager;
 
@@ -31,14 +32,40 @@ public class StudentsList extends AppCompatActivity {
     private static Context context;
 
     @Override
+    public void onResume() {
+        super.onResume();
+        adapter.notifyDataSetChanged();
+    }
+
+//    @Override
+//    public void onStop() {
+//        super.onStop();
+//        DataLoader loader = DataLoader.getInstance();
+//        loader.clearData();
+//        adapter.notifyDataSetChanged();
+//    }
+
+//    @Override
+//    public void onRestart() {
+//        super.onRestart();
+//        loadStudentsList();
+//        adapter.notifyDataSetChanged();
+//    }
+
+    @Override
     protected void onCreate (Bundle instanceState) {
         super.onCreate(instanceState);
         context = getApplicationContext();
 
-       // context.deleteDatabase(DBHelper.DATABASE_NAME);
+        loadStudentsList();
+    }
+
+    private void loadStudentsList() {
+        //context.deleteDatabase(DBHelper.DATABASE_NAME);
 
         DataLoader dataLoader = DataLoader.getInstance();
-        dataLoader.loadData(this);
+        dataLoader.clearDataFromManagers();
+        dataLoader.loadDataToManagers();
 
         setContentView(R.layout.students_list);
 
@@ -53,11 +80,8 @@ public class StudentsList extends AppCompatActivity {
         adapter.notifyDataSetChanged();
 
         studentsListView.setOnItemClickListener((adapterView, view, i, l) -> {
-            Intent intent = new Intent(context, StudentCardActivity.class);
-            Intent studentIntent = intent.putExtra("studentId", Integer.valueOf(i));
-            startActivity(studentIntent);
+            startStudentCardActivity(i);
         });
-
     }
 
     @SuppressLint("ResourceType")
@@ -81,10 +105,15 @@ public class StudentsList extends AppCompatActivity {
     }
 
     private boolean addStudentSelection() {
-        Intent intent = new Intent(this, StudentCardActivity.class);
-        Intent student = intent.putExtra("studentId", -1);
-        startActivity(student);
+        startStudentCardActivity(-1);
         return true;
+    }
+
+
+    private void startStudentCardActivity(int i) {
+        Intent intent = new Intent(context, StudentCardActivity.class);
+        Intent studentIntent = intent.putExtra("studentId", i);
+        startActivity(studentIntent);
     }
 
     private boolean removeStudentSelection() {

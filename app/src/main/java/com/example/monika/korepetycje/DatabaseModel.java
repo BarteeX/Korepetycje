@@ -44,7 +44,7 @@ public abstract class DatabaseModel {
         this.idn = idn;
     }
 
-    public void save(Context context) {
+    public void save() {
         manager.save(this);
         isNew = false;
     };

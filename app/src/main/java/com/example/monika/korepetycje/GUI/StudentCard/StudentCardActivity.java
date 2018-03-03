@@ -32,6 +32,7 @@ public class StudentCardActivity extends AppCompatActivity {
 
     private static Context context;
 
+
     @Override
     protected void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
@@ -41,7 +42,6 @@ public class StudentCardActivity extends AppCompatActivity {
         setStudentData();
 
         loadTabLayout();
-        setSaveButtonListener();
     }
 
     private void setStudentData() {
@@ -95,28 +95,6 @@ public class StudentCardActivity extends AppCompatActivity {
         });
     }
 
-    public void setSaveButtonListener() {
-        Button saveButton = findViewById(R.id.save_button);
-        saveButton.setOnClickListener((view) -> {
-
-            ViewPager viewPager = findViewById(R.id.pager);
-            if (viewPager != null) {
-                EditText name = viewPager.findViewById(R.id.name);
-                EditText surname = viewPager.findViewById(R.id.surname);
-                EditText telephoneNumber = viewPager.findViewById(R.id.telephoneNumber);
-
-                student.setName(name.getText().toString());
-                student.setSurname(surname.getText().toString());
-                student.setTelephoneNumber(telephoneNumber.getText().toString());
-                student.setAddresses(addresses);
-                student.setTerms(terms);
-                student.save(context);
-                finish();
-            } else {
-                System.out.println("PROBLEM Z ZAPISEM");
-            }
-        });
-    }
 
     public static Context getContext() {
         return context;

@@ -1,78 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<GridLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:columnCount="3"
-    android:orientation="horizontal"
-    android:rowCount="10">
+    android:layout_height="match_parent"
+    >
 
-    <ImageView
-        android:id="@+id/avatar"
-        android:layout_column="0"
-        android:layout_gravity="fill"
-        android:layout_row="0"
-        android:layout_rowSpan="2"
-        android:contentDescription="@string/app_name"
-        android:padding="5dp"
-        android:src="@mipmap/ic_launcher_round"
-        tools:targetApi="lollipop" />
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="3"
+        android:orientation="horizontal"
+        android:rowCount="10"
+        >
+
+        <ImageView
+            android:id="@+id/avatar"
+            android:layout_column="0"
+            android:layout_gravity="fill"
+            android:layout_row="0"
+            android:layout_rowSpan="2"
+            android:contentDescription="@string/app_name"
+            android:padding="5dp"
+            android:src="@mipmap/ic_launcher_round"
+            tools:targetApi="lollipop" />
+
+        <Button
+            android:id="@+id/changeButton"
+            android:layout_column="0"
+            android:layout_margin="1dp"
+            android:layout_row="2"
+            android:backgroundTint="@color/green2"
+            android:textColor="@color/white"
+            android:padding="5dp"
+            android:text="@string/change"
+            android:textColorLink="@color/green1"
+            tools:targetApi="lollipop" />
+
+        <EditText
+            android:id="@+id/student_name"
+            android:layout_column="1"
+            android:layout_columnSpan="2"
+            android:layout_gravity="fill"
+            android:layout_margin="8dp"
+            android:layout_row="0"
+            android:colorAccent="@color/green2"
+            android:ems="10"
+            android:hint="@string/name"
+            android:inputType="textPersonName"
+            android:padding="5dp"
+            android:singleLine="false"
+            android:textColorLink="@color/green2"
+            tools:targetApi="lollipop" />
+
+        <EditText
+            android:id="@+id/student_surname"
+            android:layout_column="1"
+            android:layout_columnSpan="2"
+            android:layout_gravity="fill"
+            android:layout_margin="8dp"
+            android:layout_row="1"
+            android:colorAccent="@color/green2"
+            android:ems="10"
+            android:hint="@string/surname"
+            android:inputType="textPersonName"
+            android:padding="5dp"
+            android:textColorLink="@color/green2"
+            tools:targetApi="lollipop" />
+
+        <EditText
+            android:id="@+id/telephoneNumber"
+            android:layout_column="1"
+            android:layout_columnSpan="2"
+            android:layout_gravity="fill"
+            android:layout_margin="8dp"
+            android:layout_row="2"
+            android:colorAccent="@color/green2"
+            android:hint="@string/telephone_number"
+            android:inputType="phone"
+            android:padding="5dp"
+            android:textColorLink="@color/green2" />
+
+    </GridLayout>
 
     <Button
-        android:id="@+id/changeButton"
-        android:layout_column="0"
-        android:layout_margin="1dp"
-        android:layout_row="2"
+        android:id="@+id/save_student_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
         android:backgroundTint="@color/green2"
         android:textColor="@color/white"
-        android:padding="5dp"
-        android:text="@string/change"
-        android:textColorLink="@color/green1"
-        tools:targetApi="lollipop" />
+        android:text="@string/save"
+        tools:targetApi="lollipop"
+        />
 
-    <EditText
-        android:id="@+id/name"
-        android:layout_column="1"
-        android:layout_columnSpan="2"
-        android:layout_gravity="fill"
-        android:layout_margin="8dp"
-        android:layout_row="0"
-        android:colorAccent="@color/green2"
-        android:ems="10"
-        android:hint="@string/name"
-        android:inputType="textPersonName"
-        android:padding="5dp"
-        android:singleLine="false"
-        android:textColorLink="@color/green2"
-        tools:targetApi="lollipop" />
-
-    <EditText
-        android:id="@+id/surname"
-        android:layout_column="1"
-        android:layout_columnSpan="2"
-        android:layout_gravity="fill"
-        android:layout_margin="8dp"
-        android:layout_row="1"
-        android:colorAccent="@color/green2"
-        android:ems="10"
-        android:hint="@string/surname"
-        android:inputType="textPersonName"
-        android:padding="5dp"
-        android:textColorLink="@color/green2"
-        tools:targetApi="lollipop" />
-
-    <EditText
-        android:id="@+id/telephoneNumber"
-        android:layout_column="1"
-        android:layout_columnSpan="2"
-        android:layout_gravity="fill"
-        android:layout_margin="8dp"
-        android:layout_row="2"
-        android:colorAccent="@color/green2"
-        android:hint="@string/telephone_number"
-        android:inputType="phone"
-        android:padding="5dp"
-        android:textColorLink="@color/green2" />
-
-</GridLayout>
+</RelativeLayout>

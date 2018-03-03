@@ -14,6 +14,7 @@ import java.util.List;
 
 public class DataLoader {
     private static final DataLoader ourInstance = new DataLoader();
+    private boolean dataWasLoaded = false;
 
     public static DataLoader getInstance() {
         return ourInstance;
@@ -23,7 +24,11 @@ public class DataLoader {
         //empty impl.
     }
 
-    public void loadData(Context context) {
+    public boolean isDataWasLoaded() {
+        return dataWasLoaded;
+    }
+
+    public void loadDataToManagers() {
         StudentManager studentManager = StudentManager.getInstance();
         AddressManager addressManager = AddressManager.getInstance();
         TermManager termManager = TermManager.getInstance();
@@ -42,5 +47,17 @@ public class DataLoader {
             student.setAddresses(addresses);
             student.setTerms(terms);
         }
+        dataWasLoaded = true;
     }
+
+    public void clearDataFromManagers() {
+        StudentManager studentManager = StudentManager.getInstance();
+        AddressManager addressManager = AddressManager.getInstance();
+        TermManager termManager = TermManager.getInstance();
+
+        studentManager.deleteAll();
+        addressManager.deleteAll();
+        termManager.deleteAll();
+    }
+
 }

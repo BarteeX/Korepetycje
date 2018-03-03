@@ -21,19 +21,5 @@
         android:layout_below="@id/tab_layout"/>
 
 
-    <Button
-        android:id="@+id/save_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp"
-        android:backgroundTint="@color/green2"
-        android:textColor="@color/white"
-        android:text="@string/save"
-        tools:targetApi="lollipop" />
 
 </RelativeLayout>
