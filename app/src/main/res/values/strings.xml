@@ -26,4 +26,6 @@
     <string name="new_term">Nowy termin</string>
     <string name="ok">OK</string>
     <string name="delete">Usuń</string>
+    <string name="student">Uczeń</string>
+    <string name="student_label_text">Uczeń #</string>
 </resources>

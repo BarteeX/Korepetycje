@@ -3,20 +3,28 @@ package com.example.monika.korepetycje.GUI.Controllers;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.TextView;
 
 import com.example.monika.korepetycje.DataLoader;
 import com.example.monika.korepetycje.GUI.ArrayAdapters.StudentsArrayAdapter;
 import com.example.monika.korepetycje.GUI.StudentCard.StudentCardActivity;
 import com.example.monika.korepetycje.R;
+import com.example.monika.korepetycje.StateMode;
 import com.example.monika.korepetycje.database.DBHelper;
 import com.example.monika.korepetycje.database.models.Student;
 import com.example.monika.korepetycje.managers.StudentManager;
@@ -37,21 +45,6 @@ public class StudentsList extends AppCompatActivity {
         adapter.notifyDataSetChanged();
     }
 
-//    @Override
-//    public void onStop() {
-//        super.onStop();
-//        DataLoader loader = DataLoader.getInstance();
-//        loader.clearData();
-//        adapter.notifyDataSetChanged();
-//    }
-
-//    @Override
-//    public void onRestart() {
-//        super.onRestart();
-//        loadStudentsList();
-//        adapter.notifyDataSetChanged();
-//    }
-
     @Override
     protected void onCreate (Bundle instanceState) {
         super.onCreate(instanceState);
@@ -64,7 +57,6 @@ public class StudentsList extends AppCompatActivity {
         //context.deleteDatabase(DBHelper.DATABASE_NAME);
 
         DataLoader dataLoader = DataLoader.getInstance();
-        dataLoader.clearDataFromManagers();
         dataLoader.loadDataToManagers();
 
         setContentView(R.layout.students_list);
@@ -79,9 +71,7 @@ public class StudentsList extends AppCompatActivity {
 
         adapter.notifyDataSetChanged();
 
-        studentsListView.setOnItemClickListener((adapterView, view, i, l) -> {
-            startStudentCardActivity(i);
-        });
+        studentsListView.setOnItemClickListener((adapterView, view, i, l) -> startStudentCardActivity(i));
     }
 
     @SuppressLint("ResourceType")
@@ -92,6 +82,7 @@ public class StudentsList extends AppCompatActivity {
         return true;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -116,39 +107,33 @@ public class StudentsList extends AppCompatActivity {
         startActivity(studentIntent);
     }
 
+    @SuppressLint("ResourceAsColor")
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     private boolean removeStudentSelection() {
         StudentsArrayAdapter arrayAdapter = (StudentsArrayAdapter) studentsListView.getAdapter();
         List<Student> studentList = arrayAdapter.getStudents();
-        List<Student> studentsToDelete = new ArrayList<>();
 
         for (int i = 0, length = studentList.size(); i < length; i++) {
-            final Student student = studentList.get(i);
-
-            long itemId = arrayAdapter.getAdapterItemId(i);
-            View view = studentsListView.findViewById((int) itemId);
-            CheckBox checkBox = view.findViewById(R.id.delete_checkbox);
-            checkBox.setVisibility(View.VISIBLE);
-
-            checkBox.setOnClickListener(view1 -> studentsToDelete.add(student));
+             Student student = studentList.get(i);
+             student.setStateMode(StateMode.Delete);
         }
+        arrayAdapter.notifyDataSetChanged();
 
         Button deleteButton = findViewById(R.id.accept_delete);
         deleteButton.setVisibility(View.VISIBLE);
 
         deleteButton.setOnClickListener(view -> {
-            StudentManager manager = StudentManager.getInstance();
-            manager.deleteAll(studentsToDelete);
-
-            this.students.removeAll(studentsToDelete);
-
-            adapter.notifyDataSetChanged();
-
-            for (int i = 0, length = studentList.size(); i < length; i++) {
-                long itemId = arrayAdapter.getAdapterItemId(i);
-                View box = studentsListView.findViewById((int) itemId);
-                CheckBox checkBox = box.findViewById(R.id.delete_checkbox);
-                checkBox.setVisibility(View.INVISIBLE);
+            List<Student> studentsToDelete = new ArrayList<>();
+            for (int studentsSize = studentList.size(), i = studentsSize - 1; i >= 0; i--) {
+                Student student = studentList.get(i);
+                student.setStateMode(StateMode.Normal);
+                if (student.isToDelete()) {
+                    studentsToDelete.add(student);
+                    student.delete();
+                }
             }
+            this.students.removeAll(studentsToDelete);
+            adapter.notifyDataSetChanged();
             deleteButton.setVisibility(View.INVISIBLE);
         });
         return true;

@@ -2,15 +2,21 @@ package com.example.monika.korepetycje.GUI.ArrayAdapters;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.example.monika.korepetycje.GUI.StudentCard.StudentCardActivity;
 import com.example.monika.korepetycje.R;
+import com.example.monika.korepetycje.StateMode;
 import com.example.monika.korepetycje.database.models.Student;
 
 import java.util.HashMap;
@@ -33,49 +39,69 @@ public class StudentsArrayAdapter extends ArrayAdapter<Student> {
     }
 
     static class StudentViewHolder {
-        public ImageView avatar;
         public TextView name;
         public TextView surname;
     }
 
+    @SuppressLint({"SetTextI18n", "ViewHolder"})
     @NonNull
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         StudentViewHolder studentViewHolder;
-        View rowView = convertView;
 
-        Student student = students.get(position);
-        final long studentId = student.getId();
+        final Student student = students.get(position);
+        LayoutInflater layoutInflater = context.getLayoutInflater();
+        convertView = layoutInflater.inflate(R.layout.student_list_item, null, true);
 
-        if (rowView == null) {
-            LayoutInflater layoutInflater = context.getLayoutInflater();
-            rowView = layoutInflater.inflate(R.layout.student_list_item, null, true);
+        studentViewHolder = new StudentViewHolder();
+        studentViewHolder.name = convertView.findViewById(R.id.name);
+        studentViewHolder.surname = convertView.findViewById(R.id.surname);
 
-            studentViewHolder = new StudentViewHolder();
-            studentViewHolder.name = rowView.findViewById(R.id.name);
-            studentViewHolder.surname = rowView.findViewById(R.id.surname);
-            studentViewHolder.avatar = rowView.findViewById(R.id.avatar);
+        convertView.setTag(studentViewHolder);
 
-            rowView.setTag(studentViewHolder);
+        Button messageMutton = convertView.findViewById(R.id.message_button);
+        messageMutton.setOnClickListener(view -> {
+            Intent smsIntent = new Intent(Intent.ACTION_SENDTO);
+            smsIntent.setData(Uri.parse("smsto:" + Uri.encode(student.getTelephoneNumber())));
+            context.startActivity(smsIntent);
+        });
 
-//            rowView.setOnClickListener((View view) -> {
-//                Intent intent = new Intent(context, StudentCardEditable.class);
-//                Intent student1 = intent.putExtra("studentId", Integer.valueOf((int) studentId));
-//                context.startActivity(student1);
-//            });
+        Button callButton = convertView.findViewById(R.id.call_button);
+        callButton.setOnClickListener(view -> {
+            Intent callIntent = new Intent(Intent.ACTION_DIAL);
+            callIntent.setData(Uri.parse("tel:" + student.getTelephoneNumber()));
+            context.startActivity(callIntent);
+        });
 
-        } else {
-            studentViewHolder = (StudentViewHolder) rowView.getTag();
+        Button editButton = convertView.findViewById(R.id.edit_button);
+        editButton.setOnClickListener(view -> {
+            Intent intent = new Intent(context, StudentCardActivity.class);
+            Intent studentIntent = intent.putExtra("studentId", student.getId());
+            context.startActivity(studentIntent);
+        });
+
+        TextView textView = convertView.findViewById(R.id.student_label);
+        textView.setText(context.getString(R.string.student_label_text) + (position + 1));
+
+        RadioButton radioButton = convertView.findViewById(R.id.delete_radio_button);
+        radioButton.setVisibility(View.INVISIBLE);
+        if (student.getStateMode() == StateMode.Delete) {
+            radioButton.setVisibility(View.VISIBLE);
         }
+        radioButton.setOnClickListener(v -> {
+            boolean toDelete = student.isToDelete();
+            student.setToDelete(!toDelete);
+            radioButton.setChecked(!toDelete);
+        });
 
-        if (rowView.getId() == -1)
-            rowView.setId(0x7f08f000 + position);
+        if (convertView.getId() == -1)
+            convertView.setId(0x7f08f000 + position);
 
-        idsMap.put(position, rowView.getId());
+        idsMap.put(position, convertView.getId());
 
         studentViewHolder.name.setText(student.getName());
         studentViewHolder.surname.setText(student.getSurname());
-        return rowView;
+        return convertView;
     }
 
     @Override

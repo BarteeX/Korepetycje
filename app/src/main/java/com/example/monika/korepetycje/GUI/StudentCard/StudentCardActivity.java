@@ -19,6 +19,7 @@ import com.example.monika.korepetycje.R;
 import com.example.monika.korepetycje.database.models.Address;
 import com.example.monika.korepetycje.database.models.Student;
 import com.example.monika.korepetycje.database.models.Term;
+import com.example.monika.korepetycje.managers.StudentManager;
 
 import java.util.List;
 
@@ -46,19 +47,15 @@ public class StudentCardActivity extends AppCompatActivity {
 
     private void setStudentData() {
         Intent intent = getIntent();
-        Integer studentId =  intent.getIntExtra("studentId", -1);
+        Long studentId = intent.getLongExtra("studentId", -1);
         this.student = loadData(studentId);
         this.addresses = student.getAddresses();
         this.terms = student.getTerms();
     }
 
-    private Student loadData(Integer studentId) {
-        Student student;
-        if (studentId >= 0 && studentId < StudentsList.adapter.getCount())
-            student = StudentsList.adapter.getStudent(studentId);
-        else
-            student = new Student();
-        return student;
+    private Student loadData(Long studentId) {
+        StudentManager studentManager = StudentManager.getInstance();
+        return studentManager.findById(studentId);
     }
 
     private void loadTabLayout() {

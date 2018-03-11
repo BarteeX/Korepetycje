@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.example.monika.korepetycje.DatabaseModel;
+import com.example.monika.korepetycje.StateMode;
 import com.example.monika.korepetycje.managers.StudentManager;
 
 import java.io.Serializable;
@@ -20,6 +21,9 @@ public class Student extends DatabaseModel implements Serializable {
     private String telephoneNumber;
     private List<Term> terms;
     private List<Address> addresses;
+
+    private StateMode stateMode = StateMode.Normal;
+    private boolean toDelete = false;
 
     public Student() {
         super(StudentManager.getInstance());
@@ -97,4 +101,19 @@ public class Student extends DatabaseModel implements Serializable {
         return this.addresses.size() > 0;
     }
 
+    public StateMode getStateMode() {
+        return stateMode;
+    }
+
+    public void setStateMode(StateMode stateMode) {
+        this.stateMode = stateMode;
+    }
+
+    public boolean isToDelete() {
+        return toDelete;
+    }
+
+    public void setToDelete(boolean toDelete) {
+        this.toDelete = toDelete;
+    }
 }

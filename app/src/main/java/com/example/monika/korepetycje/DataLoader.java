@@ -29,6 +29,8 @@ public class DataLoader {
     }
 
     public void loadDataToManagers() {
+        clearDataFromManagers();
+
         StudentManager studentManager = StudentManager.getInstance();
         AddressManager addressManager = AddressManager.getInstance();
         TermManager termManager = TermManager.getInstance();

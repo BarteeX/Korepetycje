@@ -20,7 +20,7 @@ public class StudentManager extends ManagerImpl<Student> {
         super();
     }
 
-    public Student findById(Integer studentId) {
+    public Student findById(Long studentId) {
         if (studentId >= 0) {
             for (Student student : list) {
                 if (student.getId() == studentId) {
