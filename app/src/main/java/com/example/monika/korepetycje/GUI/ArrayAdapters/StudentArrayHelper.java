@@ -57,21 +57,37 @@ public class StudentArrayHelper {
     @SuppressLint("SetTextI18n")
     public static void setButtonsListeners(Student student, Activity context, View convertView, int position) {
 
-        Button messageMutton = convertView.findViewById(R.id.message_button);
-        messageMutton.setOnClickListener(new StudentArrayListenerHolder.ButtonMessageListener(student, context));
-
-        Button callButton = convertView.findViewById(R.id.call_button);
-        callButton.setOnClickListener(new StudentArrayListenerHolder.CallButtonListener(student, context));
-
-        Button editButton = convertView.findViewById(R.id.edit_button);
-        editButton.setOnClickListener(new StudentArrayListenerHolder.EditButtonListener(student, context));
-
-        Button mapButton = convertView.findViewById(R.id.map_button);
-        mapButton.setOnClickListener(new StudentArrayListenerHolder.MapButtonListener(student, context));
+        setMessageButtonListener(student, context, convertView);
+        setCallButtonListener(student, context, convertView);
+        setEditButtonListener(student, context, convertView);
+        setMapButtonListener(student, context, convertView);
+        setDeleteButtonListener(student, context, convertView);
 
         TextView textView = convertView.findViewById(R.id.student_label);
         textView.setText(context.getString(R.string.student_label_text) + (position + 1));
+    }
 
+    private static void setMessageButtonListener(Student student, Activity context, View convertView) {
+        Button messageMutton = convertView.findViewById(R.id.message_button);
+        messageMutton.setOnClickListener(new StudentArrayListenerHolder.ButtonMessageListener(student, context));
+    }
+
+    private static void setCallButtonListener(Student student, Activity context, View convertView) {
+        Button callButton = convertView.findViewById(R.id.call_button);
+        callButton.setOnClickListener(new StudentArrayListenerHolder.CallButtonListener(student, context));
+    }
+
+    private static void setEditButtonListener(Student student, Activity context, View convertView) {
+        Button editButton = convertView.findViewById(R.id.edit_button);
+        editButton.setOnClickListener(new StudentArrayListenerHolder.EditButtonListener(student, context));
+    }
+
+    private static void setMapButtonListener(Student student, Activity context, View convertView) {
+        Button mapButton = convertView.findViewById(R.id.map_button);
+        mapButton.setOnClickListener(new StudentArrayListenerHolder.MapButtonListener(student, context));
+    }
+
+    private static void setDeleteButtonListener(Student student, Activity context, View convertView) {
         RadioButton radioButton = convertView.findViewById(R.id.delete_radio_button);
         radioButton.setVisibility(View.INVISIBLE);
         if (student.getStateMode() == StateMode.Delete) {
