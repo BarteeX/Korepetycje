@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.example.monika.korepetycje.R;
 import com.example.monika.korepetycje.database.models.Student;
 
 import java.util.List;
@@ -41,7 +42,10 @@ public class StudentsArrayAdapter extends ArrayAdapter<Student> {
 
         convertView = StudentArrayHelper.getConvertView(student, context);
 
-        StudentArrayHelper.setButtonsListeners(student, context, convertView, position);
+        StudentArrayHelper.setButtonsListeners(student, context, convertView);
+
+        TextView textView = convertView.findViewById(R.id.student_label);
+        textView.setText(context.getString(R.string.student_label_text) + (position + 1));
 
         return convertView;
     }

@@ -55,16 +55,13 @@ public class StudentArrayHelper {
     }
 
     @SuppressLint("SetTextI18n")
-    public static void setButtonsListeners(Student student, Activity context, View convertView, int position) {
+    public static void setButtonsListeners(Student student, Activity context, View convertView) {
 
         setMessageButtonListener(student, context, convertView);
         setCallButtonListener(student, context, convertView);
         setEditButtonListener(student, context, convertView);
         setMapButtonListener(student, context, convertView);
         setDeleteButtonListener(student, context, convertView);
-
-        TextView textView = convertView.findViewById(R.id.student_label);
-        textView.setText(context.getString(R.string.student_label_text) + (position + 1));
     }
 
     private static void setMessageButtonListener(Student student, Activity context, View convertView) {
