@@ -52,4 +52,15 @@ public class TermManager extends ManagerImpl<Term> {
 
         return termsList;
     }
+
+    public List<Long> getIdsForStudent(Student student) {
+        List<Long> accepted = new ArrayList<>();
+        long studentId = student.getId();
+        for (Term term : list) {
+            if (term.getStudentId() == studentId) {
+                accepted.add(term.getId());
+            }
+        }
+        return accepted;
+    }
 }

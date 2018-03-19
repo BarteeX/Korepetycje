@@ -10,9 +10,9 @@ import java.io.Serializable;
  */
 
 public class Term extends DatabaseModel implements Serializable {
-    private String day;
-    private String time;
-    private String length;
+    public String day;
+    public String time;
+    public String length;
     private long studentId;
     private long addressId;
 

@@ -8,14 +8,33 @@
     android:orientation="vertical"
 
     tools:context=".GUI.Controllers.StudentsList"
-    tools:targetApi="ice_cream_sandwich">
-
-
-    <ListView
-        android:id="@+id/studentsList"
+    tools:targetApi="ice_cream_sandwich"
+    >
+    
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        />
+        android:orientation="vertical"
+        >
+
+        <EditText
+            android:id="@+id/filter_box"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="2dp"
+            android:hint="@string/search"
+            android:padding="1dp"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:textColorLink="@color/colorPrimary"
+            />
+
+        <ListView
+            android:id="@+id/studentsList"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            />
+    </LinearLayout>
 
     <Button
         android:id="@+id/accept-delete"
@@ -30,7 +49,7 @@
         android:backgroundTint="?android:attr/colorButtonNormal"
         android:text="@string/delete"
         android:visibility="invisible"
-        tools:targetApi="lollipop" />
-
-
+        tools:targetApi="lollipop" 
+        />
+    
 </RelativeLayout>

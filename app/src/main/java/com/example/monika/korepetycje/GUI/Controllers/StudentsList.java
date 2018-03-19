@@ -3,29 +3,25 @@ package com.example.monika.korepetycje.GUI.Controllers;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.LinearLayout;
+import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.RadioButton;
-import android.widget.TextView;
 
 import com.example.monika.korepetycje.DataLoader;
 import com.example.monika.korepetycje.GUI.ArrayAdapters.StudentsArrayAdapter;
 import com.example.monika.korepetycje.GUI.StudentCard.StudentCardActivity;
 import com.example.monika.korepetycje.R;
 import com.example.monika.korepetycje.StateMode;
-import com.example.monika.korepetycje.database.DBHelper;
 import com.example.monika.korepetycje.database.models.Student;
 import com.example.monika.korepetycje.managers.StudentManager;
 
@@ -50,10 +46,38 @@ public class StudentsList extends AppCompatActivity {
         super.onCreate(instanceState);
         context = getApplicationContext();
 
-        loadStudentsList();
+        loadStudentsList(null);
+        setFilterBoxListener();
     }
 
-    private void loadStudentsList() {
+    //WBW2018
+
+    private void setFilterBoxListener() {
+        EditText filterEditText = findViewById(R.id.filter_box);
+        StudentManager studentManager = StudentManager.getInstance();
+        final List<Student> list = new ArrayList<>();
+        filterEditText.setOnEditorActionListener((view, i, keyEvent) -> {
+            Editable editableText = filterEditText.getText();
+            if (editableText != null) {
+                String filter = editableText.toString();
+                if (editableText.length() > 2) {
+                    list.addAll(studentManager.filter(filter));
+                    loadStudentsList(list);
+                } else {
+                    List<Student> studentList = studentManager.getAll();
+                    if (!students.equals(studentList)) {
+                        list.addAll(studentList);
+                        loadStudentsList(list);
+                    }
+                }
+                adapter.notifyDataSetChanged();
+            }
+            return true;
+        });
+
+    }
+
+    private void loadStudentsList(@Nullable List<Student> studentList) {
         //context.deleteDatabase(DBHelper.DATABASE_NAME);
 
         DataLoader dataLoader = DataLoader.getInstance();
@@ -65,7 +89,11 @@ public class StudentsList extends AppCompatActivity {
 
         students = StudentManager.getInstance().getAll();
 
-        adapter = new StudentsArrayAdapter(this, R.layout.student_list_item, students);
+        if (studentList != null) {
+            students = studentList;
+        }
+
+        adapter = new StudentsArrayAdapter(this, R.layout.students_list_item, students);
 
         studentsListView.setAdapter(adapter);
 

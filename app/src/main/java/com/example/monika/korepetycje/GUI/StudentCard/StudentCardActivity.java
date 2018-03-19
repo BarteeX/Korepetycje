@@ -6,15 +6,7 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.GridLayout;
 
-import com.example.monika.korepetycje.GUI.ArrayAdapters.AddressArrayAdapter;
-import com.example.monika.korepetycje.GUI.ArrayAdapters.TermsArrayAdapter;
-import com.example.monika.korepetycje.GUI.Controllers.StudentsList;
-import com.example.monika.korepetycje.GUI.StudentCard.PageAdapter;
 import com.example.monika.korepetycje.R;
 import com.example.monika.korepetycje.database.models.Address;
 import com.example.monika.korepetycje.database.models.Student;
@@ -55,7 +47,7 @@ public class StudentCardActivity extends AppCompatActivity {
 
     private Student loadData(Long studentId) {
         StudentManager studentManager = StudentManager.getInstance();
-        return studentManager.findById(studentId);
+        return studentManager.getById(studentId);
     }
 
     private void loadTabLayout() {

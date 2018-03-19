@@ -7,8 +7,12 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.GridLayout;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.RadioButton;
+import android.widget.TextView;
 
 import com.example.monika.korepetycje.GUI.StudentCard.StudentCardActivity;
 import com.example.monika.korepetycje.R;
@@ -118,6 +122,43 @@ public class StudentArrayListenerHolder {
             student.setToDelete(!toDelete);
             RadioButton radioButton = view.findViewById(R.id.delete_radio_button);
             radioButton.setChecked(!toDelete);
+        }
+    }
+
+
+
+    public static class ExpandButtonListener
+            extends DefaultListener
+            implements View.OnClickListener {
+
+        private TextView expand;
+        private View convertView;
+
+        ExpandButtonListener(Student student, Activity context, TextView expand, View convertView) {
+            super(student, context);
+            this.expand = expand;
+            this.convertView = convertView;
+        }
+
+        @Override
+        public void onClick(View view) {
+            GridLayout gridLayout = convertView.findViewById(R.id.expander);
+            boolean isExpanded = student.isExpanded();
+            if (isExpanded) {
+                //collapse
+                gridLayout.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
+                expand.setText(R.string.expand);
+            } else {
+                //expand
+                gridLayout.setLayoutParams(
+                        new LinearLayout.LayoutParams(
+                                ViewGroup.LayoutParams.MATCH_PARENT,
+                                ViewGroup.LayoutParams.WRAP_CONTENT)
+                );
+
+                expand.setText(R.string.collapse);
+            }
+            student.setExpanded(!isExpanded);
         }
     }
 }

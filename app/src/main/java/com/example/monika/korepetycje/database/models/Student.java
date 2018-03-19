@@ -1,8 +1,5 @@
 package com.example.monika.korepetycje.database.models;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import com.example.monika.korepetycje.DatabaseModel;
 import com.example.monika.korepetycje.StateMode;
 import com.example.monika.korepetycje.managers.StudentManager;
@@ -16,14 +13,15 @@ import java.util.List;
  */
 
 public class Student extends DatabaseModel implements Serializable {
-    private String name;
-    private String surname;
-    private String telephoneNumber;
+    public String name;
+    public String surname;
+    public String telephoneNumber;
     private List<Term> terms;
     private List<Address> addresses;
 
     private StateMode stateMode = StateMode.Normal;
     private boolean toDelete = false;
+    private boolean expanded = false;
 
     public Student() {
         super(StudentManager.getInstance());
@@ -115,5 +113,13 @@ public class Student extends DatabaseModel implements Serializable {
 
     public void setToDelete(boolean toDelete) {
         this.toDelete = toDelete;
+    }
+
+    public boolean isExpanded() {
+        return expanded;
+    }
+
+    public void setExpanded(boolean expanded) {
+        this.expanded = expanded;
     }
 }

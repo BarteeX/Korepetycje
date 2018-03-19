@@ -43,9 +43,7 @@ public class StudentsArrayAdapter extends ArrayAdapter<Student> {
         convertView = StudentArrayHelper.getConvertView(student, context);
 
         StudentArrayHelper.setButtonsListeners(student, context, convertView);
-
-        TextView textView = convertView.findViewById(R.id.student_label);
-        textView.setText(context.getString(R.string.student_label_text) + (position + 1));
+        StudentArrayHelper.setStudentLabel(convertView, position);
 
         return convertView;
     }

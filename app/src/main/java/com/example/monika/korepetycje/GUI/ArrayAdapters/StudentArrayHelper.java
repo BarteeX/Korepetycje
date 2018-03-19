@@ -6,7 +6,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.GridLayout;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -40,7 +44,7 @@ public class StudentArrayHelper {
         LayoutInflater layoutInflater = context.getLayoutInflater();
 
         @SuppressLint("InflateParams")
-        View convertView = layoutInflater.inflate(R.layout.student_list_item, null, true);
+        View convertView = layoutInflater.inflate(R.layout.students_list_item, null, true);
 
         StudentsArrayAdapter.StudentViewHolder studentViewHolder = new StudentsArrayAdapter.StudentViewHolder();
         studentViewHolder.name = convertView.findViewById(R.id.name);
@@ -55,6 +59,12 @@ public class StudentArrayHelper {
     }
 
     @SuppressLint("SetTextI18n")
+    public static void setStudentLabel(View convertView, int position) {
+        TextView textView = convertView.findViewById(R.id.student_label);
+        textView.setText((position + 1) + "");
+    }
+
+    @SuppressLint("SetTextI18n")
     public static void setButtonsListeners(Student student, Activity context, View convertView) {
 
         setMessageButtonListener(student, context, convertView);
@@ -62,6 +72,7 @@ public class StudentArrayHelper {
         setEditButtonListener(student, context, convertView);
         setMapButtonListener(student, context, convertView);
         setDeleteButtonListener(student, context, convertView);
+        setExpandButtonListener(student, context, convertView);
     }
 
     private static void setMessageButtonListener(Student student, Activity context, View convertView) {
@@ -86,10 +97,35 @@ public class StudentArrayHelper {
 
     private static void setDeleteButtonListener(Student student, Activity context, View convertView) {
         RadioButton radioButton = convertView.findViewById(R.id.delete_radio_button);
-        radioButton.setVisibility(View.INVISIBLE);
-        if (student.getStateMode() == StateMode.Delete) {
-            radioButton.setVisibility(View.VISIBLE);
+
+        if (student.getStateMode().equals(StateMode.Delete)) {
+            radioButton.setLayoutParams(new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT)
+            );
+        } else {
+            radioButton.setLayoutParams(new LinearLayout.LayoutParams(
+                    0,
+                    0)
+            );
         }
         radioButton.setOnClickListener(new StudentArrayListenerHolder.DeleteRatioButtonListener(student, context));
+    }
+
+    private static void setExpandButtonListener(Student student, Activity context, View convertView) {
+        TextView expand = convertView.findViewById(R.id.expand_button);
+        GridLayout gridLayout = convertView.findViewById(R.id.expander);
+        if (student.isExpanded()) {
+            expand.setText(R.string.collapse);
+            gridLayout.setLayoutParams(
+                    new LinearLayout.LayoutParams(
+                            ViewGroup.LayoutParams.MATCH_PARENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT)
+            );
+        } else {
+            expand.setText(R.string.expand);
+            gridLayout.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
+        }
+        expand.setOnClickListener(new StudentArrayListenerHolder.ExpandButtonListener(student, context, expand, convertView));
     }
 }

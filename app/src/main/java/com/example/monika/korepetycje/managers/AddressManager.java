@@ -34,4 +34,15 @@ public class AddressManager extends ManagerImpl<Address> {
         }
         return addressesList;
     }
+
+    public List<Long> getIdsForStudent(Student student) {
+        List<Long> accepted = new ArrayList<>();
+        long studentId = student.getId();
+        for (Address address : list) {
+            if (address.getStudentId() == studentId) {
+                accepted.add(address.getId());
+            }
+        }
+        return accepted;
+    }
 }

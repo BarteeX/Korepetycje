@@ -1,6 +1,14 @@
 package com.example.monika.korepetycje.managers;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
+import com.example.monika.korepetycje.database.models.Address;
 import com.example.monika.korepetycje.database.models.Student;
+import com.example.monika.korepetycje.database.models.Term;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Monika on 2018-01-21.
@@ -20,7 +28,7 @@ public class StudentManager extends ManagerImpl<Student> {
         super();
     }
 
-    public Student findById(Long studentId) {
+    public Student getById(Long studentId) {
         if (studentId >= 0) {
             for (Student student : list) {
                 if (student.getId() == studentId) {
@@ -31,5 +39,29 @@ public class StudentManager extends ManagerImpl<Student> {
         } else {
             return new Student();
         }
+    }
+
+    @Override
+    public List<Student> filter(@NonNull String filter, @Nullable long... args) {
+        AddressManager addressManager = AddressManager.getInstance();
+        TermManager termManager = TermManager.getInstance();
+
+        List<Student> accepted = super.filter(filter, args);
+        List<Address> acceptedAddresses = addressManager.filter(filter, args);
+        List<Term> acceptedTerms = termManager.filter(filter, args);
+
+        for (Address address : acceptedAddresses) {
+            Student student = getById(address.getStudentId());
+            if (!accepted.contains(student))
+                accepted.add(student);
+        }
+
+        for (Term term : acceptedTerms) {
+            Student student = getById(term.getStudentId());
+            if (!accepted.contains(student))
+                accepted.add(student);
+        }
+
+        return accepted;
     }
 }

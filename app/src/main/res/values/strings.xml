@@ -28,4 +28,7 @@
     <string name="delete">Usuń</string>
     <string name="student">Uczeń</string>
     <string name="student_label_text">Uczeń #</string>
+    <string name="search">Szukaj…</string>
+    <string name="expand">Rozwiń…</string>
+    <string name="collapse">Zwiń…</string>
 </resources>

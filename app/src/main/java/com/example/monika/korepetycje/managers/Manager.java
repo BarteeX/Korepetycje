@@ -21,4 +21,9 @@ public interface Manager<T extends DatabaseModel> {
 
     void load();
 
+    List<T> filter(String filter, long... args);
+
+    List<T> getByIds(long... args);
+
+
 }

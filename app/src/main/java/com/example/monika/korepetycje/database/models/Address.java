@@ -9,10 +9,10 @@ import java.util.List;
 
 
 public class Address extends DatabaseModel implements Serializable{
-    private String city;
-    private String street;
-    private String houseNumber;
-    private String flatNumber;
+    public String city;
+    public String street;
+    public String houseNumber;
+    public String flatNumber;
     private long studentId;
 
     private List<Term> terms;
