@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -33,7 +34,7 @@ public class StudentsList extends AppCompatActivity {
     private ListView studentsListView;
     public static StudentsArrayAdapter adapter;
     private List<Student> students;
-    private static Context context;
+    private Context context;
 
     @Override
     public void onResume() {
@@ -54,30 +55,10 @@ public class StudentsList extends AppCompatActivity {
 
     private void setFilterBoxListener() {
         EditText filterEditText = findViewById(R.id.filter_box);
-        StudentManager studentManager = StudentManager.getInstance();
-        final List<Student> list = new ArrayList<>();
-        filterEditText.setOnEditorActionListener((view, i, keyEvent) -> {
-            Editable editableText = filterEditText.getText();
-            if (editableText != null) {
-                String filter = editableText.toString();
-                if (editableText.length() > 2) {
-                    list.addAll(studentManager.filter(filter));
-                    loadStudentsList(list);
-                } else {
-                    List<Student> studentList = studentManager.getAll();
-                    if (!students.equals(studentList)) {
-                        list.addAll(studentList);
-                        loadStudentsList(list);
-                    }
-                }
-                adapter.notifyDataSetChanged();
-            }
-            return true;
-        });
-
+        filterEditText.addTextChangedListener(new FilterTextWatcher(this));
     }
 
-    private void loadStudentsList(@Nullable List<Student> studentList) {
+    public void loadStudentsList(@Nullable List<Student> studentList) {
         //context.deleteDatabase(DBHelper.DATABASE_NAME);
 
         DataLoader dataLoader = DataLoader.getInstance();
@@ -128,12 +109,12 @@ public class StudentsList extends AppCompatActivity {
         return true;
     }
 
-
     private void startStudentCardActivity(int i) {
         Intent intent = new Intent(context, StudentCardActivity.class);
         Intent studentIntent = intent.putExtra("studentId", i);
         startActivity(studentIntent);
     }
+
 
     @SuppressLint("ResourceAsColor")
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -167,7 +148,17 @@ public class StudentsList extends AppCompatActivity {
         return true;
     }
 
-    public static Context getContext() {
+    public Context getContext() {
         return context;
+    }
+
+    public List<Student> getStudents() {
+        return this.students;
+    }
+
+    public void notifyDataSetChanged() {
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
     }
 }
