@@ -8,17 +8,16 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 
 import com.example.monika.korepetycje.DataLoader;
+import com.example.monika.korepetycje.GUI.ApplicationHelper;
+import com.example.monika.korepetycje.GUI.ArrayAdapters.StudentArrayListenerHolder;
 import com.example.monika.korepetycje.GUI.ArrayAdapters.StudentsArrayAdapter;
 import com.example.monika.korepetycje.GUI.StudentCard.StudentCardActivity;
 import com.example.monika.korepetycje.R;
@@ -26,15 +25,17 @@ import com.example.monika.korepetycje.StateMode;
 import com.example.monika.korepetycje.database.models.Student;
 import com.example.monika.korepetycje.managers.StudentManager;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class StudentsList extends AppCompatActivity {
 
     private ListView studentsListView;
+    @SuppressLint("StaticFieldLeak")
     public static StudentsArrayAdapter adapter;
     private List<Student> students;
-    private Context context;
+    @SuppressLint("StaticFieldLeak")
+    private static Context context;
+
 
     @Override
     public void onResume() {
@@ -48,39 +49,47 @@ public class StudentsList extends AppCompatActivity {
         context = getApplicationContext();
 
         loadStudentsList(null);
-        setFilterBoxListener();
+        setFilterBoxListeners();
+
+
+        ApplicationHelper.hideWindowKeybord(this);
     }
 
     //WBW2018
 
-    private void setFilterBoxListener() {
-        EditText filterEditText = findViewById(R.id.filter_box);
-        filterEditText.addTextChangedListener(new FilterTextWatcher(this));
+    private void setFilterBoxListeners() {
+        Button searchButton = findViewById(R.id.fire_filter_button);
+        searchButton.setOnClickListener(new StudentArrayListenerHolder.FilterButtonListener(this));
+
+        Button clearButton = findViewById(R.id.clear_filter_button);
+        clearButton.setOnClickListener(new StudentArrayListenerHolder.ClearFilterButtonListener(this, findViewById(R.id.filter_box)));
     }
 
     public void loadStudentsList(@Nullable List<Student> studentList) {
         //context.deleteDatabase(DBHelper.DATABASE_NAME);
 
-        DataLoader dataLoader = DataLoader.getInstance();
-        dataLoader.loadDataToManagers();
+        if (studentList == null) {
+            DataLoader dataLoader = DataLoader.getInstance();
+            dataLoader.loadDataToManagers();
 
-        setContentView(R.layout.students_list);
+            setContentView(R.layout.students_list);
 
-        studentsListView = findViewById(R.id.studentsList);
+            studentsListView = findViewById(R.id.studentsList);
+            studentsListView.setOnItemClickListener((adapterView, view, i, l) -> startStudentCardActivity(i));
 
-        students = StudentManager.getInstance().getAll();
+            students = StudentManager.getInstance().getAll();
 
-        if (studentList != null) {
-            students = studentList;
+            adapter = new StudentsArrayAdapter(this, R.layout.students_list_item, students);
+
+        } else {
+            students.clear();
+            students.addAll(studentList);
         }
 
-        adapter = new StudentsArrayAdapter(this, R.layout.students_list_item, students);
 
         studentsListView.setAdapter(adapter);
 
         adapter.notifyDataSetChanged();
-
-        studentsListView.setOnItemClickListener((adapterView, view, i, l) -> startStudentCardActivity(i));
     }
 
     @SuppressLint("ResourceType")
@@ -130,25 +139,13 @@ public class StudentsList extends AppCompatActivity {
 
         Button deleteButton = findViewById(R.id.accept_delete);
         deleteButton.setVisibility(View.VISIBLE);
-
-        deleteButton.setOnClickListener(view -> {
-            List<Student> studentsToDelete = new ArrayList<>();
-            for (int studentsSize = studentList.size(), i = studentsSize - 1; i >= 0; i--) {
-                Student student = studentList.get(i);
-                student.setStateMode(StateMode.Normal);
-                if (student.isToDelete()) {
-                    studentsToDelete.add(student);
-                    student.delete();
-                }
-            }
-            this.students.removeAll(studentsToDelete);
-            adapter.notifyDataSetChanged();
-            deleteButton.setVisibility(View.INVISIBLE);
-        });
+        deleteButton.setOnClickListener(
+                new StudentArrayListenerHolder.AcceptDeleteButtonListener(studentList, this)
+        );
         return true;
     }
 
-    public Context getContext() {
+    public static Context getContext() {
         return context;
     }
 
@@ -160,5 +157,9 @@ public class StudentsList extends AppCompatActivity {
         if (adapter != null) {
             adapter.notifyDataSetChanged();
         }
+    }
+
+    public StudentsArrayAdapter getAdapter() {
+        return adapter;
     }
 }

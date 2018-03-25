@@ -15,7 +15,8 @@
         android:layout_alignParentTop="true"
         android:foregroundGravity="top"
         android:gravity="top"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:ignore="UselessParent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -36,7 +37,8 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:padding="5dp"
-                android:src="@drawable/person_icon" />
+                android:src="@drawable/person_icon"
+                android:contentDescription="@string/student_avatar_which_will_be_available_to_edit" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -88,55 +90,52 @@
             android:columnCount="4"
             android:orientation="vertical"
             android:rowCount="2"
+            android:animateLayoutChanges="true"
             >
 
             <Button
                 android:id="@+id/edit_button"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:background="@drawable/edit_icon"
-                android:backgroundTint="@color/green2"
                 android:layout_column="3"
                 android:layout_row="0"
+                android:background="@drawable/edit_icon"
+                android:backgroundTint="@color/green2"
                 tools:ignore="RtlHardcoded"
-                tools:targetApi="lollipop"
-                />
+                tools:targetApi="lollipop" />
 
             <Button
                 android:id="@+id/map_button"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:background="@android:drawable/ic_dialog_map"
-                android:backgroundTint="@color/green2"
                 android:layout_column="2"
                 android:layout_row="0"
+                android:background="@android:drawable/ic_dialog_map"
+                android:backgroundTint="@color/green2"
                 tools:ignore="RtlHardcoded,RtlSymmetry"
-                tools:targetApi="lollipop"
-                />
+                tools:targetApi="lollipop" />
 
             <Button
                 android:id="@+id/message_button"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:background="@android:drawable/sym_action_email"
-                android:backgroundTint="@color/green2"
                 android:layout_column="1"
                 android:layout_row="0"
+                android:background="@android:drawable/sym_action_email"
+                android:backgroundTint="@color/green2"
                 tools:ignore="RtlHardcoded"
-                tools:targetApi="lollipop"
-                />
+                tools:targetApi="lollipop" />
 
             <Button
                 android:id="@+id/call_button"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:background="@android:drawable/sym_action_call"
-                android:backgroundTint="@color/green2"
                 android:layout_column="0"
                 android:layout_row="0"
+                android:background="@android:drawable/sym_action_call"
+                android:backgroundTint="@color/green2"
                 tools:ignore="RtlHardcoded"
-                tools:targetApi="lollipop"
-                />
+                tools:targetApi="lollipop" />
         </GridLayout>
 
         <TextView

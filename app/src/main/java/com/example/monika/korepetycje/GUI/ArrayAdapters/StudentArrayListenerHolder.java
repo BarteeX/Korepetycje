@@ -7,28 +7,34 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.view.Menu;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridLayout;
-import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.example.monika.korepetycje.GUI.ApplicationHelper;
+import com.example.monika.korepetycje.GUI.Controllers.ExpanderAnimation;
+import com.example.monika.korepetycje.GUI.Controllers.StudentsList;
 import com.example.monika.korepetycje.GUI.StudentCard.StudentCardActivity;
 import com.example.monika.korepetycje.R;
+import com.example.monika.korepetycje.StateMode;
 import com.example.monika.korepetycje.database.models.Address;
 import com.example.monika.korepetycje.database.models.Student;
+import com.example.monika.korepetycje.managers.StudentManager;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class StudentArrayListenerHolder {
 
-    public static class ButtonMessageListener
-            extends DefaultListener
+    public static class ButtonMessageStudentListener
+            extends DefaultStudentListener
             implements View.OnClickListener {
 
-        ButtonMessageListener(Student student, Activity context) {
+        ButtonMessageStudentListener(Student student, Activity context) {
             super(student, context);
         }
 
@@ -40,11 +46,11 @@ public class StudentArrayListenerHolder {
         }
     }
 
-    public static class CallButtonListener
-            extends DefaultListener
+    public static class CallButtonStudentListener
+            extends DefaultStudentListener
             implements View.OnClickListener {
 
-        CallButtonListener(Student student, Activity context) {
+        CallButtonStudentListener(Student student, Activity context) {
             super(student, context);
         }
 
@@ -56,11 +62,11 @@ public class StudentArrayListenerHolder {
         }
     }
 
-    public static class EditButtonListener
-            extends DefaultListener
+    public static class EditButtonStudentListener
+            extends DefaultStudentListener
             implements View.OnClickListener {
 
-        EditButtonListener(Student student, Activity context) {
+        EditButtonStudentListener(Student student, Activity context) {
             super(student, context);
         }
 
@@ -72,11 +78,11 @@ public class StudentArrayListenerHolder {
         }
     }
 
-    public static class MapButtonListener
-            extends DefaultListener
+    public static class MapButtonStudentListener
+            extends DefaultStudentListener
             implements View.OnClickListener {
 
-        MapButtonListener(Student student, Activity context) {
+        MapButtonStudentListener(Student student, Activity context) {
             super(student, context);
         }
 
@@ -108,11 +114,11 @@ public class StudentArrayListenerHolder {
         }
     }
 
-    public static class DeleteRatioButtonListener
-            extends DefaultListener
+    public static class DeleteRatioButtonStudentListener
+            extends DefaultStudentListener
             implements View.OnClickListener {
 
-        DeleteRatioButtonListener(Student student, Activity context) {
+        DeleteRatioButtonStudentListener(Student student, Activity context) {
             super(student, context);
         }
 
@@ -125,16 +131,14 @@ public class StudentArrayListenerHolder {
         }
     }
 
-
-
-    public static class ExpandButtonListener
-            extends DefaultListener
+    public static class ExpandButtonStudentListener
+            extends DefaultStudentListener
             implements View.OnClickListener {
 
         private TextView expand;
         private View convertView;
 
-        ExpandButtonListener(Student student, Activity context, TextView expand, View convertView) {
+        ExpandButtonStudentListener(Student student, Activity context, TextView expand, View convertView) {
             super(student, context);
             this.expand = expand;
             this.convertView = convertView;
@@ -144,21 +148,106 @@ public class StudentArrayListenerHolder {
         public void onClick(View view) {
             GridLayout gridLayout = convertView.findViewById(R.id.expander);
             boolean isExpanded = student.isExpanded();
+            int targetHeight = 100;
+            int startHeight = 0;
+            ExpanderAnimation resizeAnimation;
             if (isExpanded) {
-                //collapse
-                gridLayout.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
+                resizeAnimation = new ExpanderAnimation(gridLayout, startHeight, targetHeight);
+                resizeAnimation.setDuration(200);
+                gridLayout.startAnimation(resizeAnimation);
+
+
                 expand.setText(R.string.expand);
             } else {
-                //expand
-                gridLayout.setLayoutParams(
-                        new LinearLayout.LayoutParams(
-                                ViewGroup.LayoutParams.MATCH_PARENT,
-                                ViewGroup.LayoutParams.WRAP_CONTENT)
-                );
-
+                resizeAnimation = new ExpanderAnimation(gridLayout, targetHeight, startHeight);
+                resizeAnimation.setDuration(200);
+                gridLayout.startAnimation(resizeAnimation);
                 expand.setText(R.string.collapse);
             }
             student.setExpanded(!isExpanded);
+        }
+    }
+
+    public static class FilterButtonListener
+            implements View.OnClickListener {
+
+        private EditText filterBox;
+        private StudentsList studentsList;
+        private StudentManager studentManager;
+        private Activity context;
+
+        public FilterButtonListener(StudentsList context) {
+            this.studentsList = context;
+            this.filterBox = context.findViewById(R.id.filter_box);
+            this.studentManager = StudentManager.getInstance();
+            this.context = context;
+        }
+
+        @Override
+        public void onClick(View view) {
+            String filter = filterBox.getText().toString();
+            List<Student> list = studentManager.filter(filter);
+            studentsList.loadStudentsList(list);
+
+            ApplicationHelper.hideWindowKeybord(context);
+        }
+    }
+
+    public static class ClearFilterButtonListener
+            implements View.OnClickListener {
+
+        private StudentsList studentsList;
+        private StudentManager studentManager;
+        private EditText filterBox;
+        private Activity context;
+
+        public ClearFilterButtonListener(StudentsList context, EditText filterBox) {
+            this.studentsList = context;
+            this.studentManager = StudentManager.getInstance();
+            this.filterBox = filterBox;
+            this.context = context;
+        }
+
+        @Override
+        public void onClick(View view) {
+            List<Student> studentList = studentManager.getAll();
+            studentsList.loadStudentsList(studentList);
+
+            filterBox.setText("");
+            ApplicationHelper.hideWindowKeybord(context);
+        }
+    }
+
+    public static class AcceptDeleteButtonListener
+            implements View.OnClickListener {
+
+        private List<Student> studentList;
+        private List<Student> students;
+        private StudentsArrayAdapter adapter;
+
+        public AcceptDeleteButtonListener(List<Student> studentList, Activity activity) {
+            this.studentList = studentList;
+            StudentsList context = (StudentsList) activity;
+            this.students = context.getStudents();
+            this.adapter = context.getAdapter();
+        }
+
+        @Override
+        public void onClick(View view) {
+            List<Student> studentsToDelete = new ArrayList<>();
+            for (int studentsSize = studentList.size(), i = studentsSize - 1; i >= 0; i--) {
+                Student student = studentList.get(i);
+                student.setStateMode(StateMode.Normal);
+                if (student.isToDelete()) {
+                    studentsToDelete.add(student);
+                    student.delete();
+                }
+            }
+            this.students.removeAll(studentsToDelete);
+            adapter.notifyDataSetChanged();
+
+            Button deleteButton = view.findViewById(R.id.accept_delete);
+            deleteButton.setVisibility(View.INVISIBLE);
         }
     }
 }

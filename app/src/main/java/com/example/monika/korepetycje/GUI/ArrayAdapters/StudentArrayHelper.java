@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -20,8 +19,8 @@ import com.example.monika.korepetycje.database.models.Address;
 import com.example.monika.korepetycje.database.models.Student;
 
 
-public class StudentArrayHelper {
-    public static boolean onMapItemSelection(Address address, Activity context) {
+class StudentArrayHelper {
+    static boolean onMapItemSelection(Address address, Activity context) {
         String url = "https://www.google.com/" +
                 "maps/" +
                 "search/" +
@@ -40,7 +39,7 @@ public class StudentArrayHelper {
         return true;
     }
 
-    public static View getConvertView(Student student, Activity context) {
+    static View getConvertView(Student student, Activity context) {
         LayoutInflater layoutInflater = context.getLayoutInflater();
 
         @SuppressLint("InflateParams")
@@ -59,13 +58,13 @@ public class StudentArrayHelper {
     }
 
     @SuppressLint("SetTextI18n")
-    public static void setStudentLabel(View convertView, int position) {
+    static void setStudentLabel(View convertView, int position) {
         TextView textView = convertView.findViewById(R.id.student_label);
         textView.setText((position + 1) + "");
     }
 
     @SuppressLint("SetTextI18n")
-    public static void setButtonsListeners(Student student, Activity context, View convertView) {
+    static void setButtonsListeners(Student student, Activity context, View convertView) {
 
         setMessageButtonListener(student, context, convertView);
         setCallButtonListener(student, context, convertView);
@@ -77,22 +76,22 @@ public class StudentArrayHelper {
 
     private static void setMessageButtonListener(Student student, Activity context, View convertView) {
         Button messageMutton = convertView.findViewById(R.id.message_button);
-        messageMutton.setOnClickListener(new StudentArrayListenerHolder.ButtonMessageListener(student, context));
+        messageMutton.setOnClickListener(new StudentArrayListenerHolder.ButtonMessageStudentListener(student, context));
     }
 
     private static void setCallButtonListener(Student student, Activity context, View convertView) {
         Button callButton = convertView.findViewById(R.id.call_button);
-        callButton.setOnClickListener(new StudentArrayListenerHolder.CallButtonListener(student, context));
+        callButton.setOnClickListener(new StudentArrayListenerHolder.CallButtonStudentListener(student, context));
     }
 
     private static void setEditButtonListener(Student student, Activity context, View convertView) {
         Button editButton = convertView.findViewById(R.id.edit_button);
-        editButton.setOnClickListener(new StudentArrayListenerHolder.EditButtonListener(student, context));
+        editButton.setOnClickListener(new StudentArrayListenerHolder.EditButtonStudentListener(student, context));
     }
 
     private static void setMapButtonListener(Student student, Activity context, View convertView) {
         Button mapButton = convertView.findViewById(R.id.map_button);
-        mapButton.setOnClickListener(new StudentArrayListenerHolder.MapButtonListener(student, context));
+        mapButton.setOnClickListener(new StudentArrayListenerHolder.MapButtonStudentListener(student, context));
     }
 
     private static void setDeleteButtonListener(Student student, Activity context, View convertView) {
@@ -109,7 +108,7 @@ public class StudentArrayHelper {
                     0)
             );
         }
-        radioButton.setOnClickListener(new StudentArrayListenerHolder.DeleteRatioButtonListener(student, context));
+        radioButton.setOnClickListener(new StudentArrayListenerHolder.DeleteRatioButtonStudentListener(student, context));
     }
 
     private static void setExpandButtonListener(Student student, Activity context, View convertView) {
@@ -124,8 +123,9 @@ public class StudentArrayHelper {
             );
         } else {
             expand.setText(R.string.expand);
-            gridLayout.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
+            gridLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0));
         }
-        expand.setOnClickListener(new StudentArrayListenerHolder.ExpandButtonListener(student, context, expand, convertView));
+        expand.setOnClickListener(new StudentArrayListenerHolder.ExpandButtonStudentListener(student, context, expand, convertView));
     }
+
 }

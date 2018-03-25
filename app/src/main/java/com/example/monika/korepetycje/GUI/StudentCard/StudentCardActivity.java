@@ -1,5 +1,6 @@
 package com.example.monika.korepetycje.GUI.StudentCard;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
+import com.example.monika.korepetycje.GUI.ApplicationHelper;
 import com.example.monika.korepetycje.R;
 import com.example.monika.korepetycje.database.models.Address;
 import com.example.monika.korepetycje.database.models.Student;
@@ -22,9 +24,8 @@ public class StudentCardActivity extends AppCompatActivity {
     private List<Term> terms = null;
     private List<Address> addresses = null;
 
-
+    @SuppressLint("StaticFieldLeak")
     private static Context context;
-
 
     @Override
     protected void onCreate(Bundle savedInstance) {
@@ -35,6 +36,9 @@ public class StudentCardActivity extends AppCompatActivity {
         setStudentData();
 
         loadTabLayout();
+
+
+        ApplicationHelper.hideWindowKeybord(this);
     }
 
     private void setStudentData() {
@@ -67,20 +71,11 @@ public class StudentCardActivity extends AppCompatActivity {
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
             }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
+            public void onTabUnselected(TabLayout.Tab tab) { }
+            public void onTabReselected(TabLayout.Tab tab) { }
         });
     }
 

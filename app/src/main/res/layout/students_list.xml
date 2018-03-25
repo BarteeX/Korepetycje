@@ -16,18 +16,55 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         >
-
-        <EditText
-            android:id="@+id/filter_box"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_margin="2dp"
-            android:hint="@string/search"
-            android:padding="1dp"
-            android:imeOptions="actionSearch"
-            android:inputType="text"
-            android:textColorLink="@color/colorPrimary"
-            />
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+            <EditText
+                android:id="@+id/filter_box"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginBottom="2dp"
+                android:layout_marginRight="80dp"
+                android:layout_marginEnd="80dp"
+                android:hint="@string/search"
+                android:padding="1dp"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:textColorLink="@color/colorPrimary"
+                />
+
+
+            <Button
+                android:id="@+id/clear_filter_button"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginStart="7dp"
+                android:layout_marginRight="7dp"
+                android:background="@drawable/refresh_button"
+                android:layout_marginEnd="5dp" />
+
+            <Button
+                android:id="@+id/fire_filter_button"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="3dp"
+                android:layout_marginEnd="3dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/search_button"
+                android:layout_toLeftOf="@+id/clear_filter_button"
+                android:layout_toStartOf="@+id/clear_filter_button"
+                 />
+
+        </RelativeLayout>
 
         <ListView
             android:id="@+id/studentsList"
@@ -36,6 +73,22 @@
             />
     </LinearLayout>
 
+
+    <Button
+        android:id="@+id/refresh_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:backgroundTint="?android:attr/colorButtonNormal"
+        android:text="@string/delete"
+        android:visibility="invisible"
+        tools:targetApi="lollipop"
+        />
     <Button
         android:id="@+id/accept-delete"
         android:layout_width="wrap_content"

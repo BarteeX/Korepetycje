@@ -9,24 +9,11 @@ import com.example.monika.korepetycje.GUI.Controllers.StudentsList;
 import com.example.monika.korepetycje.GUI.StudentCard.StudentCardActivity;
 
 
-public class LessonsSQLiteOpenHelper extends SQLiteOpenHelper{
+public class LessonsSQLiteOpenHelper extends SQLiteOpenHelper {
     private static final int FIRST_VERSION = 1;
-    private static Context context;
 
-    private static LessonsSQLiteOpenHelper instance = null;
 
-    public static LessonsSQLiteOpenHelper getInstance() {
-        context = StudentsList.getContext();
-        if (context == null) {
-            context = StudentCardActivity.getContext();
-        }
-        if (instance == null) {
-            instance = new LessonsSQLiteOpenHelper();
-        }
-        return instance;
-    }
-
-    private LessonsSQLiteOpenHelper() {
+    public LessonsSQLiteOpenHelper(Context context) {
         super(context, DBHelper.DATABASE_NAME, null,  FIRST_VERSION);
         SQLiteDatabase database = context.openOrCreateDatabase(DBHelper.DATABASE_NAME, Context.MODE_PRIVATE, null);
         onCreate(database);

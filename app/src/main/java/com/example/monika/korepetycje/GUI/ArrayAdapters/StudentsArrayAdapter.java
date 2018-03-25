@@ -39,12 +39,12 @@ public class StudentsArrayAdapter extends ArrayAdapter<Student> {
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         final Student student = students.get(position);
+        if (student != null) {
+            convertView = StudentArrayHelper.getConvertView(student, context);
 
-        convertView = StudentArrayHelper.getConvertView(student, context);
-
-        StudentArrayHelper.setButtonsListeners(student, context, convertView);
-        StudentArrayHelper.setStudentLabel(convertView, position);
-
+            StudentArrayHelper.setButtonsListeners(student, context, convertView);
+            StudentArrayHelper.setStudentLabel(convertView, position);
+        }
         return convertView;
     }
 

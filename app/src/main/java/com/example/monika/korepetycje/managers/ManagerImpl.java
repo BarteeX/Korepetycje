@@ -22,7 +22,7 @@ public abstract class ManagerImpl <T extends DatabaseModel> implements Manager <
 
     protected List<T> list;
 
-    public ManagerImpl() {
+    ManagerImpl() {
         this.list = new ArrayList<T>(){
             @Override
             public boolean contains(Object value) {
@@ -45,7 +45,7 @@ public abstract class ManagerImpl <T extends DatabaseModel> implements Manager <
 
     @Override
     public List<T> getAll(){
-        return list;
+        return new ArrayList<>(list);
     }
 
     @Override
