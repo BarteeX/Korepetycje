@@ -34,11 +34,9 @@ public class StudentCardActivity extends AppCompatActivity {
         context = getApplicationContext();
 
         setStudentData();
-
         loadTabLayout();
 
-
-        ApplicationHelper.hideWindowKeybord(this);
+        ApplicationHelper.hideWindowKeyboard(this);
     }
 
     private void setStudentData() {

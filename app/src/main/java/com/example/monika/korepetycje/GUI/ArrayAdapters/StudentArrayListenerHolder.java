@@ -174,7 +174,7 @@ public class StudentArrayListenerHolder {
         private EditText filterBox;
         private StudentsList studentsList;
         private StudentManager studentManager;
-        private Activity context;
+        private StudentsList context;
 
         public FilterButtonListener(StudentsList context) {
             this.studentsList = context;
@@ -189,7 +189,8 @@ public class StudentArrayListenerHolder {
             List<Student> list = studentManager.filter(filter);
             studentsList.loadStudentsList(list);
 
-            ApplicationHelper.hideWindowKeybord(context);
+            context.setFilter(filter);
+            ApplicationHelper.hideWindowKeyboard(context);
         }
     }
 
@@ -199,7 +200,7 @@ public class StudentArrayListenerHolder {
         private StudentsList studentsList;
         private StudentManager studentManager;
         private EditText filterBox;
-        private Activity context;
+        private StudentsList context;
 
         public ClearFilterButtonListener(StudentsList context, EditText filterBox) {
             this.studentsList = context;
@@ -214,7 +215,8 @@ public class StudentArrayListenerHolder {
             studentsList.loadStudentsList(studentList);
 
             filterBox.setText("");
-            ApplicationHelper.hideWindowKeybord(context);
+            ApplicationHelper.hideWindowKeyboard(context);
+            context.clearFilter();
         }
     }
 

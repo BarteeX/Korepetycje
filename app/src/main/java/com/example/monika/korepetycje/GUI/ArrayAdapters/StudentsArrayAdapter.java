@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.example.monika.korepetycje.R;
 import com.example.monika.korepetycje.database.models.Student;
 
 import java.util.List;

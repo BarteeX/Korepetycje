@@ -25,71 +25,44 @@ import com.example.monika.korepetycje.StateMode;
 import com.example.monika.korepetycje.database.models.Student;
 import com.example.monika.korepetycje.managers.StudentManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class StudentsList extends AppCompatActivity {
 
-    private ListView studentsListView;
-    @SuppressLint("StaticFieldLeak")
-    public static StudentsArrayAdapter adapter;
-    private List<Student> students;
     @SuppressLint("StaticFieldLeak")
     private static Context context;
+    @SuppressLint("StaticFieldLeak")
+    public static StudentsArrayAdapter adapter;
 
+    private ListView studentsListView;
+    private List<Student> students;
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        adapter.notifyDataSetChanged();
+    private String filter;
+
+    {
+        this.students = new ArrayList<>();
+        this.filter = "";
     }
 
-    @Override
-    protected void onCreate (Bundle instanceState) {
-        super.onCreate(instanceState);
-        context = getApplicationContext();
+    @SuppressLint("ResourceAsColor")
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+    private boolean removeStudentSelection() {
+        StudentsArrayAdapter arrayAdapter = (StudentsArrayAdapter) studentsListView.getAdapter();
+        List<Student> studentList = arrayAdapter.getStudents();
 
-        loadStudentsList(null);
-        setFilterBoxListeners();
-
-
-        ApplicationHelper.hideWindowKeybord(this);
-    }
-
-    //WBW2018
-
-    private void setFilterBoxListeners() {
-        Button searchButton = findViewById(R.id.fire_filter_button);
-        searchButton.setOnClickListener(new StudentArrayListenerHolder.FilterButtonListener(this));
-
-        Button clearButton = findViewById(R.id.clear_filter_button);
-        clearButton.setOnClickListener(new StudentArrayListenerHolder.ClearFilterButtonListener(this, findViewById(R.id.filter_box)));
-    }
-
-    public void loadStudentsList(@Nullable List<Student> studentList) {
-        //context.deleteDatabase(DBHelper.DATABASE_NAME);
-
-        if (studentList == null) {
-            DataLoader dataLoader = DataLoader.getInstance();
-            dataLoader.loadDataToManagers();
-
-            setContentView(R.layout.students_list);
-
-            studentsListView = findViewById(R.id.studentsList);
-            studentsListView.setOnItemClickListener((adapterView, view, i, l) -> startStudentCardActivity(i));
-
-            students = StudentManager.getInstance().getAll();
-
-            adapter = new StudentsArrayAdapter(this, R.layout.students_list_item, students);
-
-        } else {
-            students.clear();
-            students.addAll(studentList);
+        for (int i = 0, length = studentList.size(); i < length; i++) {
+            Student student = studentList.get(i);
+            student.setStateMode(StateMode.Delete);
         }
+        arrayAdapter.notifyDataSetChanged();
 
-
-        studentsListView.setAdapter(adapter);
-
-        adapter.notifyDataSetChanged();
+        Button deleteButton = findViewById(R.id.accept_delete);
+        deleteButton.setVisibility(View.VISIBLE);
+        deleteButton.setOnClickListener(
+                new StudentArrayListenerHolder.AcceptDeleteButtonListener(studentList, this)
+        );
+        return true;
     }
 
     @SuppressLint("ResourceType")
@@ -103,6 +76,7 @@ public class StudentsList extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        ApplicationHelper.hideWindowKeyboard(this);
         switch (item.getItemId()) {
             case R.id.new_student:
                 return addStudentSelection();
@@ -111,6 +85,71 @@ public class StudentsList extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        resumeList();
+        ApplicationHelper.hideWindowKeyboard(this);
+    }
+
+    @Override
+    protected void onCreate (Bundle instanceState) {
+        super.onCreate(instanceState);
+        context = getApplicationContext();
+
+        loadData();
+        prepareLayout();
+        resumeList();
+
+        setFilterBoxListeners();
+
+
+        ApplicationHelper.hideWindowKeyboard(this);
+    }
+
+    private void loadData() {
+        DataLoader dataLoader = DataLoader.getInstance();
+        dataLoader.loadDataToManagers();
+    }
+
+    private void prepareLayout() {
+        setContentView(R.layout.students_list);
+
+        studentsListView = findViewById(R.id.studentsList);
+        studentsListView.setOnItemClickListener((adapterView, view, i, l) -> startStudentCardActivity(i));
+
+        students.addAll(StudentManager.getInstance().getAll());
+
+        adapter = new StudentsArrayAdapter(this, R.layout.students_list_item, students);
+        studentsListView.setAdapter(adapter);
+    }
+
+    public void resumeList() {
+        String filter = getFilter().trim();
+        StudentManager manager = StudentManager.getInstance();
+        List<Student> list = new ArrayList<>();
+        if(filter.trim().isEmpty()) {
+            list.addAll(manager.getAll());
+        } else {
+            list.addAll(manager.filter(filter));
+        }
+        loadStudentsList(list);
+    }
+
+    public void loadStudentsList(List<Student> studentList) {
+        students.clear();
+        students.addAll(studentList);
+        adapter.notifyDataSetChanged();
+    }
+
+    private void setFilterBoxListeners() {
+        Button searchButton = findViewById(R.id.fire_filter_button);
+        searchButton.setOnClickListener(new StudentArrayListenerHolder.FilterButtonListener(this));
+
+        Button clearButton = findViewById(R.id.clear_filter_button);
+        clearButton.setOnClickListener(new StudentArrayListenerHolder.ClearFilterButtonListener(this, findViewById(R.id.filter_box)));
     }
 
     private boolean addStudentSelection() {
@@ -124,35 +163,6 @@ public class StudentsList extends AppCompatActivity {
         startActivity(studentIntent);
     }
 
-
-    @SuppressLint("ResourceAsColor")
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-    private boolean removeStudentSelection() {
-        StudentsArrayAdapter arrayAdapter = (StudentsArrayAdapter) studentsListView.getAdapter();
-        List<Student> studentList = arrayAdapter.getStudents();
-
-        for (int i = 0, length = studentList.size(); i < length; i++) {
-             Student student = studentList.get(i);
-             student.setStateMode(StateMode.Delete);
-        }
-        arrayAdapter.notifyDataSetChanged();
-
-        Button deleteButton = findViewById(R.id.accept_delete);
-        deleteButton.setVisibility(View.VISIBLE);
-        deleteButton.setOnClickListener(
-                new StudentArrayListenerHolder.AcceptDeleteButtonListener(studentList, this)
-        );
-        return true;
-    }
-
-    public static Context getContext() {
-        return context;
-    }
-
-    public List<Student> getStudents() {
-        return this.students;
-    }
-
     public void notifyDataSetChanged() {
         if (adapter != null) {
             adapter.notifyDataSetChanged();
@@ -161,5 +171,25 @@ public class StudentsList extends AppCompatActivity {
 
     public StudentsArrayAdapter getAdapter() {
         return adapter;
+    }
+
+    public String getFilter() {
+        return filter;
+    }
+
+    public void setFilter(String filter) {
+        this.filter = filter;
+    }
+
+    public void clearFilter() {
+        setFilter("");
+    }
+
+    public List<Student> getStudents() {
+        return this.students;
+    }
+
+    public static Context getContext() {
+        return context;
     }
 }

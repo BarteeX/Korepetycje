@@ -95,19 +95,15 @@ class StudentArrayHelper {
     }
 
     private static void setDeleteButtonListener(Student student, Activity context, View convertView) {
+        boolean isDeleteStateMode = student.getStateMode().equals(StateMode.Delete);
         RadioButton radioButton = convertView.findViewById(R.id.delete_radio_button);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+            isDeleteStateMode ? LinearLayout.LayoutParams.MATCH_PARENT : 0,
+            isDeleteStateMode ? LinearLayout.LayoutParams.WRAP_CONTENT : 0
+        );
 
-        if (student.getStateMode().equals(StateMode.Delete)) {
-            radioButton.setLayoutParams(new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT)
-            );
-        } else {
-            radioButton.setLayoutParams(new LinearLayout.LayoutParams(
-                    0,
-                    0)
-            );
-        }
+        radioButton.setLayoutParams(layoutParams);
+        radioButton.setChecked(student.isToDelete());
         radioButton.setOnClickListener(new StudentArrayListenerHolder.DeleteRatioButtonStudentListener(student, context));
     }
 

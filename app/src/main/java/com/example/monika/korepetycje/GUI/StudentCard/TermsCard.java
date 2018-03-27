@@ -14,8 +14,8 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 
+import com.example.monika.korepetycje.GUI.ApplicationHelper;
 import com.example.monika.korepetycje.GUI.ArrayAdapters.TermsArrayAdapter;
-import com.example.monika.korepetycje.GUI.GuiUtils;
 import com.example.monika.korepetycje.R;
 import com.example.monika.korepetycje.database.models.Address;
 import com.example.monika.korepetycje.database.models.Student;
@@ -23,7 +23,6 @@ import com.example.monika.korepetycje.database.models.Term;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 
@@ -77,7 +76,7 @@ public class TermsCard extends android.support.v4.app.Fragment {
             if (this.addresses.size() > 0) {
                 showTermDialog(null);
             } else {
-                GuiUtils.showMessageDialog("Nie możesz podpiąc terminu bez podania adresu.", getActivity());
+                ApplicationHelper.showMessageDialog("Nie możesz podpiąc terminu bez podania adresu.", getActivity());
             }
         });
     }

@@ -1,12 +1,9 @@
 package com.example.monika.korepetycje.managers;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.example.monika.korepetycje.DatabaseModel;
-import com.example.monika.korepetycje.GUI.Controllers.StudentsList;
-import com.example.monika.korepetycje.GUI.StudentCard.StudentCardActivity;
 import com.example.monika.korepetycje.database.CRUDAdapters.CreateAdapter;
 import com.example.monika.korepetycje.database.CRUDAdapters.DeleteAdapter;
 import com.example.monika.korepetycje.database.CRUDAdapters.ReadAdapter;
@@ -15,7 +12,6 @@ import com.example.monika.korepetycje.database.CRUDAdapters.UpdateAdapter;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 public abstract class ManagerImpl <T extends DatabaseModel> implements Manager <T> {
