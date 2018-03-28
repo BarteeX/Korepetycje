@@ -1,7 +1,7 @@
 package com.example.monika.korepetycje.database;
 
 
-public class DBHelper {
+public class  DBHelper {
     public static final String COMMA = " , ";
     public static final String LEFT_BRACKET = " ( ";
     public static final String RIGHT_BRACKET = " ) ";

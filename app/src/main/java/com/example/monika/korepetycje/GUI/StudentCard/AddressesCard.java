@@ -5,14 +5,14 @@ import android.app.Dialog;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
-import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.monika.korepetycje.GUI.ArrayAdapters.AddressArrayAdapter;
 import com.example.monika.korepetycje.R;
@@ -47,6 +47,7 @@ public class AddressesCard extends android.support.v4.app.Fragment {
         return view;
     }
 
+    @SuppressLint("SetTextI18n")
     private void setAddressArrayAdapter(View view) {
         ListView addressesListView = view.findViewById(R.id.addresses_list);
         setAddressItemListener(addressesListView);
@@ -54,6 +55,31 @@ public class AddressesCard extends android.support.v4.app.Fragment {
                 = new AddressArrayAdapter(getActivity(), R.layout.student_address_item_list, student.getAddresses());
         addressesListView.setAdapter(addressArrayAdapter);
         addressArrayAdapter.notifyDataSetChanged();
+
+        addressesListView.setOnItemLongClickListener((AdapterView<?> adapterView, View view1, int i, long l) -> {
+            Address address = addresses.get(i);
+            @SuppressLint("ResourceType")
+            final Dialog dialog = new Dialog(getContext());
+            dialog.setContentView(R.layout.dialog_window_yes_no);
+            dialog.setTitle(R.string.detele_ask);
+            TextView info = dialog.findViewById(R.id.dialog_yen_no_text);
+            info.setText("Usunąć adres : \n" + address.toString());
+
+            Button noButton = dialog.findViewById(R.id.no_button);
+            noButton.setOnClickListener(view2 -> dialog.dismiss());
+
+            Button yesButton = dialog.findViewById(R.id.yes_button);
+            yesButton.setOnClickListener(view2 -> {
+                address.delete();
+                addresses.remove(address);
+                dialog.dismiss();
+                addressArrayAdapter.notifyDataSetChanged();
+            });
+
+            dialog.show();
+
+            return true;
+        });
     }
 
     public void setAddressItemListener(ListView listView) {

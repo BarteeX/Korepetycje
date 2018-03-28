@@ -92,8 +92,8 @@ public class AdapterUtils {
         Term term = new Term(studentId, addressId);
         term.setId(id);
         term.setDay(day);
-        term.setTime(hour);
-        term.setLength(length);
+        term.setTimeFrom(hour);
+        term.setTimeTo(length);
 
         term.isLoaded();
 
@@ -121,8 +121,8 @@ public class AdapterUtils {
     public static ContentValues getContentValues(Term term) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(DBHelper.TERM_DAY, term.getDay());
-        contentValues.put(DBHelper.TERM_LENGTH, term.getLength());
-        contentValues.put(DBHelper.TERM_HOUR, term.getTime());
+        contentValues.put(DBHelper.TERM_LENGTH, term.getTimeTo());
+        contentValues.put(DBHelper.TERM_HOUR, term.getTimeFrom());
         contentValues.put(DBHelper.ADDRESS_ID_FK, term.getAddressId());
         contentValues.put(DBHelper.STUDENT_ID_FK, term.getStudentId());
         return contentValues;

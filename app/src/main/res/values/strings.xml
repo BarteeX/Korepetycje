@@ -31,5 +31,10 @@
     <string name="search">Szukaj…</string>
     <string name="expand">Rozwiń…</string>
     <string name="collapse">Zwiń…</string>
-    <string name="student_avatar_which_will_be_available_to_edit">Student avatar which will be available to edit...</string>
+    <string name="student_avatar_which_will_be_available_to_edit">Student avatar which will be available to edit…</string>
+    <string name="time_from">Od</string>
+    <string name="time_to">Do</string>
+    <string name="yes">TAK</string>
+    <string name="no">NIE</string>
+    <string name="detele_ask">USUNĄĆ?</string>
 </resources>

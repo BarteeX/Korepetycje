@@ -8,10 +8,12 @@ import android.support.annotation.RequiresApi;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.example.monika.korepetycje.GUI.ApplicationHelper;
@@ -50,6 +52,7 @@ public class TermsCard extends android.support.v4.app.Fragment {
     }
 
 
+    @SuppressLint("SetTextI18n")
     private void setTermsArrayAdapter(View view) {
         ListView termsListView = view.findViewById(R.id.terms_list);
         setTermItemListener(termsListView);
@@ -57,6 +60,30 @@ public class TermsCard extends android.support.v4.app.Fragment {
                 = new TermsArrayAdapter(getActivity(), R.layout.student_term_list_item, student.getTerms());
         termsListView.setAdapter(termsArrayAdapter);
         termsArrayAdapter.notifyDataSetChanged();
+        termsListView.setOnItemLongClickListener((AdapterView<?> adapterView, View view1, int i, long l) -> {
+            Term term = terms.get(i);
+            @SuppressLint("ResourceType")
+            final Dialog dialog = new Dialog(getContext());
+            dialog.setContentView(R.layout.dialog_window_yes_no);
+            dialog.setTitle(R.string.detele_ask);
+            TextView info = dialog.findViewById(R.id.dialog_yen_no_text);
+            info.setText("Usunąć termin : \n" + term.toString());
+
+            Button noButton = dialog.findViewById(R.id.no_button);
+            noButton.setOnClickListener(view2 -> dialog.dismiss());
+
+            Button yesButton = dialog.findViewById(R.id.yes_button);
+            yesButton.setOnClickListener(view2 -> {
+                term.delete();
+                terms.remove(term);
+                dialog.dismiss();
+                termsArrayAdapter.notifyDataSetChanged();
+            });
+
+            dialog.show();
+
+            return true;
+        });
     }
 
 
@@ -99,8 +126,33 @@ public class TermsCard extends android.support.v4.app.Fragment {
         adapter.notifyDataSetChanged();
 
         Spinner spinnerDays = dialog.findViewById(R.id.days_array);
-        TimePicker timePicker = dialog.findViewById(R.id.hour);
-        timePicker.setIs24HourView(true);
+
+        final TimePicker timePickerFrom = dialog.findViewById(R.id.time_from);
+        final TimePicker timePickerTo = dialog.findViewById(R.id.time_to);
+
+        timePickerFrom.setOnTimeChangedListener((timePicker, hours, minutes) -> {
+            timePickerTo.setHour(hours);
+            timePickerTo.setMinute(minutes);
+        });
+
+        timePickerTo.setOnTimeChangedListener((timePicker, i, i1) -> {
+            int hoursFrom = timePickerFrom.getHour();
+            int minuterFrom = timePickerFrom.getMinute();
+            int hoursTo = timePicker.getHour();
+            int minutesTo = timePicker.getHour();
+            if (hoursTo < hoursFrom) {
+                timePicker.setHour(hoursFrom);
+                hoursTo = hoursFrom;
+            }
+
+            if (minutesTo < minuterFrom && hoursFrom == hoursTo) {
+                timePicker.setMinute(minuterFrom);
+            }
+
+        });
+
+        timePickerFrom.setIs24HourView(true);
+        timePickerTo.setIs24HourView(true);
 
         if (term != null) {
 
@@ -108,12 +160,19 @@ public class TermsCard extends android.support.v4.app.Fragment {
             int daySelection = Arrays.asList(daysName).indexOf(term.getDay());
             spinnerDays.setSelection(daySelection);
 
-            String[] split = term.getTime().split(":");
-            String hour = split[0];
-            String minutes = split[1];
+            String[] splitFrom = term.getTimeFrom().split(":");
+            String hourFrom = splitFrom[0];
+            String minutesFrom = splitFrom[1];
 
-            timePicker.setHour(Integer.valueOf(hour));
-            timePicker.setMinute(Integer.valueOf(minutes));
+            timePickerFrom.setHour(Integer.valueOf(hourFrom));
+            timePickerFrom.setMinute(Integer.valueOf(minutesFrom));
+
+            String[] splitTo = term.getTimeFrom().split(":");
+            String hourTo = splitTo[0];
+            String minutesTo = splitTo[1];
+
+            timePickerFrom.setHour(Integer.valueOf(hourTo));
+            timePickerFrom.setMinute(Integer.valueOf(minutesTo));
 
 
             long addressId = term.getAddressId();
@@ -130,7 +189,8 @@ public class TermsCard extends android.support.v4.app.Fragment {
         final Button saveButton = dialog.findViewById(R.id.save_term_button);
         saveButton.setOnClickListener(view2 -> {
             String day = spinnerDays.getSelectedItem().toString();
-            String hour = timePicker.getHour() + ":" + timePicker.getMinute();
+            String timeFrom = timePickerFrom.getHour() + ":" + timePickerFrom.getMinute();
+            String timeTo = timePickerTo.getHour() + ":" + timePickerTo.getMinute();
 
             String addressIdn = (String) addressesSpinner.getSelectedItem();
             Address address = null;
@@ -145,7 +205,8 @@ public class TermsCard extends android.support.v4.app.Fragment {
             //obsługa jest na samym przycisku
             if (address != null) {
                 Term newTerm = (term == null) ? new Term(this.student.getId(), address.getId()) : term;
-                newTerm.setTime(hour);
+                newTerm.setTimeFrom(timeFrom);
+                newTerm.setTimeTo(timeTo);
                 newTerm.setDay(day);
                 if (!this.terms.contains(newTerm)) {
                     address.addTerm(newTerm);

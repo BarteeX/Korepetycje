@@ -11,8 +11,8 @@ import java.io.Serializable;
 
 public class Term extends DatabaseModel implements Serializable {
     public String day;
-    public String time;
-    public String length;
+    public String timeFrom;
+    public String timeTo;
     private long studentId;
     private long addressId;
 
@@ -30,20 +30,20 @@ public class Term extends DatabaseModel implements Serializable {
         this.day = day;
     }
 
-    public String getTime() {
-        return time;
+    public String getTimeFrom() {
+        return timeFrom;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setTimeFrom(String timeFrom) {
+        this.timeFrom = timeFrom;
     }
 
-    public String getLength() {
-        return length;
+    public String getTimeTo() {
+        return timeTo;
     }
 
-    public void setLength(String length) {
-        this.length = length;
+    public void setTimeTo(String timeTo) {
+        this.timeTo = timeTo;
     }
 
     public long getStudentId() {
@@ -73,15 +73,15 @@ public class Term extends DatabaseModel implements Serializable {
             sb.append(" ");
         }
 
-        bufferString = this.getTime();
-        if (this.getTime() != null && !bufferString.isEmpty()) {
+        bufferString = this.getTimeFrom();
+        if (this.getTimeFrom() != null && !bufferString.isEmpty()) {
             if (!sb.toString().isEmpty())
                 sb.append(", ");
             sb.append("Godz : ");
             sb.append(bufferString);
         }
 
-        bufferString = this.getLength();
+        bufferString = this.getTimeTo();
         if (bufferString != null && !bufferString.isEmpty()) {
            if (!sb.toString().isEmpty())
                sb.append(", ");

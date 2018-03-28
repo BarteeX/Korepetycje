@@ -6,20 +6,88 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     >
-
-    <TimePicker
-        android:id="@+id/hour"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:amPmBackgroundColor="@color/green1"
-        android:amPmTextColor="@color/green1"
-        android:headerBackground="@color/green1"
-        android:numbersBackgroundColor="@color/colorPrimary"
-        android:numbersInnerTextColor="@color/green1"
-        android:numbersSelectorColor="@android:color/holo_green_dark"
-        android:numbersTextColor="@android:color/background_dark"
-        android:timePickerMode="clock"
-        tools:ignore="UnusedAttribute" />
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/time_from"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/time_from"
+            android:layout_toStartOf="@+id/time_from"
+            android:textAlignment="center"
+            android:textSize="45sp"
+            android:textColor="#000000"
+            android:gravity="center"
+            android:fontFamily="sans-serif-condensed"
+            android:text="@string/time_from"
+            tools:targetApi="jelly_bean" />
+
+        <TimePicker
+            android:id="@+id/time_from"
+            android:layout_width="wrap_content"
+            android:layout_height="120dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:amPmBackgroundColor="@color/green1"
+            android:amPmTextColor="@color/green1"
+            android:headerBackground="@color/green1"
+            android:numbersBackgroundColor="@color/colorPrimary"
+            android:numbersInnerTextColor="@color/green1"
+            android:numbersSelectorColor="@android:color/holo_green_dark"
+            android:numbersTextColor="@android:color/background_dark"
+            android:timePickerMode="spinner"
+            tools:ignore="UnusedAttribute" />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/time_to"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/time_to"
+            android:layout_toStartOf="@+id/time_to"
+            android:textAlignment="center"
+            android:textSize="45sp"
+            android:textColor="#000000"
+            android:gravity="center"
+            android:fontFamily="sans-serif-condensed"
+            android:text="@string/time_to"
+            tools:targetApi="jelly_bean" />
+
+        <TimePicker
+            android:id="@+id/time_to"
+            android:layout_width="wrap_content"
+            android:layout_height="120dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:amPmBackgroundColor="@color/green1"
+            android:amPmTextColor="@color/green1"
+            android:headerBackground="@color/green1"
+            android:numbersBackgroundColor="@color/colorPrimary"
+            android:numbersInnerTextColor="@color/green1"
+            android:numbersSelectorColor="@android:color/holo_green_dark"
+            android:numbersTextColor="@android:color/background_dark"
+            android:timePickerMode="spinner"
+            tools:ignore="UnusedAttribute" />
+
+    </RelativeLayout>
 
     <Spinner
         android:id="@+id/days_array"
@@ -32,6 +100,7 @@
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
         android:spinnerMode="dialog"
         />
 
