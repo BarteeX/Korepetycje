@@ -48,9 +48,11 @@ class StudentArrayHelper {
         StudentsArrayAdapter.StudentViewHolder studentViewHolder = new StudentsArrayAdapter.StudentViewHolder();
         studentViewHolder.name = convertView.findViewById(R.id.name);
         studentViewHolder.surname = convertView.findViewById(R.id.surname);
+        studentViewHolder.telephoneNumber = convertView.findViewById(R.id.student_telephone_number);
 
         studentViewHolder.name.setText(student.getName());
         studentViewHolder.surname.setText(student.getSurname());
+        studentViewHolder.telephoneNumber.setText(student.getSemiColonTelephoneNumber("-"));
 
         convertView.setTag(studentViewHolder);
 
@@ -64,7 +66,7 @@ class StudentArrayHelper {
     }
 
     @SuppressLint("SetTextI18n")
-    static void setButtonsListeners(Student student, Activity context, View convertView) {
+    static void setStudentButtonsListeners(Student student, Activity context, View convertView) {
 
         setMessageButtonListener(student, context, convertView);
         setCallButtonListener(student, context, convertView);
@@ -72,6 +74,7 @@ class StudentArrayHelper {
         setMapButtonListener(student, context, convertView);
         setDeleteButtonListener(student, context, convertView);
         setExpandButtonListener(student, context, convertView);
+        setCounterButtonListener(student, context, convertView);
     }
 
     private static void setMessageButtonListener(Student student, Activity context, View convertView) {
@@ -122,6 +125,12 @@ class StudentArrayHelper {
             gridLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0));
         }
         expand.setOnClickListener(new StudentArrayListenerHolder.ExpandButtonStudentListener(student, context, expand, convertView));
+    }
+
+
+    private static void setCounterButtonListener(Student student, Activity context, View convertView) {
+        Button counterButton = convertView.findViewById(R.id.counter_button);
+        counterButton.setOnClickListener(new StudentArrayListenerHolder.CounterButtonStudentListener(student, context, counterButton));
     }
 
 }

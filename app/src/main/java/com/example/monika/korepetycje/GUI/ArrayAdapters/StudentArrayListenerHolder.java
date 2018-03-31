@@ -1,6 +1,8 @@
 package com.example.monika.korepetycje.GUI.ArrayAdapters;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -17,11 +19,13 @@ import android.widget.TextView;
 import com.example.monika.korepetycje.GUI.ApplicationHelper;
 import com.example.monika.korepetycje.GUI.Controllers.ExpanderAnimation;
 import com.example.monika.korepetycje.GUI.Controllers.StudentsList;
+import com.example.monika.korepetycje.GUI.DialogWindows.StartCounterDialog;
 import com.example.monika.korepetycje.GUI.StudentCard.StudentCardActivity;
 import com.example.monika.korepetycje.R;
 import com.example.monika.korepetycje.StateMode;
 import com.example.monika.korepetycje.database.models.Address;
 import com.example.monika.korepetycje.database.models.Student;
+import com.example.monika.korepetycje.database.models.Term;
 import com.example.monika.korepetycje.managers.StudentManager;
 
 import java.util.ArrayList;
@@ -250,6 +254,55 @@ public class StudentArrayListenerHolder {
 
             Button deleteButton = view.findViewById(R.id.accept_delete);
             deleteButton.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    public static class CounterButtonStudentListener
+            extends DefaultStudentListener
+            implements View.OnClickListener {
+
+        private Dialog counterDialog;
+        private Button counterButton;
+
+        CounterButtonStudentListener(Student student, Activity context, Button counterButton) {
+            super(student, context);
+            this.counterButton = counterButton;
+        }
+
+        @TargetApi(Build.VERSION_CODES.O)
+        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+        @Override
+        public void onClick(View view) {
+            List<Term> studentTerms = student.getTerms();
+
+            counterDialog = new StartCounterDialog(context, student);
+
+            if (studentTerms.size() > 1) {
+                PopupMenu popupMenu = initPopupMenu(studentTerms);
+                popupMenu.show();
+            } else if (studentTerms.size() == 1) {
+                counterDialog.show();
+            }
+        }
+
+        private PopupMenu initPopupMenu(List<Term> studentTerms) {
+            PopupMenu popupMenu = new PopupMenu(context, counterButton);
+            Menu menu = popupMenu.getMenu();
+            for (Term term : studentTerms) {
+                String label = term.toString();
+                menu.add(label);
+            }
+            popupMenu.setOnMenuItemClickListener(menuItem -> {
+                String title = menuItem.getTitle().toString();
+                for (Term term : studentTerms) {
+                    String label = term.toString();
+                    if (Objects.equals(label, title)) {
+                        return ApplicationHelper.startSingleTerm(term, context);
+                    }
+                }
+                return false;
+            });
+            return popupMenu;
         }
     }
 }

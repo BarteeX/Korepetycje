@@ -8,9 +8,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Monika on 2018-01-21.
- */
 
 public class Student extends DatabaseModel implements Serializable {
     public String name;
@@ -47,6 +44,17 @@ public class Student extends DatabaseModel implements Serializable {
 
     public String getTelephoneNumber() {
         return telephoneNumber;
+    }
+
+    public String getSemiColonTelephoneNumber(String semicolon) {
+        String telephone = getTelephoneNumber().trim();
+        if (!telephone.isEmpty() && telephone.length() == 9) {
+            String part1 = telephone.substring(0, 3);
+            String part2 = telephone.substring(3, 6);
+            String part3 = telephone.substring(6, 9);
+            telephone = part1 + semicolon + part2 + semicolon + part3;
+        }
+        return telephone;
     }
 
     public void setTelephoneNumber(String telephoneNumber) {

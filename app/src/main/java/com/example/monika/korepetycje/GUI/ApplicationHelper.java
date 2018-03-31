@@ -7,7 +7,11 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.monika.korepetycje.GUI.ArrayAdapters.CounterTimer;
 import com.example.monika.korepetycje.R;
+import com.example.monika.korepetycje.database.models.Term;
+
+import java.util.Map;
 
 public class ApplicationHelper {
 
@@ -35,5 +39,23 @@ public class ApplicationHelper {
 
         dialog.show();
 
+    }
+
+    public static boolean startSingleTerm(Term term, Activity context) {
+        Map<String, Integer> timeMap = TimesUtils.getBetween(term.getTimeFrom(), term.getTimeTo());
+        int hoursBetween = timeMap.get("hours");
+        int minutesBetween = timeMap.get("minutes");
+        if (TimesUtils.isTimeCorrect(hoursBetween, minutesBetween)) {
+            int millisToSet = TimesUtils.toMillis(hoursBetween, minutesBetween);
+
+            CounterTimer counterTimer = new CounterTimer(millisToSet, TimesUtils.SECOND_IN_MILLIS, context);
+            counterTimer.start();
+        } else {
+            System.out.println("UNABLE TO SET TIMER... \nSOME BUGS TO FIX... \nTIME IS NOT IN TIME..\n");
+            System.out.println("HOUR : " + hoursBetween + "\n MINUTES : " + minutesBetween);
+            return false;
+        }
+
+        return true;
     }
 }

@@ -30,6 +30,7 @@ public class StudentsArrayAdapter extends ArrayAdapter<Student> {
     static class StudentViewHolder {
         public TextView name;
         public TextView surname;
+        public TextView telephoneNumber;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -41,7 +42,7 @@ public class StudentsArrayAdapter extends ArrayAdapter<Student> {
         if (student != null) {
             convertView = StudentArrayHelper.getConvertView(student, context);
 
-            StudentArrayHelper.setButtonsListeners(student, context, convertView);
+            StudentArrayHelper.setStudentButtonsListeners(student, context, convertView);
             StudentArrayHelper.setStudentLabel(convertView, position);
         }
         return convertView;

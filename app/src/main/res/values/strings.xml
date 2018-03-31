@@ -22,7 +22,7 @@
     <string name="add_student">Dodaj ucznia</string>
     <string name="delete_student">Usuń ucznia</string>
     <string name="addresses">Adresy:</string>
-    <string name="new_address">Nowy adress</string>
+    <string name="new_address">Nowy adres</string>
     <string name="new_term">Nowy termin</string>
     <string name="ok">OK</string>
     <string name="delete">Usuń</string>
@@ -37,4 +37,6 @@
     <string name="yes">TAK</string>
     <string name="no">NIE</string>
     <string name="detele_ask">USUNĄĆ?</string>
+    <string name="timer_dialog_text">Czy rozpocząć odliczanie?</string>
+    <string name="timer_dialog_title">Budzik</string>
 </resources>
