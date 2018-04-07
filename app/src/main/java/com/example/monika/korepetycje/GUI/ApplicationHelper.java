@@ -3,11 +3,16 @@ package com.example.monika.korepetycje.GUI;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.monika.korepetycje.GUI.ArrayAdapters.CounterTimer;
+import com.example.monika.korepetycje.GUI.Controllers.StudentsList;
 import com.example.monika.korepetycje.R;
 import com.example.monika.korepetycje.database.models.Term;
 
@@ -15,6 +20,7 @@ import java.util.Map;
 
 public class ApplicationHelper {
 
+    @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
     public static void hideWindowKeyboard(Activity activity) {
         if (activity != null) {
             InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -48,7 +54,7 @@ public class ApplicationHelper {
         if (TimesUtils.isTimeCorrect(hoursBetween, minutesBetween)) {
             int millisToSet = TimesUtils.toMillis(hoursBetween, minutesBetween);
 
-            CounterTimer counterTimer = new CounterTimer(millisToSet, TimesUtils.SECOND_IN_MILLIS, context);
+            CounterTimer counterTimer = new CounterTimer(millisToSet, TimesUtils.MILLIS_IN_SECOND, context);
             counterTimer.start();
         } else {
             System.out.println("UNABLE TO SET TIMER... \nSOME BUGS TO FIX... \nTIME IS NOT IN TIME..\n");
@@ -57,5 +63,17 @@ public class ApplicationHelper {
         }
 
         return true;
+    }
+
+    public static void startMessageIntent(String telephone, Activity context) {
+        Intent smsIntent = new Intent(Intent.ACTION_SENDTO);
+        smsIntent.setData(Uri.parse("smsto:" + Uri.encode(telephone)));
+        context.startActivity(smsIntent);
+    }
+
+    public static void startStudentListIntent(String filter, Activity context) {
+        Intent intent = new Intent(context, StudentsList.class);
+        Intent studentIntent = intent.putExtra("filter", filter);
+        context.startActivity(studentIntent);
     }
 }

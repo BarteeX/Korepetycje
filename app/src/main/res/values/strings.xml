@@ -39,4 +39,6 @@
     <string name="detele_ask">USUNĄĆ?</string>
     <string name="timer_dialog_text">Czy rozpocząć odliczanie?</string>
     <string name="timer_dialog_title">Budzik</string>
+    <string name="put_set">Poda przedział...</string>
+    <string name="cancel_UP">ANULUJ</string>
 </resources>

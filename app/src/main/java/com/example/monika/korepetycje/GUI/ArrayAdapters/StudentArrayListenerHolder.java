@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.example.monika.korepetycje.GUI.ApplicationHelper;
 import com.example.monika.korepetycje.GUI.Controllers.ExpanderAnimation;
 import com.example.monika.korepetycje.GUI.Controllers.StudentsList;
+import com.example.monika.korepetycje.GUI.DialogWindows.LessonDurationPickerDialog;
 import com.example.monika.korepetycje.GUI.DialogWindows.StartCounterDialog;
 import com.example.monika.korepetycje.GUI.StudentCard.StudentCardActivity;
 import com.example.monika.korepetycje.R;
@@ -44,9 +45,7 @@ public class StudentArrayListenerHolder {
 
         @Override
         public void onClick(View view) {
-            Intent smsIntent = new Intent(Intent.ACTION_SENDTO);
-            smsIntent.setData(Uri.parse("smsto:" + Uri.encode(super.student.getTelephoneNumber())));
-            super.context.startActivity(smsIntent);
+            ApplicationHelper.startMessageIntent(student.getTelephoneNumber(), context);
         }
     }
 
@@ -282,6 +281,9 @@ public class StudentArrayListenerHolder {
                 popupMenu.show();
             } else if (studentTerms.size() == 1) {
                 counterDialog.show();
+            } else if (studentTerms.size() == 0) {
+                LessonDurationPickerDialog fragmentDialog = new LessonDurationPickerDialog();
+                fragmentDialog.show(context.getFragmentManager(), "datePicker");
             }
         }
 
@@ -296,7 +298,7 @@ public class StudentArrayListenerHolder {
                 String title = menuItem.getTitle().toString();
                 for (Term term : studentTerms) {
                     String label = term.toString();
-                    if (Objects.equals(label, title)) {
+                    if (label.equals(title)) {
                         return ApplicationHelper.startSingleTerm(term, context);
                     }
                 }

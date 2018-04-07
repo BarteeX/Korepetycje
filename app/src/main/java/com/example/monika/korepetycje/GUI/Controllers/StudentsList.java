@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -124,16 +123,19 @@ public class StudentsList extends AppCompatActivity {
 
         adapter = new StudentsArrayAdapter(this, R.layout.students_list_item, students);
         studentsListView.setAdapter(adapter);
+
+
+        Intent intent = getIntent();
+        filter = intent.getStringExtra("filter");
     }
 
     public void resumeList() {
-        String filter = getFilter().trim();
         StudentManager manager = StudentManager.getInstance();
         List<Student> list = new ArrayList<>();
-        if(filter.trim().isEmpty()) {
+        if(filter == null || filter.isEmpty()) {
             list.addAll(manager.getAll());
         } else {
-            list.addAll(manager.filter(filter));
+            list.addAll(manager.filter(filter.trim()));
         }
         loadStudentsList(list);
     }
@@ -163,18 +165,8 @@ public class StudentsList extends AppCompatActivity {
         startActivity(studentIntent);
     }
 
-    public void notifyDataSetChanged() {
-        if (adapter != null) {
-            adapter.notifyDataSetChanged();
-        }
-    }
-
     public StudentsArrayAdapter getAdapter() {
         return adapter;
-    }
-
-    public String getFilter() {
-        return filter;
     }
 
     public void setFilter(String filter) {

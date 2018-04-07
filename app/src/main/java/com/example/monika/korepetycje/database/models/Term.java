@@ -38,12 +38,20 @@ public class Term extends DatabaseModel implements Serializable {
         this.timeFrom = timeFrom;
     }
 
+    public void setTimeFrom(int hours, int minutes) {
+        setTimeFrom(hours + ":" + minutes);
+    }
+
     public String getTimeTo() {
         return timeTo;
     }
 
     public void setTimeTo(String timeTo) {
         this.timeTo = timeTo;
+    }
+
+    public void setTimeTo(int hours, int minutes) {
+        setTimeTo(hours + ":" + minutes);
     }
 
     public long getStudentId() {
@@ -77,7 +85,7 @@ public class Term extends DatabaseModel implements Serializable {
         if (this.getTimeFrom() != null && !bufferString.isEmpty()) {
             if (!sb.toString().isEmpty())
                 sb.append(", ");
-            sb.append("Godz : ");
+            sb.append("Od : ");
             sb.append(bufferString);
         }
 
@@ -86,7 +94,7 @@ public class Term extends DatabaseModel implements Serializable {
            if (!sb.toString().isEmpty())
                sb.append(", ");
 
-           sb.append("Czas : ");
+           sb.append("Do : ");
            sb.append(bufferString);
         }
 

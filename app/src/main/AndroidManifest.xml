@@ -17,14 +17,22 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="donut">
-        <activity android:name=".GUI.Controllers.StudentsList"
-            android:screenOrientation="portrait"
-            >
+        <activity android:name=".GUI.Controllers.MainMenuActivityKot"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".GUI.Controllers.StudentsList"
+            android:screenOrientation="portrait"
+            >
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".GUI.Controllers.MainMenuActivityKot"
+                />
         </activity>
         <activity android:name=".GUI.StudentCard.StudentCardActivity"
             android:screenOrientation="portrait"
@@ -34,5 +42,9 @@
                 android:value=".GUI.StudentCard.StudentCardActivity"
                 />
         </activity>
+
     </application>
+    <uses-permission android:name="android.permission.VIBRATE"
+        tools:ignore="ManifestOrder" />
 </manifest>
+

@@ -30,7 +30,7 @@ public class CounterTimer extends CountDownTimer {
         this.counterText = dialog.getDialogTextView();
     }
 
-    CounterTimer(long millisInFuture, long countDownInterval) {
+    private CounterTimer(long millisInFuture, long countDownInterval) {
         super(millisInFuture, countDownInterval);
     }
 
@@ -41,13 +41,15 @@ public class CounterTimer extends CountDownTimer {
         counterText.setText(timeMap.get("minutes") + " : " + timeMap.get("seconds"));
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onFinish() {
-        proccedVibrations();
+        proceedVibrations();
         dialog.dismiss();
     }
 
-    private void proccedVibrations() {
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private void proceedVibrations() {
         Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
         if (vibrator != null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -66,6 +68,7 @@ public class CounterTimer extends CountDownTimer {
                 .build());
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void oldVibrations(Vibrator vibrator) {
         vibrator.vibrate(3000, new AudioAttributes.Builder()
                 .setUsage(AudioAttributes.USAGE_MEDIA)
