@@ -5,17 +5,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.monika.korepetycje.GUI.Controllers.StudentsList;
-import com.example.monika.korepetycje.GUI.StudentCard.StudentCardActivity;
-
 
 public class LessonsSQLiteOpenHelper extends SQLiteOpenHelper {
     private static final int FIRST_VERSION = 1;
 
 
     public LessonsSQLiteOpenHelper(Context context) {
-        super(context, DBHelper.DATABASE_NAME, null,  FIRST_VERSION);
-        SQLiteDatabase database = context.openOrCreateDatabase(DBHelper.DATABASE_NAME, Context.MODE_PRIVATE, null);
+        super(context, DBHelper.INSTANCE.getDATABASE_NAME(), null,  FIRST_VERSION);
+        SQLiteDatabase database = context.openOrCreateDatabase(DBHelper.INSTANCE.getDATABASE_NAME(), Context.MODE_PRIVATE, null);
         onCreate(database);
     }
 
@@ -23,9 +20,9 @@ public class LessonsSQLiteOpenHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         System.out.println("DB - onCreate ....");
         try {
-            String studentQuery = DBHelper.CREATE_STUDENT_TABLE();
-            String addressQuery = DBHelper.CREATE_ADDRESS_TABLE();
-            String termQuery = DBHelper.CREATE_TERM_TABLE();
+            String studentQuery = DBHelper.INSTANCE.CREATE_STUDENT_TABLE();
+            String addressQuery = DBHelper.INSTANCE.CREATE_ADDRESS_TABLE();
+            String termQuery = DBHelper.INSTANCE.CREATE_TERM_TABLE();
 
             sqLiteDatabase.execSQL(studentQuery);
             sqLiteDatabase.execSQL(addressQuery);
@@ -42,9 +39,9 @@ public class LessonsSQLiteOpenHelper extends SQLiteOpenHelper {
         System.out.println("DB = onUpgrade...");
 
         try {
-            sqLiteDatabase.execSQL(DBHelper.DROP_TABLE(DBHelper.TERM_TABLE_NAME));
-            sqLiteDatabase.execSQL(DBHelper.DROP_TABLE(DBHelper.ADDRESS_TABLE_NAME));
-            sqLiteDatabase.execSQL(DBHelper.DROP_TABLE(DBHelper.STUDENT_TABLE_NAME));
+            sqLiteDatabase.execSQL(DBHelper.INSTANCE.DROP_TABLE(DBHelper.INSTANCE.getTERM_TABLE_NAME()));
+            sqLiteDatabase.execSQL(DBHelper.INSTANCE.DROP_TABLE(DBHelper.INSTANCE.getADDRESS_TABLE_NAME()));
+            sqLiteDatabase.execSQL(DBHelper.INSTANCE.DROP_TABLE(DBHelper.INSTANCE.getSTUDENT_TABLE_NAME()));
         } catch (SQLiteException e) {
             System.out.println("DB - upgrade failure...");
         }

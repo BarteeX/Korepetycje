@@ -1,7 +1,6 @@
 package com.example.monika.korepetycje.database.CRUDAdapters;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.monika.korepetycje.DatabaseModel;
@@ -9,9 +8,7 @@ import com.example.monika.korepetycje.database.DBHelper;
 import com.example.monika.korepetycje.database.models.Address;
 import com.example.monika.korepetycje.database.models.Student;
 import com.example.monika.korepetycje.database.models.Term;
-import com.example.monika.korepetycje.managers.TermManager;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -48,7 +45,7 @@ public class CreateAdapter extends Adapter {
         SQLiteDatabase database = databaseHelper.getWritableDatabase();
         ContentValues contentValues = AdapterUtils.getContentValues(student);
 
-        long studentId = database.insert(DBHelper.STUDENT_TABLE_NAME , null, contentValues);
+        long studentId = database.insert(DBHelper.INSTANCE.getSTUDENT_TABLE_NAME(), null, contentValues);
         if (student.isNew()) {
             student.setId(studentId);
         }
@@ -87,7 +84,7 @@ public class CreateAdapter extends Adapter {
 
         SQLiteDatabase database = databaseHelper.getWritableDatabase();
         ContentValues contentValues = AdapterUtils.getContentValues(address);
-        return database.insert(DBHelper.ADDRESS_TABLE_NAME , null, contentValues);
+        return database.insert(DBHelper.INSTANCE.getADDRESS_TABLE_NAME(), null, contentValues);
     }
 
     private long save(Term term) {
@@ -95,6 +92,6 @@ public class CreateAdapter extends Adapter {
 
         SQLiteDatabase database = databaseHelper.getWritableDatabase();
         ContentValues contentValues = AdapterUtils.getContentValues(term);
-        return database.insert(DBHelper.TERM_TABLE_NAME , null, contentValues);
+        return database.insert(DBHelper.INSTANCE.getTERM_TABLE_NAME(), null, contentValues);
     }
 }

@@ -1,7 +1,6 @@
 package com.example.monika.korepetycje.database.CRUDAdapters;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.monika.korepetycje.DatabaseModel;
@@ -72,9 +71,9 @@ public class UpdateAdapter extends Adapter {
         };
 
         return database.update (
-                DBHelper.STUDENT_TABLE_NAME,
+                DBHelper.INSTANCE.getSTUDENT_TABLE_NAME(),
                 contentValues,
-                DBHelper.STUDENT_ID_PK + " = ?",
+                DBHelper.INSTANCE.getSTUDENT_ID_PK() + " = ?",
                 whereArgs
         );
     }
@@ -91,9 +90,9 @@ public class UpdateAdapter extends Adapter {
         };
 
         return database.update (
-                DBHelper.ADDRESS_TABLE_NAME,
+                DBHelper.INSTANCE.getADDRESS_TABLE_NAME(),
                 contentValues,
-                DBHelper.ADDRESS_ID_PK + " = ?",
+                DBHelper.INSTANCE.getADDRESS_ID_PK() + " = ?",
                 whereArgs
         );
     }
@@ -110,9 +109,9 @@ public class UpdateAdapter extends Adapter {
         };
 
         return database.update (
-                DBHelper.TERM_TABLE_NAME,
+                DBHelper.INSTANCE.getTERM_TABLE_NAME(),
                 contentValues,
-                DBHelper.TERM_ID_PK + " = ?",
+                DBHelper.INSTANCE.getTERM_ID_PK() + " = ?",
                 whereArgs
         );
     }

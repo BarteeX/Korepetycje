@@ -38,10 +38,12 @@ public class StudentsList extends AppCompatActivity {
     private List<Student> students;
 
     private String filter;
+    private String query;
 
     {
         this.students = new ArrayList<>();
         this.filter = "";
+        this.query = "";
     }
 
     @SuppressLint("ResourceAsColor")
@@ -124,18 +126,24 @@ public class StudentsList extends AppCompatActivity {
         adapter = new StudentsArrayAdapter(this, R.layout.students_list_item, students);
         studentsListView.setAdapter(adapter);
 
+        collectIntentData();
+    }
 
+    private void collectIntentData() {
         Intent intent = getIntent();
         filter = intent.getStringExtra("filter");
+        query = intent.getStringExtra("query");
     }
 
     public void resumeList() {
         StudentManager manager = StudentManager.getInstance();
         List<Student> list = new ArrayList<>();
-        if(filter == null || filter.isEmpty()) {
-            list.addAll(manager.getAll());
-        } else {
+        if(filter != null && !filter.isEmpty()) {
             list.addAll(manager.filter(filter.trim()));
+        } else if (query!= null && !query.trim().isEmpty()) {
+            list.addAll(manager.getStudents(query));
+        } else {
+            list.addAll(manager.getAll());
         }
         loadStudentsList(list);
     }
@@ -171,6 +179,10 @@ public class StudentsList extends AppCompatActivity {
 
     public void setFilter(String filter) {
         this.filter = filter;
+    }
+
+    public void setQuery(String query) {
+        this.query = query;
     }
 
     public void clearFilter() {

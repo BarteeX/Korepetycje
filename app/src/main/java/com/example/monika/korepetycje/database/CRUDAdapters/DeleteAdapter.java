@@ -40,20 +40,20 @@ public class DeleteAdapter extends Adapter {
         String[] whereArgs = {String.valueOf(student.getId())};
 
         int addressesCount = db.delete (
-                DBHelper.ADDRESS_TABLE_NAME,
-                DBHelper.STUDENT_ID_FK + " = ?",
+                DBHelper.INSTANCE.getADDRESS_TABLE_NAME(),
+                DBHelper.INSTANCE.getSTUDENT_ID_FK() + " = ?",
                 whereArgs
         );
 
         int termsCount = db.delete (
-                DBHelper.TERM_TABLE_NAME,
-                DBHelper.STUDENT_ID_FK + " = ?",
+                DBHelper.INSTANCE.getTERM_TABLE_NAME(),
+                DBHelper.INSTANCE.getSTUDENT_ID_FK() + " = ?",
                 whereArgs
         );
 
         int studentsCount = db.delete (
-                DBHelper.STUDENT_TABLE_NAME ,
-                DBHelper.STUDENT_ID_PK +" = ?" ,
+                DBHelper.INSTANCE.getSTUDENT_TABLE_NAME(),
+                DBHelper.INSTANCE.getSTUDENT_ID_PK() +" = ?" ,
                 whereArgs);
 
         return addressesCount + termsCount + studentsCount;
@@ -65,8 +65,8 @@ public class DeleteAdapter extends Adapter {
         String[] whereArgs = {String.valueOf(term.getId())};
 
         return db.delete (
-                DBHelper.TERM_TABLE_NAME,
-                DBHelper.TERM_ID_PK + " = ?",
+                DBHelper.INSTANCE.getTERM_TABLE_NAME(),
+                DBHelper.INSTANCE.getTERM_ID_PK() + " = ?",
                 whereArgs
         );
     }
@@ -76,8 +76,8 @@ public class DeleteAdapter extends Adapter {
         String[] whereArgs = {String.valueOf(address.getId())};
 
         return db.delete (
-                DBHelper.ADDRESS_TABLE_NAME,
-                DBHelper.ADDRESS_ID_PK + " = ?",
+                DBHelper.INSTANCE.getADDRESS_TABLE_NAME(),
+                DBHelper.INSTANCE.getADDRESS_ID_PK() + " = ?",
                 whereArgs
         );
     }

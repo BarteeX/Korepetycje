@@ -3,16 +3,12 @@ package com.example.monika.korepetycje.managers;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.example.monika.korepetycje.database.CRUDAdapters.ReadAdapter;
 import com.example.monika.korepetycje.database.models.Address;
 import com.example.monika.korepetycje.database.models.Student;
 import com.example.monika.korepetycje.database.models.Term;
 
-import java.util.ArrayList;
 import java.util.List;
-
-/**
- * Created by Monika on 2018-01-21.
- */
 
 public class StudentManager extends ManagerImpl<Student> {
     private static StudentManager ourInstance = null;
@@ -63,5 +59,23 @@ public class StudentManager extends ManagerImpl<Student> {
         }
 
         return accepted;
+    }
+
+    public Student getReference(Student student) {
+        Student referenceStudent = null;
+        for (Student seeker : list) {
+            if (seeker.getId() == student.getId()) {
+                referenceStudent = seeker;
+            }
+        }
+        return referenceStudent;
+    }
+
+    public List<Student> getStudents(String query) {
+        if (query != null) {
+            ReadAdapter adapter = ReadAdapter.getInstance();
+            return adapter.getStudentsByQuery(query);
+        }
+        return null;
     }
 }

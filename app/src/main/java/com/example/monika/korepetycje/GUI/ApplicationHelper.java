@@ -76,4 +76,10 @@ public class ApplicationHelper {
         Intent studentIntent = intent.putExtra("filter", filter);
         context.startActivity(studentIntent);
     }
+
+    public static void startStudentListWithQueryIntent(String query, Activity context) {
+        Intent intent = new Intent(context, StudentsList.class);
+        Intent studentIntent = intent.putExtra("query", query);
+        context.startActivity(studentIntent);
+    }
 }

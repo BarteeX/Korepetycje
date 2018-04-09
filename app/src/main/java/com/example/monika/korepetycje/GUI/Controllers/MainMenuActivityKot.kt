@@ -16,6 +16,15 @@ class MainMenuActivityKot : AppCompatActivity() {
 
         val configMap : List<Map<String, Any>> = MainMenuConfigBuilder(this).build()
 
+        //val addButtonButton : Button = findViewById(R.id.add)
+
         gridView.adapter = MenuGridAdapter(this, configMap)
+
+        TODO("""
+            |MainMenuConfigBuilder(this).build(withConfig)
+            |Zbudować formatkę filtra z comboboxem
+            |Zbudować comboBox który będzie w łatwy sposób zbierał dane
+            |Zbudować Akcję która zbierze dane oraz prześle je do buildera
+        """.trimMargin())
     }
 }

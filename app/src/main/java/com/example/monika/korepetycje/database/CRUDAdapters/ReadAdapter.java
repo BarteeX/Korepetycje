@@ -49,7 +49,7 @@ public class ReadAdapter extends Adapter {
         SQLiteDatabase database = databaseHelper.getReadableDatabase();
         String[] columnsName = AdapterUtils.getStudentColumnNames();
 
-        try (Cursor cursor = database.query(DBHelper.STUDENT_TABLE_NAME, columnsName, null, null, null, null, null)) {
+        try (Cursor cursor = database.query(DBHelper.INSTANCE.getSTUDENT_TABLE_NAME(), columnsName, null, null, null, null, null)) {
             while (cursor.moveToNext()) {
                 Student student = AdapterUtils.getStudentFromCursor(cursor);
                 list.add(student);
@@ -64,7 +64,7 @@ public class ReadAdapter extends Adapter {
         SQLiteDatabase database = databaseHelper.getReadableDatabase();
         String[] columnNames = AdapterUtils.getAddressColumnNames();
 
-        try (Cursor cursor = database.query(DBHelper.ADDRESS_TABLE_NAME, columnNames, null, null, null, null, null, null)) {
+        try (Cursor cursor = database.query(DBHelper.INSTANCE.getADDRESS_TABLE_NAME(), columnNames, null, null, null, null, null, null)) {
             while (cursor.moveToNext()) {
                 Address address = AdapterUtils.getAddressFromCursor(cursor);
                 list.add(address);
@@ -79,10 +79,26 @@ public class ReadAdapter extends Adapter {
         SQLiteDatabase database = databaseHelper.getWritableDatabase();
         String[] columns = AdapterUtils.getTermColumnNames();
 
-        try (Cursor cursor = database.query(DBHelper.TERM_TABLE_NAME, columns, null, null, null, null, null)) {
+        try (Cursor cursor = database.query(DBHelper.INSTANCE.getTERM_TABLE_NAME(), columns, null, null, null, null, null)) {
             while (cursor.moveToNext()) {
                 Term term = AdapterUtils.getTermFromCursor(cursor);
                 list.add(term);
+            }
+        }
+
+        return list;
+    }
+
+    public List<Student> getStudentsByQuery(String query) {
+        List<Student> list = new ArrayList<>();
+        SQLiteDatabase database = databaseHelper.getReadableDatabase();
+        String[] columnsName = AdapterUtils.getStudentColumnNames();
+        StudentManager studentManager = StudentManager.getInstance();
+
+        try (Cursor cursor = database.rawQuery(query, columnsName)) {
+            while (cursor.moveToNext()) {
+                Student student = AdapterUtils.getStudentFromCursor(cursor);
+                list.add(studentManager.getReference(student));
             }
         }
 
